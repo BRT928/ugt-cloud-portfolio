@@ -10,9 +10,10 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
-  font-family: Figtree, ui-sans-serif, system-ui, sans-serif;
+  font-family: Figtree, "Noto Sans Georgian", "Noto Sans", ui-sans-serif, system-ui, sans-serif;
   background: var(--bg); color: var(--fg); min-height: 100vh; line-height: 1.45;
 }
+.ka { font-family: "Noto Sans Georgian", Figtree, sans-serif; }
 a { color: inherit; }
 .font-display { font-family: Fraunces, Georgia, serif; }
 .app { display: grid; grid-template-columns: 16.5rem 1fr; min-height: 100vh; }
@@ -102,11 +103,21 @@ h3 { margin: 0; font-size: 1rem; }
 .count { margin-top: 1.25rem; color: var(--muted); font-size: .9rem; }
 .cards { margin-top: 1.25rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: .9rem; }
 .card {
+  position: relative;
   background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
   padding: 1rem 1.05rem; display: flex; flex-direction: column; gap: .55rem;
   text-decoration: none; transition: box-shadow .15s;
 }
 .card:hover { box-shadow: var(--shadow-hover); }
+.card-stretch { position: absolute; inset: 0; z-index: 0; border-radius: inherit; }
+.card .owners, .card .note-flag { position: relative; z-index: 1; }
+.note-flag {
+  font-size: .72rem; color: #9a3412; background: #ffedd5; border-radius: 6px;
+  padding: .25rem .45rem; width: fit-content; max-width: 100%;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.note-flag.muted-flag { color: var(--muted); background: var(--secondary); }
+.note-panel .ka { font-size: 1rem; line-height: 1.55; white-space: pre-wrap; }
 .card-top { display: flex; justify-content: space-between; gap: .5rem; align-items: flex-start; }
 .card-title { font-weight: 600; font-size: .95rem; }
 .badge {

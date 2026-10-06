@@ -1,0 +1,1262 @@
+[
+  {
+    "n": 1,
+    "product": "Virtual Machine Instances",
+    "statusUpdate": "",
+    "headProduct": "Universal Cloud",
+    "category": "Compute",
+    "technology": "Linux/ Windows Cloud Instances",
+    "subProducts": "Cloud Instances",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 2,
+    "id": "tga-2",
+    "matchedProductN": 1
+  },
+  {
+    "n": 2,
+    "product": "Block Volumes/ Primary Storage",
+    "statusUpdate": "აქ გავარკვიო სოსოსთან ალეტრაზე",
+    "headProduct": "Universal Cloud",
+    "category": "Storage",
+    "technology": "Netapp+ to be determined",
+    "subProducts": "",
+    "stage": "Pre-Production",
+    "due": "2027 Q2",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 3,
+    "id": "tga-3",
+    "matchedProductN": 3
+  },
+  {
+    "n": 3,
+    "product": "VPC",
+    "statusUpdate": "",
+    "headProduct": "Universal Cloud",
+    "category": "Network",
+    "technology": "Cloudstack",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 4,
+    "id": "tga-4",
+    "matchedProductN": 4
+  },
+  {
+    "n": 4,
+    "product": "VNF Appliance",
+    "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
+    "headProduct": "Universal Cloud",
+    "category": "Network",
+    "technology": "Pfsense/Fortinet/Mikrotik",
+    "subProducts": "",
+    "stage": "Pre-Production",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 5,
+    "id": "tga-5",
+    "matchedProductN": 6
+  },
+  {
+    "n": 5,
+    "product": "Instance Backup",
+    "statusUpdate": "",
+    "headProduct": "Universal Cloud",
+    "category": "Backup",
+    "technology": "Cloudstack NAS Backup",
+    "subProducts": "",
+    "stage": "Pre-Production",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "GBU",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 6,
+    "id": "tga-6",
+    "matchedProductN": 7
+  },
+  {
+    "n": 6,
+    "product": "Cloud Metal",
+    "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
+    "headProduct": "Universal Cloud",
+    "category": "Compute",
+    "technology": "Canonical Maas",
+    "subProducts": "",
+    "stage": "Development",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "VMD",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 7,
+    "id": "tga-7",
+    "matchedProductN": 8
+  },
+  {
+    "n": null,
+    "product": "",
+    "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
+    "headProduct": "Bare Metal",
+    "category": "",
+    "technology": "",
+    "subProducts": "",
+    "stage": "",
+    "due": "",
+    "cpo": "",
+    "tpo": "",
+    "whereUsed": "",
+    "headProducts": [
+      "Bare Metal"
+    ],
+    "excelRow": 8,
+    "id": "tga-8",
+    "matchedProductN": null
+  },
+  {
+    "n": 7,
+    "product": "Cloud GPU",
+    "statusUpdate": "დასაჩექი მაქვს დოკუმენტაცია",
+    "headProduct": "Universal Cloud",
+    "category": "AI",
+    "technology": "RTX2000 / L4",
+    "subProducts": "",
+    "stage": "Development",
+    "due": "2026 Q4",
+    "cpo": "TGA",
+    "tpo": "GBU",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 9,
+    "id": "tga-9",
+    "matchedProductN": 9
+  },
+  {
+    "n": 8,
+    "product": "Client VPN Instance",
+    "statusUpdate": "შეხვედრაა ჩანიშნული და გავივლით რესერჩის შედეგებს",
+    "headProduct": "Universal Cloud",
+    "category": "Network",
+    "technology": "Wire guard",
+    "subProducts": "",
+    "stage": "Development",
+    "due": "2026 Q4",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 10,
+    "id": "tga-10",
+    "matchedProductN": 10
+  },
+  {
+    "n": 9,
+    "product": "DR (disaster recovery)",
+    "statusUpdate": "აფდეითი დაყენდა და ამ კვირაში მორჩება კომფიგურაცია",
+    "headProduct": "Universal Cloud",
+    "category": "Backup",
+    "technology": "Sendense / Veeam",
+    "subProducts": "",
+    "stage": "Development",
+    "due": "2026 Q4",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 11,
+    "id": "tga-11",
+    "matchedProductN": 11
+  },
+  {
+    "n": 10,
+    "product": "Kubernetes",
+    "statusUpdate": "",
+    "headProduct": "Universal Cloud",
+    "category": "Compute",
+    "technology": "Cloudstack",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "N/A",
+    "tpo": "N/A",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 12,
+    "id": "tga-12",
+    "matchedProductN": 12
+  },
+  {
+    "n": 11,
+    "product": "Kubernetes",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Compute",
+    "technology": "",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "N/A",
+    "tpo": "N/A",
+    "whereUsed": "",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 13,
+    "id": "tga-13",
+    "matchedProductN": 14
+  },
+  {
+    "n": 12,
+    "product": "DBaaS",
+    "statusUpdate": "",
+    "headProduct": "Universal Cloud",
+    "category": "Database",
+    "technology": "Xaas",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "N/A",
+    "tpo": "N/A",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 14,
+    "id": "tga-14",
+    "matchedProductN": 15
+  },
+  {
+    "n": 13,
+    "product": "DBaaS",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Database",
+    "technology": "",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "N/A",
+    "tpo": "N/A",
+    "whereUsed": "",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 15,
+    "id": "tga-15",
+    "matchedProductN": 16
+  },
+  {
+    "n": 14,
+    "product": "AI Assistant",
+    "statusUpdate": "თორნიკესთან და ალეკოსთან ერთად გავიარო და შემდეგი ნაბიჯები, მივყვეთ ცხვარიაშვილის ამოცანას თუ გავაკეთოთ StackAI-ის POC",
+    "headProduct": "Universal Cloud",
+    "category": "AI",
+    "technology": "StackAI?",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 16,
+    "id": "tga-16",
+    "matchedProductN": 17
+  },
+  {
+    "n": 15,
+    "product": "Agentless Backup",
+    "statusUpdate": "",
+    "headProduct": "Universal Cloud",
+    "category": "Backup",
+    "technology": "Veeam",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "GBU",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 17,
+    "id": "tga-17",
+    "matchedProductN": 18
+  },
+  {
+    "n": 16,
+    "product": "Shared FileSystems",
+    "statusUpdate": "გიას აქვს ეს ამოცანა და 12-მდე აქვს დედლაინი, მანამდეც დავსინქონდებით",
+    "headProduct": "Universal Cloud",
+    "category": "Storage",
+    "technology": "Cloudstack",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2026 Q4",
+    "cpo": "TGA",
+    "tpo": "GBU",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 18,
+    "id": "tga-18",
+    "matchedProductN": 19
+  },
+  {
+    "n": 17,
+    "product": "Dedicated Private Cloud on VMware",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Compute",
+    "technology": "Vmware / BYOL",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2027 Q1",
+    "cpo": "GMA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 19,
+    "id": "tga-19",
+    "matchedProductN": 20
+  },
+  {
+    "n": 18,
+    "product": "Dedicated Private Cloud on Hyper V",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Compute",
+    "technology": "Hyper V",
+    "subProducts": "",
+    "stage": "Pre-Production",
+    "due": "",
+    "cpo": "GMA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 20,
+    "id": "tga-20",
+    "matchedProductN": 21
+  },
+  {
+    "n": 19,
+    "product": "Dedicated Private Cloud on Cloudstack",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Compute",
+    "technology": "Cloudstack",
+    "subProducts": "",
+    "stage": "Development",
+    "due": "2027 Q1",
+    "cpo": "GMA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 21,
+    "id": "tga-21",
+    "matchedProductN": 22
+  },
+  {
+    "n": 20,
+    "product": "Dedicated Private Cloud on HPE morpheus",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Compute",
+    "technology": "HPE Morpheus",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "GMA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 22,
+    "id": "tga-22",
+    "matchedProductN": 23
+  },
+  {
+    "n": 21,
+    "product": "Dedicated Private Cloud on Nutanix",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Compute",
+    "technology": "Nutanix",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 23,
+    "id": "tga-23",
+    "matchedProductN": 24
+  },
+  {
+    "n": 22,
+    "product": "Dedicated Private Cloud on Proxmox",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Compute",
+    "technology": "Proxmox",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "GMA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 24,
+    "id": "tga-24",
+    "matchedProductN": 25
+  },
+  {
+    "n": 23,
+    "product": "Agentless Backup",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Backup",
+    "technology": "Veeam/ Nakivo Cloud backup &",
+    "subProducts": "Cloud backup &",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 25,
+    "id": "tga-25",
+    "matchedProductN": 26
+  },
+  {
+    "n": 24,
+    "product": "DR (disaster recovery)",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Backup",
+    "technology": "Nakivo/Veeam",
+    "subProducts": "",
+    "stage": "Pre-Production",
+    "due": "",
+    "cpo": "N/A",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 26,
+    "id": "tga-26",
+    "matchedProductN": 27
+  },
+  {
+    "n": 25,
+    "product": "Dedicated Servers",
+    "statusUpdate": "",
+    "headProduct": "Bare Metal",
+    "category": "Compute",
+    "technology": "HPE/ Supermicro",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Bare Metal"
+    ],
+    "excelRow": 27,
+    "id": "tga-27",
+    "matchedProductN": 28
+  },
+  {
+    "n": 26,
+    "product": "Dedicated GPU Servers",
+    "statusUpdate": "",
+    "headProduct": "Bare Metal",
+    "category": "AI",
+    "technology": "Nvidia/ HPE /Supermicro",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Bare Metal"
+    ],
+    "excelRow": 28,
+    "id": "tga-28",
+    "matchedProductN": 29
+  },
+  {
+    "n": 27,
+    "product": "Firewalls",
+    "statusUpdate": "",
+    "headProduct": "Bare Metal",
+    "category": "Security",
+    "technology": "Fortinet/Checkpoint",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Bare Metal"
+    ],
+    "excelRow": 29,
+    "id": "tga-29",
+    "matchedProductN": 30
+  },
+  {
+    "n": 28,
+    "product": "Switches",
+    "statusUpdate": "",
+    "headProduct": "Bare Metal",
+    "category": "Network",
+    "technology": "Cisco/Juniper",
+    "subProducts": "",
+    "stage": "Pre-Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Bare Metal"
+    ],
+    "excelRow": 32,
+    "id": "tga-32",
+    "matchedProductN": 31
+  },
+  {
+    "n": 29,
+    "product": "NAS Aplliance",
+    "statusUpdate": "",
+    "headProduct": "Bare Metal",
+    "category": "Backup",
+    "technology": "",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Bare Metal"
+    ],
+    "excelRow": 35,
+    "id": "tga-35",
+    "matchedProductN": 32
+  },
+  {
+    "n": 30,
+    "product": "Standard VPS",
+    "statusUpdate": "",
+    "headProduct": "SMB",
+    "category": "Compute",
+    "technology": "Linux/ Windows/BitNinja/ISP",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "GNA",
+    "tpo": "GBU",
+    "whereUsed": "",
+    "headProducts": [
+      "SMB"
+    ],
+    "excelRow": 36,
+    "id": "tga-36",
+    "matchedProductN": 33
+  },
+  {
+    "n": 31,
+    "product": "Managed VPS",
+    "statusUpdate": "",
+    "headProduct": "SMB",
+    "category": "Compute",
+    "technology": "AI ?",
+    "subProducts": "",
+    "stage": "Development",
+    "due": "2027 Q1",
+    "cpo": "GNA",
+    "tpo": "GBU",
+    "whereUsed": "",
+    "headProducts": [
+      "SMB"
+    ],
+    "excelRow": 37,
+    "id": "tga-37",
+    "matchedProductN": 34
+  },
+  {
+    "n": 32,
+    "product": "One Click Agent VPS",
+    "statusUpdate": "",
+    "headProduct": "SMB",
+    "category": "AI",
+    "technology": "AI Agent / openclaw / Hermes",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2026 Q4",
+    "cpo": "GNA",
+    "tpo": "GBU",
+    "whereUsed": "",
+    "headProducts": [
+      "SMB"
+    ],
+    "excelRow": 38,
+    "id": "tga-38",
+    "matchedProductN": 35
+  },
+  {
+    "n": 33,
+    "product": "Business App VPS",
+    "statusUpdate": "",
+    "headProduct": "SMB",
+    "category": "Compute",
+    "technology": "Templated Business Apps",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2026 Q4",
+    "cpo": "GNA",
+    "tpo": "GBU",
+    "whereUsed": "",
+    "headProducts": [
+      "SMB"
+    ],
+    "excelRow": 39,
+    "id": "tga-39",
+    "matchedProductN": 36
+  },
+  {
+    "n": 34,
+    "product": "S3 Standart One Zone (For SMB) Packages",
+    "statusUpdate": "",
+    "headProduct": "SMB",
+    "category": "Storage",
+    "technology": "Sliced Ceph",
+    "subProducts": "",
+    "stage": "Terminated",
+    "due": "",
+    "cpo": "GNA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "SMB"
+    ],
+    "excelRow": 40,
+    "id": "tga-40",
+    "matchedProductN": 37
+  },
+  {
+    "n": 35,
+    "product": "Easy Backup",
+    "statusUpdate": "",
+    "headProduct": "SMB",
+    "category": "Backup",
+    "technology": "Nas Backup",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "GNA",
+    "tpo": "GBU",
+    "whereUsed": "",
+    "headProducts": [
+      "SMB"
+    ],
+    "excelRow": 41,
+    "id": "tga-41",
+    "matchedProductN": 38
+  },
+  {
+    "n": 36,
+    "product": "Block Storages",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Storage",
+    "technology": "All Flash HPE Alletra FBS",
+    "subProducts": "FBS",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 42,
+    "id": "tga-42",
+    "matchedProductN": 39
+  },
+  {
+    "n": 37,
+    "product": "Block Storages",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Storage",
+    "technology": "Hybrid HPE Nimble HBS/CBS",
+    "subProducts": "HBS/CBS",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 43,
+    "id": "tga-43",
+    "matchedProductN": 40
+  },
+  {
+    "n": 38,
+    "product": "File Storages",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Storage",
+    "technology": "Netapp AFF QLC FS2 Flash",
+    "subProducts": "FS2 Flash",
+    "stage": "Production",
+    "due": "2026 Q4",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 44,
+    "id": "tga-44",
+    "matchedProductN": 41
+  },
+  {
+    "n": 39,
+    "product": "File Storages",
+    "statusUpdate": "",
+    "headProduct": "Private Cloud",
+    "category": "Backup",
+    "technology": "AIC JBODs (Toshiba Drives) FS2 Basic",
+    "subProducts": "FS2 Basic",
+    "stage": "Development",
+    "due": "2026 Q4",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Private Cloud"
+    ],
+    "excelRow": 46,
+    "id": "tga-46",
+    "matchedProductN": 42
+  },
+  {
+    "n": 40,
+    "product": "S3 Standard (One Zone)",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Storage",
+    "technology": "Object Storage (CEPH) PAYG/ Reserved",
+    "subProducts": "PAYG/ Reserved",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Everywhere, in every platform",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 49,
+    "id": "tga-49",
+    "matchedProductN": 43
+  },
+  {
+    "n": 41,
+    "product": "S3 Standard ( Multi Zone)",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Storage",
+    "technology": "Object Storage (CEPH)",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Everywhere, in every platform",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 51,
+    "id": "tga-51",
+    "matchedProductN": 44
+  },
+  {
+    "n": 42,
+    "product": "S3 Active Archive",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Backup",
+    "technology": "CEPH",
+    "subProducts": "",
+    "stage": "Development",
+    "due": "2026 Q4",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Everywhere, in every platform",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 52,
+    "id": "tga-52",
+    "matchedProductN": 45
+  },
+  {
+    "n": 43,
+    "product": "S3 Premium",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Storage",
+    "technology": "CEPH",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Everywhere, in every platform",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 53,
+    "id": "tga-53",
+    "matchedProductN": 46
+  },
+  {
+    "n": 44,
+    "product": "S3 Cold Archive",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Backup",
+    "technology": "PoINT Archival Gateway",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Everywhere, in every platform",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 54,
+    "id": "tga-54",
+    "matchedProductN": 47
+  },
+  {
+    "n": 45,
+    "product": "Shared Storage (One Drive Alternative)",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Storage",
+    "technology": "Nextcloud",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "N/A",
+    "whereUsed": "",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 55,
+    "id": "tga-55",
+    "matchedProductN": 48
+  },
+  {
+    "n": 46,
+    "product": "Dynamic GPU",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "AI",
+    "technology": "Hosted AI",
+    "subProducts": "",
+    "stage": "Pre-Production",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 56,
+    "id": "tga-56",
+    "matchedProductN": 49
+  },
+  {
+    "n": 47,
+    "product": "Colocation",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Infrastructure",
+    "technology": "UGT Data Center/ HPE Racks",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 57,
+    "id": "tga-57",
+    "matchedProductN": 50
+  },
+  {
+    "n": 48,
+    "product": "Backup For Microsoft 365",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Backup",
+    "technology": "Nakivo",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "ZAN",
+    "whereUsed": "Everywhere, in every platform",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 58,
+    "id": "tga-58",
+    "matchedProductN": 51
+  },
+  {
+    "n": 49,
+    "product": "UGT Cloud Connect - 10 Gbps Customer-UGT",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Network",
+    "technology": "Dark Fiber",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 59,
+    "id": "tga-59",
+    "matchedProductN": 53
+  },
+  {
+    "n": 50,
+    "product": "UGT Cloud Connect - 10 Gbps POP-UGT",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Network",
+    "technology": "CWDM",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 63,
+    "id": "tga-63",
+    "matchedProductN": 54
+  },
+  {
+    "n": 51,
+    "product": "UGT Port Connect",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Network",
+    "technology": "Switch",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 67,
+    "id": "tga-67",
+    "matchedProductN": 55
+  },
+  {
+    "n": 52,
+    "product": "UGT Cloud Inter-Link - 10 Gbps UGT TBS1 / TBS2",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Network",
+    "technology": "Existing Connection",
+    "subProducts": "",
+    "stage": "Pre-Development",
+    "due": "2027 Q1",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 71,
+    "id": "tga-71",
+    "matchedProductN": 56
+  },
+  {
+    "n": 53,
+    "product": "RDA",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Network",
+    "technology": "TS Plus Standard/Ent/Ult/Web & Mobile",
+    "subProducts": "Standard/Ent/Ult/Web & Mobile",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 75,
+    "id": "tga-75",
+    "matchedProductN": 57
+  },
+  {
+    "n": 54,
+    "product": "Firewalls",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Security",
+    "technology": "Checkpoint/Fortinet/vFirewalls",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 79,
+    "id": "tga-79",
+    "matchedProductN": 58
+  },
+  {
+    "n": 55,
+    "product": "Global Internet - Dedicated Connection",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Network",
+    "technology": "",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 83,
+    "id": "tga-83",
+    "matchedProductN": 59
+  },
+  {
+    "n": 56,
+    "product": "Local Internet - Dedicated Connection",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Network",
+    "technology": "",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 87,
+    "id": "tga-87",
+    "matchedProductN": 60
+  },
+  {
+    "n": 57,
+    "product": "Public IPv4 Adresses",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Network",
+    "technology": "IPv4/ IP Blocks",
+    "subProducts": "IPv4/ IP Blocks",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 91,
+    "id": "tga-91",
+    "matchedProductN": 61
+  },
+  {
+    "n": 58,
+    "product": "USB Device Over IP",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Network",
+    "technology": "USB Switch",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "Universal Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 95,
+    "id": "tga-95",
+    "matchedProductN": 62
+  },
+  {
+    "n": 59,
+    "product": "Managed Site-to-Site VPN",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Security",
+    "technology": "OpenVPN",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 97,
+    "id": "tga-97",
+    "matchedProductN": 63
+  },
+  {
+    "n": 60,
+    "product": "Managed VPN Clients",
+    "statusUpdate": "",
+    "headProduct": "Standalone",
+    "category": "Security",
+    "technology": "OpenVPN",
+    "subProducts": "",
+    "stage": "Production",
+    "due": "",
+    "cpo": "TGA",
+    "tpo": "AJA",
+    "whereUsed": "Private Cloud",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 100,
+    "id": "tga-100",
+    "matchedProductN": 64
+  },
+  {
+    "n": 61,
+    "product": "Professional Services",
+    "statusUpdate": "",
+    "headProduct": "ALL",
+    "category": "Service",
+    "technology": "",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "GMA",
+    "tpo": "AJA",
+    "whereUsed": "",
+    "headProducts": [
+      "Cross-portfolio"
+    ],
+    "excelRow": 103,
+    "id": "tga-103",
+    "matchedProductN": 65
+  },
+  {
+    "n": 62,
+    "product": "Support Services",
+    "statusUpdate": "",
+    "headProduct": "ALL",
+    "category": "Service",
+    "technology": "",
+    "subProducts": "",
+    "stage": "Pipeline",
+    "due": "",
+    "cpo": "GMA",
+    "tpo": "AJA",
+    "whereUsed": "",
+    "headProducts": [
+      "Cross-portfolio"
+    ],
+    "excelRow": 104,
+    "id": "tga-104",
+    "matchedProductN": 66
+  }
+]

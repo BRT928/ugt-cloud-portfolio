@@ -46,7 +46,7 @@ def summarise_diff(old: list[dict] | None, new: list[dict]) -> str:
     for n in sorted(set(old_by) & set(new_by)):
         a, b = old_by[n], new_by[n]
         fields = []
-        for k in ("product", "headProducts", "category", "technology", "stage", "due", "cpo", "tpo"):
+        for k in ("product", "headProducts", "category", "technology", "stage", "due", "cpo", "tpo", "statusUpdate", "whereUsed"):
             if a.get(k) != b.get(k):
                 fields.append(f"{k}: {a.get(k)!r} → {b.get(k)!r}")
         if fields:
@@ -102,7 +102,7 @@ def apply_rebuild_push(summary: str) -> None:
     if docs_dst.exists():
         shutil.rmtree(docs_dst)
     shutil.copytree(ROOT / "docs", docs_dst)
-    for name in ("build.py", "sync.py", "SYNC_STEPS.md", "products.json", "state.json", "README.md"):
+    for name in ("build.py", "sync.py", "SYNC_STEPS.md", "products.json", "tga_nni.json", "state.json", "README.md"):
         src = ROOT / name
         if src.exists():
             shutil.copy2(src, REPO / name)

@@ -11,7 +11,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-2"
   },
   {
     "n": 2,
@@ -24,7 +27,10 @@
     "stage": "Production",
     "due": "2027 Q2",
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
   },
   {
     "n": 3,
@@ -37,7 +43,10 @@
     "stage": "Pre-Production",
     "due": "2027 Q2",
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": "აქ გავარკვიო სოსოსთან ალეტრაზე",
+    "whereUsed": null,
+    "tgaId": "tga-3"
   },
   {
     "n": 4,
@@ -51,7 +60,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-4"
   },
   {
     "n": 5,
@@ -64,7 +76,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
   },
   {
     "n": 6,
@@ -77,7 +92,10 @@
     "stage": "Pre-Production",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
+    "whereUsed": null,
+    "tgaId": "tga-5"
   },
   {
     "n": 7,
@@ -90,7 +108,10 @@
     "stage": "Pre-Production",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "GBU"
+    "tpo": "GBU",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-6"
   },
   {
     "n": 8,
@@ -104,7 +125,10 @@
     "stage": "Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "VMD"
+    "tpo": "VMD",
+    "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
+    "whereUsed": null,
+    "tgaId": "tga-7"
   },
   {
     "n": 9,
@@ -117,7 +141,10 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "GBU"
+    "tpo": "GBU",
+    "statusUpdate": "დასაჩექი მაქვს დოკუმენტაცია",
+    "whereUsed": null,
+    "tgaId": "tga-9"
   },
   {
     "n": 10,
@@ -130,7 +157,10 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": "შეხვედრაა ჩანიშნული და გავივლით რესერჩის შედეგებს",
+    "whereUsed": null,
+    "tgaId": "tga-10"
   },
   {
     "n": 11,
@@ -143,7 +173,10 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": "აფდეითი დაყენდა და ამ კვირაში მორჩება კომფიგურაცია",
+    "whereUsed": null,
+    "tgaId": "tga-11"
   },
   {
     "n": 12,
@@ -156,7 +189,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": null,
-    "tpo": null
+    "tpo": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-12"
   },
   {
     "n": 13,
@@ -169,7 +205,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": null,
-    "tpo": null
+    "tpo": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
   },
   {
     "n": 14,
@@ -182,7 +221,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": null,
-    "tpo": null
+    "tpo": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-13"
   },
   {
     "n": 15,
@@ -195,7 +237,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": null,
-    "tpo": null
+    "tpo": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-14"
   },
   {
     "n": 16,
@@ -208,7 +253,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": null,
-    "tpo": null
+    "tpo": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-15"
   },
   {
     "n": 17,
@@ -221,7 +269,10 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": "თორნიკესთან და ალეკოსთან ერთად გავიარო და შემდეგი ნაბიჯები, მივყვეთ ცხვარიაშვილის ამოცანას თუ გავაკეთოთ StackAI-ის POC",
+    "whereUsed": null,
+    "tgaId": "tga-16"
   },
   {
     "n": 18,
@@ -234,7 +285,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": "GBU"
+    "tpo": "GBU",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-17"
   },
   {
     "n": 19,
@@ -247,7 +301,10 @@
     "stage": "Pre-Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "GBU"
+    "tpo": "GBU",
+    "statusUpdate": "გიას აქვს ეს ამოცანა და 12-მდე აქვს დედლაინი, მანამდეც დავსინქონდებით",
+    "whereUsed": null,
+    "tgaId": "tga-18"
   },
   {
     "n": 20,
@@ -260,7 +317,10 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "GMA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-19"
   },
   {
     "n": 21,
@@ -273,7 +333,10 @@
     "stage": "Pre-Production",
     "due": null,
     "cpo": "GMA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-20"
   },
   {
     "n": 22,
@@ -286,7 +349,10 @@
     "stage": "Development",
     "due": "2027 Q1",
     "cpo": "GMA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-21"
   },
   {
     "n": 23,
@@ -299,7 +365,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "GMA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-22"
   },
   {
     "n": 24,
@@ -312,7 +381,10 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-23"
   },
   {
     "n": 25,
@@ -325,7 +397,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "GMA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-24"
   },
   {
     "n": 26,
@@ -338,7 +413,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-25"
   },
   {
     "n": 27,
@@ -351,7 +429,10 @@
     "stage": "Pre-Production",
     "due": null,
     "cpo": null,
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-26"
   },
   {
     "n": 28,
@@ -364,7 +445,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-27"
   },
   {
     "n": 29,
@@ -377,7 +461,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-28"
   },
   {
     "n": 30,
@@ -390,7 +477,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-29"
   },
   {
     "n": 31,
@@ -403,7 +493,10 @@
     "stage": "Pre-Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-32"
   },
   {
     "n": 32,
@@ -416,7 +509,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-35"
   },
   {
     "n": 33,
@@ -429,7 +525,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "GNA",
-    "tpo": "GBU"
+    "tpo": "GBU",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-36"
   },
   {
     "n": 34,
@@ -442,7 +541,10 @@
     "stage": "Development",
     "due": "2027 Q1",
     "cpo": "GNA",
-    "tpo": "GBU"
+    "tpo": "GBU",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-37"
   },
   {
     "n": 35,
@@ -455,7 +557,10 @@
     "stage": "Pre-Development",
     "due": "2026 Q4",
     "cpo": "GNA",
-    "tpo": "GBU"
+    "tpo": "GBU",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-38"
   },
   {
     "n": 36,
@@ -468,7 +573,10 @@
     "stage": "Pre-Development",
     "due": "2026 Q4",
     "cpo": "GNA",
-    "tpo": "GBU"
+    "tpo": "GBU",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-39"
   },
   {
     "n": 37,
@@ -481,7 +589,10 @@
     "stage": "Terminated",
     "due": null,
     "cpo": "GNA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-40"
   },
   {
     "n": 38,
@@ -494,7 +605,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "GNA",
-    "tpo": "GBU"
+    "tpo": "GBU",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-41"
   },
   {
     "n": 39,
@@ -507,7 +621,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-42"
   },
   {
     "n": 40,
@@ -520,7 +637,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-43"
   },
   {
     "n": 41,
@@ -535,7 +655,10 @@
     "stage": "Production",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-44"
   },
   {
     "n": 42,
@@ -551,7 +674,10 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-46"
   },
   {
     "n": 43,
@@ -565,7 +691,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Everywhere, in every platform",
+    "tgaId": "tga-49"
   },
   {
     "n": 44,
@@ -578,7 +707,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Everywhere, in every platform",
+    "tgaId": "tga-51"
   },
   {
     "n": 45,
@@ -591,7 +723,10 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Everywhere, in every platform",
+    "tgaId": "tga-52"
   },
   {
     "n": 46,
@@ -604,7 +739,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Everywhere, in every platform",
+    "tgaId": "tga-53"
   },
   {
     "n": 47,
@@ -617,7 +755,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Everywhere, in every platform",
+    "tgaId": "tga-54"
   },
   {
     "n": 48,
@@ -630,7 +771,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": null
+    "tpo": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-55"
   },
   {
     "n": 49,
@@ -643,7 +787,10 @@
     "stage": "Pre-Production",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-56"
   },
   {
     "n": 50,
@@ -656,7 +803,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-57"
   },
   {
     "n": 51,
@@ -669,7 +819,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "ZAN"
+    "tpo": "ZAN",
+    "statusUpdate": null,
+    "whereUsed": "Everywhere, in every platform",
+    "tgaId": "tga-58"
   },
   {
     "n": 52,
@@ -682,7 +835,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": null
+    "tpo": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
   },
   {
     "n": 53,
@@ -695,7 +851,10 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-59"
   },
   {
     "n": 54,
@@ -708,7 +867,10 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-63"
   },
   {
     "n": 55,
@@ -721,7 +883,10 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-67"
   },
   {
     "n": 56,
@@ -734,7 +899,10 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-71"
   },
   {
     "n": 57,
@@ -747,7 +915,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME"
+    "tpo": "SME",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-75"
   },
   {
     "n": 58,
@@ -760,7 +931,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-79"
   },
   {
     "n": 59,
@@ -773,7 +947,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-83"
   },
   {
     "n": 60,
@@ -786,7 +963,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-87"
   },
   {
     "n": 61,
@@ -799,7 +979,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-91"
   },
   {
     "n": 62,
@@ -812,7 +995,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": "Universal Cloud",
+    "tgaId": "tga-95"
   },
   {
     "n": 63,
@@ -825,7 +1011,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-97"
   },
   {
     "n": 64,
@@ -838,7 +1027,10 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": "Private Cloud",
+    "tgaId": "tga-100"
   },
   {
     "n": 65,
@@ -851,7 +1043,10 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "GMA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-103"
   },
   {
     "n": 66,
@@ -864,6 +1059,9 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "GMA",
-    "tpo": "AJA"
+    "tpo": "AJA",
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": "tga-104"
   }
 ]

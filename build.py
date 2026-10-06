@@ -137,6 +137,123 @@ def load_products(path: Path) -> list[dict]:
     return products
 
 
+
+OUT_TGA_JSON = ROOT / "tga_nni.json"
+
+
+def name_key(s: str) -> str:
+    s = clean_text(s).lower()
+    s = s.replace("/", " ")
+    s = s.replace("co-location", "colocation").replace("co location", "colocation")
+    s = s.replace("marketplace", "marketplace").replace("market place", "marketplace")
+    s = re.sub(r"[^a-z0-9ა-ჰ\s]+", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def load_tga_nni(path: Path) -> list[dict]:
+    """Load TGA & NNI sheet. Keep Georgian text; include orphan status rows."""
+    wb = openpyxl.load_workbook(path, data_only=True)
+    ws = wb["TGA & NNI"]
+    raw_headers = [ws.cell(1, c).value for c in range(1, 13)]
+    # Normalise header names (leading space on Status Update)
+    headers = [clean_text(h) if h else f"col{c}" for c, h in enumerate(raw_headers, 1)]
+    # Map known aliases
+    rename = {
+        "Status Update": "statusUpdate",
+        "Head Product": "headProduct",
+        "Platform/Technology/Vendor": "technology",
+        "Sub Products": "subProducts",
+        "Due Date": "due",
+        "where can it be used": "whereUsed",
+        "Product": "product",
+        "Category": "category",
+        "Stage": "stage",
+        "CPO": "cpo",
+        "TPO": "tpo",
+        "N": "n",
+    }
+    rows = []
+    for r in range(2, ws.max_row + 1):
+        raw = {headers[c - 1]: ws.cell(r, c).value for c in range(1, 13)}
+        mapped = {}
+        for k, v in raw.items():
+            key = rename.get(k, k)
+            if key in ("statusUpdate", "whereUsed", "product", "headProduct", "technology", "subProducts", "category", "stage", "due", "cpo", "tpo"):
+                # Preserve Georgian; only collapse whitespace / nbsp
+                if v is None:
+                    mapped[key] = ""
+                else:
+                    mapped[key] = re.sub(r"[ \t\xa0]+", " ", str(v)).replace("\r\n", "\n").strip()
+            elif key == "n":
+                try:
+                    mapped[key] = int(v) if v is not None and str(v).strip() != "" else None
+                except (TypeError, ValueError):
+                    mapped[key] = None
+            else:
+                mapped[key] = v
+        has_product = bool(mapped.get("product"))
+        has_status = bool(mapped.get("statusUpdate"))
+        has_where = bool(mapped.get("whereUsed"))
+        # Skip totally empty / where-only spreadsheet debris without product or status
+        if not has_product and not has_status:
+            continue
+        stage = mapped.get("stage") or ""
+        mapped["stage"] = STAGE_FIX.get(stage, stage) if stage else ""
+        heads = split_heads(mapped.get("headProduct") or "")
+        mapped["headProducts"] = heads
+        mapped["technology"] = tech_display(mapped.get("technology") or "", mapped.get("subProducts") or "")
+        mapped["excelRow"] = r
+        mapped["id"] = f"tga-{r}"
+        mapped["matchedProductN"] = None
+        rows.append(mapped)
+    return rows
+
+
+def attach_tga_notes(products: list[dict], tga_rows: list[dict]) -> None:
+    """Match TGA rows to ALL products by name + head (+ tech for duplicates). Mutates both."""
+    for p in products:
+        p["statusUpdate"] = None
+        p["whereUsed"] = None
+        p["tgaId"] = None
+
+    def score(t: dict, p: dict) -> int:
+        tn, pn = name_key(t.get("product") or ""), name_key(p.get("product") or "")
+        if not tn or not pn:
+            return 0
+        if tn != pn and tn not in pn and pn not in tn:
+            return 0
+        sc = 10 if tn == pn else 6
+        th = {name_key(h) for h in (t.get("headProducts") or [])}
+        ph = {name_key(h) for h in p["headProducts"]}
+        if th & ph:
+            sc += 5
+        tt = name_key(t.get("technology") or "")
+        pt = name_key(p.get("technology") or "")
+        if tt and pt and (tt in pt or pt in tt):
+            sc += 3
+        return sc
+
+    used_products = set()
+    for t in tga_rows:
+        if not t.get("product"):
+            continue
+        scored = sorted(((score(t, p), p) for p in products), key=lambda x: -x[0])
+        best_sc, best = scored[0] if scored else (0, None)
+        if best_sc <= 0 or best is None:
+            continue
+        # Prefer unmatched product when ties
+        candidates = [p for sc, p in scored if sc == best_sc]
+        pick = next((p for p in candidates if p["n"] not in used_products), candidates[0])
+        used_products.add(pick["n"])
+        t["matchedProductN"] = pick["n"]
+        # Prefer non-empty fields; don't overwrite stronger existing note
+        if t.get("statusUpdate"):
+            pick["statusUpdate"] = t["statusUpdate"]
+        if t.get("whereUsed"):
+            pick["whereUsed"] = t["whereUsed"]
+        pick["tgaId"] = t["id"]
+
+
 def data_updated_label() -> str:
     """Asia/Tbilisi timestamp from state.json lastModifiedDateTime, else now."""
     tz = ZoneInfo("Asia/Tbilisi")
@@ -187,8 +304,14 @@ def product_card_html(p: dict, base: str = ".") -> str:
     heads = "".join(f'<span class="pill">{esc(h)}</span>' for h in p["headProducts"])
     due = p["due"] or "Unscheduled"
     tech = f" · {esc(p['technology'])}" if p.get("technology") else ""
+    note = ""
+    if p.get("statusUpdate"):
+        note = f'<div class="note-flag" title="{esc(p["statusUpdate"])}">📝 Status note</div>'
+    elif p.get("whereUsed"):
+        note = f'<div class="note-flag muted-flag" title="{esc(p["whereUsed"])}">Where: {esc(p["whereUsed"])}</div>'
     return f"""
-    <a class="card" href="{base}/product-{p['n']}.html">
+    <article class="card">
+      <a class="card-stretch" href="{base}/product-{p['n']}.html" aria-label="{esc(p['product'])}"></a>
       <div class="card-top">
         <div class="card-title">{esc(p['product'])}</div>
         <span class="badge {badge_class(p['stage'])}">{esc(p['stage'])}</span>
@@ -196,13 +319,22 @@ def product_card_html(p: dict, base: str = ".") -> str:
       <div class="meta">{esc(p['category'] or '—')}</div>
       <div class="heads">{heads}</div>
       <div class="meta">{esc(due)}{tech}</div>
+      {note}
       <div class="owners">{owner_chip_html(p['cpo'], 'CPO', base)}{owner_chip_html(p['tpo'], 'TPO', base)}</div>
-    </a>"""
+    </article>"""
 
 
-def product_table_rows(products: list[dict], base: str = ".") -> str:
+def product_table_rows(products: list[dict], base: str = ".", include_notes: bool = True) -> str:
     rows = []
     for p in products:
+        note_cell = ""
+        if include_notes:
+            bits = []
+            if p.get("statusUpdate"):
+                bits.append(f'<span class="ka">{esc(p["statusUpdate"])}</span>')
+            if p.get("whereUsed"):
+                bits.append(f'<span class="muted">{esc(p["whereUsed"])}</span>')
+            note_cell = f"<td>{'<br/>'.join(bits) if bits else '—'}</td>"
         rows.append(
             f"<tr>"
             f'<td><a href="{base}/product-{p["n"]}.html"><strong>{esc(p["product"])}</strong></a></td>'
@@ -213,6 +345,7 @@ def product_table_rows(products: list[dict], base: str = ".") -> str:
             f"<td>{esc(p['cpo'] or 'Unassigned')}</td>"
             f"<td>{esc(p['tpo'] or 'Unassigned')}</td>"
             f"<td>{esc(p['technology'] or '—')}</td>"
+            f"{note_cell}"
             f"</tr>"
         )
     return "\n".join(rows)
@@ -230,9 +363,10 @@ SHARED_CSS = r"""
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
-  font-family: Figtree, ui-sans-serif, system-ui, sans-serif;
+  font-family: Figtree, "Noto Sans Georgian", "Noto Sans", ui-sans-serif, system-ui, sans-serif;
   background: var(--bg); color: var(--fg); min-height: 100vh; line-height: 1.45;
 }
+.ka { font-family: "Noto Sans Georgian", Figtree, sans-serif; }
 a { color: inherit; }
 .font-display { font-family: Fraunces, Georgia, serif; }
 .app { display: grid; grid-template-columns: 16.5rem 1fr; min-height: 100vh; }
@@ -322,11 +456,21 @@ h3 { margin: 0; font-size: 1rem; }
 .count { margin-top: 1.25rem; color: var(--muted); font-size: .9rem; }
 .cards { margin-top: 1.25rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: .9rem; }
 .card {
+  position: relative;
   background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
   padding: 1rem 1.05rem; display: flex; flex-direction: column; gap: .55rem;
   text-decoration: none; transition: box-shadow .15s;
 }
 .card:hover { box-shadow: var(--shadow-hover); }
+.card-stretch { position: absolute; inset: 0; z-index: 0; border-radius: inherit; }
+.card .owners, .card .note-flag { position: relative; z-index: 1; }
+.note-flag {
+  font-size: .72rem; color: #9a3412; background: #ffedd5; border-radius: 6px;
+  padding: .25rem .45rem; width: fit-content; max-width: 100%;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.note-flag.muted-flag { color: var(--muted); background: var(--secondary); }
+.note-panel .ka { font-size: 1rem; line-height: 1.55; white-space: pre-wrap; }
 .card-top { display: flex; justify-content: space-between; gap: .5rem; align-items: flex-start; }
 .card-title { font-weight: 600; font-size: .95rem; }
 .badge {
@@ -403,6 +547,7 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
         ("platforms.html", "Platforms", "platforms"),
         ("roadmap.html", "Roadmap", "roadmap"),
         ("owners.html", "Owners", "owners"),
+        ("status.html", "TGA & NNI", "status"),
         ("glossary.html", "Legend", "glossary"),
     ]
     nav_html = "".join(
@@ -418,7 +563,7 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
 <meta name="description" content="UGT Cloud product portfolio — products, platforms, lifecycle stages, and CPO / TPO ownership."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="assets/site.css"/>
 {extra_head}
 </head>
@@ -628,7 +773,7 @@ function matches(p) {
   if (state.tpo === "__unassigned__") { if (p.tpo) return false; }
   else if (state.tpo && p.tpo !== state.tpo) return false;
   if (state.q) {
-    const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", ...(p.headProducts || [])].join(" ").toLowerCase();
+    const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.statusUpdate || "", p.whereUsed || "", ...(p.headProducts || [])].join(" ").toLowerCase();
     if (!hay.includes(state.q)) return false;
   }
   return true;
@@ -653,15 +798,26 @@ function render() {
   const empty = document.getElementById("empty");
   if (!rows.length) { cards.innerHTML=""; tbody.innerHTML=""; empty.hidden=false; return; }
   empty.hidden = true;
-  cards.innerHTML = rows.map(p => `
-    <a class="card" href="product-${p.n}.html">
+  cards.innerHTML = rows.map(p => {
+    let note = "";
+    if (p.statusUpdate) note = `<div class="note-flag" title="${esc(p.statusUpdate)}">📝 Status note</div>`;
+    else if (p.whereUsed) note = `<div class="note-flag muted-flag" title="${esc(p.whereUsed)}">Where: ${esc(p.whereUsed)}</div>`;
+    return `
+    <article class="card">
+      <a class="card-stretch" href="product-${p.n}.html" aria-label="${esc(p.product)}"></a>
       <div class="card-top"><div class="card-title">${esc(p.product)}</div><span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></div>
       <div class="meta">${esc(p.category || "—")}</div>
       <div class="heads">${(p.headProducts||[]).map(h=>`<span class="pill">${esc(h)}</span>`).join("")}</div>
       <div class="meta">${esc(p.due || "Unscheduled")}${p.technology ? " · " + esc(p.technology) : ""}</div>
+      ${note}
       <div class="owners">${ownerChip(p.cpo,"CPO")}${ownerChip(p.tpo,"TPO")}</div>
-    </a>`).join("");
-  tbody.innerHTML = rows.map(p => `
+    </article>`;
+  }).join("");
+  tbody.innerHTML = rows.map(p => {
+    const bits = [];
+    if (p.statusUpdate) bits.push(`<span class="ka">${esc(p.statusUpdate)}</span>`);
+    if (p.whereUsed) bits.push(`<span class="muted">${esc(p.whereUsed)}</span>`);
+    return `
     <tr>
       <td><a href="product-${p.n}.html"><strong>${esc(p.product)}</strong></a></td>
       <td>${esc(p.category || "—")}</td>
@@ -671,7 +827,9 @@ function render() {
       <td>${esc(p.cpo || "Unassigned")}</td>
       <td>${esc(p.tpo || "Unassigned")}</td>
       <td>${esc(p.technology || "—")}</td>
-    </tr>`).join("");
+      <td>${bits.length ? bits.join("<br/>") : "—"}</td>
+    </tr>`;
+  }).join("");
 }
 function bind() {
   const dues = [...new Set(PRODUCTS.map(p => p.due).filter(Boolean))].sort();
@@ -738,7 +896,7 @@ def build_products(products: list[dict], updated: str) -> str:
       <p class="count" id="view-count"></p>
       <div class="cards" id="cards"></div>
       <div class="table-wrap"><table>
-        <thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th></tr></thead>
+        <thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table></div>
       <div class="empty" id="empty" hidden>No products match these filters.</div>
@@ -781,7 +939,7 @@ def build_products(products: list[dict], updated: str) -> str:
       <p class="count" id="view-count"></p>
       <div class="cards" id="cards"></div>
       <div class="table-wrap"><table>
-        <thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th></tr></thead>
+        <thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table></div>
       <div class="empty" id="empty" hidden>No products match these filters.</div>
@@ -846,7 +1004,7 @@ def build_roadmap(products: list[dict], updated: str) -> str:
             f"<h2>{esc(due)}</h2>"
             f'<p class="muted">Target from the register. <strong>{len(group)}</strong></p>'
             f'<div class="cards">{"".join(product_card_html(p) for p in group)}</div>'
-            f'<div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th></tr></thead>'
+            f'<div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>'
             f"<tbody>{product_table_rows(group)}</tbody></table></div></section>"
         )
     # delivery stages first then production/pipeline/terminated like Grok
@@ -868,7 +1026,7 @@ def build_roadmap(products: list[dict], updated: str) -> str:
             f"<h2>{esc(stage)}</h2>"
             f'<p class="muted">{esc(blurbs.get(stage, ""))} <strong>{len(group)}</strong></p>'
             f'<div class="cards">{"".join(product_card_html(p) for p in group)}</div>'
-            f'<div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th></tr></thead>'
+            f'<div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>'
             f"<tbody>{product_table_rows(group)}</tbody></table></div></section>"
         )
     body = f"""
@@ -958,7 +1116,7 @@ def build_owner_page(code: str, products: list[dict], updated: str) -> str:
         <h2>As commercial owner</h2>
         <p class="muted">Accountable for the offer, packaging and go-to-market. · {len(as_cpo)} as CPO · {len(as_tpo)} as TPO</p>
         <div class="cards">{''.join(product_card_html(p) for p in as_cpo)}</div>
-        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th></tr></thead>
+        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody>{product_table_rows(as_cpo)}</tbody></table></div>
       </section>
 """
@@ -968,7 +1126,7 @@ def build_owner_page(code: str, products: list[dict], updated: str) -> str:
         <h2>As technical owner</h2>
         <p class="muted">Accountable for technical delivery, architecture and operational readiness.</p>
         <div class="cards">{''.join(product_card_html(p) for p in as_tpo)}</div>
-        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th></tr></thead>
+        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody>{product_table_rows(as_tpo)}</tbody></table></div>
       </section>
 """
@@ -976,6 +1134,24 @@ def build_owner_page(code: str, products: list[dict], updated: str) -> str:
 
 
 def build_product_page(p: dict, products: list[dict], updated: str) -> str:
+    tga_bits = []
+    if p.get("statusUpdate"):
+        tga_bits.append(f'<div><div class="eyebrow">Status update</div><p class="ka note-panel" style="margin:.5rem 0 0">{esc(p["statusUpdate"])}</p></div>')
+    if p.get("whereUsed"):
+        tga_bits.append(f'<div style="margin-top:1rem"><div class="eyebrow">Where can it be used</div><p style="margin:.5rem 0 0">{esc(p["whereUsed"])}</p></div>')
+    if tga_bits:
+        tga_panel = (
+            '<div class="panel section note-panel"><h2>TGA &amp; NNI</h2>'
+            '<p class="muted" style="margin:.35rem 0 1rem;font-size:.875rem">From the TGA &amp; NNI sheet.</p>'
+            + "".join(tga_bits)
+            + '<p style="margin-top:1rem;font-size:.85rem"><a href="status.html">All status notes →</a></p></div>'
+        )
+    else:
+        tga_panel = (
+            '<div class="panel section"><h2>TGA &amp; NNI</h2>'
+            '<p class="muted" style="margin:.5rem 0 0">No status note or usage note on the TGA &amp; NNI sheet for this line. '
+            '<a href="status.html">Browse all notes</a>.</p></div>'
+        )
     body = f"""
       <p class="eyebrow"><a class="muted" href="products.html">Products</a> / {esc(p['product'])}</p>
       <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;justify-content:space-between">
@@ -1004,6 +1180,7 @@ def build_product_page(p: dict, products: list[dict], updated: str) -> str:
           </div>
         </div>
       </div>
+      {tga_panel}
 """
     # related same head
     related = [
@@ -1020,6 +1197,134 @@ def build_product_page(p: dict, products: list[dict], updated: str) -> str:
     return shell("products", p["product"], body, products, updated)
 
 
+def build_status_notes(products: list[dict], tga_rows: list[dict], updated: str) -> str:
+    with_status = sum(1 for t in tga_rows if t.get("statusUpdate"))
+    with_where = sum(1 for t in tga_rows if t.get("whereUsed"))
+    matched = sum(1 for t in tga_rows if t.get("matchedProductN") is not None)
+    unmatched = [t for t in tga_rows if t.get("product") and t.get("matchedProductN") is None]
+    orphans = [t for t in tga_rows if not t.get("product")]
+    data_json = json.dumps(tga_rows, ensure_ascii=False)
+    body = f"""
+      <p class="eyebrow">TGA &amp; NNI sheet</p>
+      <h1>Status notes</h1>
+      <p class="lede">Working notes and “where can it be used” from the TGA &amp; NNI register. Georgian text is kept as written.</p>
+      <div class="kpi-grid" style="margin-top:1.25rem">
+        <div class="kpi"><div class="k">Rows</div><div class="v">{len(tga_rows)}</div></div>
+        <div class="kpi"><div class="k">With status</div><div class="v">{with_status}</div></div>
+        <div class="kpi"><div class="k">With where</div><div class="v">{with_where}</div></div>
+        <div class="kpi"><div class="k">Matched to ALL</div><div class="v">{matched}</div></div>
+      </div>
+      <div class="filters" style="margin-top:1.5rem">
+        <div class="filter-row" id="note-filters">
+          <span class="filter-label">Show</span>
+          <button type="button" class="chip active" data-val="">All</button>
+          <button type="button" class="chip" data-val="status">Has status note</button>
+          <button type="button" class="chip" data-val="where">Has where-used</button>
+          <button type="button" class="chip" data-val="unmatched">Unmatched</button>
+        </div>
+        <div class="selects">
+          <label>Stage<select id="f-stage"><option value="">All</option></select></label>
+          <label>Head product<select id="f-head"><option value="">All</option></select></label>
+          <label>Category<select id="f-cat"><option value="">All</option></select></label>
+          <label class="search-box" style="margin-left:0;min-width:14rem">Search
+            <input id="q" type="search" placeholder="Search notes (incl. Georgian)" autocomplete="off"/>
+          </label>
+        </div>
+      </div>
+      <p class="count" id="view-count"></p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>N</th><th>Product</th><th>Status update</th><th>Where used</th>
+              <th>Head</th><th>Category</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>ALL link</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="empty" id="empty" hidden>No rows match these filters.</div>
+"""
+    js = f"""
+<script>
+const ROWS = {data_json};
+const state = {{ filter: "", stage: "", head: "", category: "", q: "" }};
+function esc(s) {{
+  return String(s ?? "").replace(/[&<>"']/g, c => ({{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}}[c]));
+}}
+function badgeClass(stage) {{
+  return "badge-" + String(stage || "").toLowerCase().replace(/\\s+/g, "-");
+}}
+function matches(t) {{
+  if (state.filter === "status" && !t.statusUpdate) return false;
+  if (state.filter === "where" && !t.whereUsed) return false;
+  if (state.filter === "unmatched" && (t.matchedProductN != null || !t.product)) return false;
+  if (state.stage && t.stage !== state.stage) return false;
+  if (state.head && !(t.headProducts || []).includes(state.head)) return false;
+  if (state.category && t.category !== state.category) return false;
+  if (state.q) {{
+    const hay = [t.product, t.statusUpdate, t.whereUsed, t.category, t.stage, t.due, t.cpo, t.tpo, ...(t.headProducts||[])].join(" ").toLowerCase();
+    if (!hay.includes(state.q)) return false;
+  }}
+  return true;
+}}
+function render() {{
+  const rows = ROWS.filter(matches);
+  document.getElementById("view-count").textContent = `${{rows.length}} of ${{ROWS.length}} rows in view.`;
+  const empty = document.getElementById("empty");
+  const tbody = document.getElementById("tbody");
+  if (!rows.length) {{ tbody.innerHTML = ""; empty.hidden = false; return; }}
+  empty.hidden = true;
+  tbody.innerHTML = rows.map(t => {{
+    const link = t.matchedProductN != null
+      ? `<a href="product-${{t.matchedProductN}}.html">#${{t.matchedProductN}}</a>`
+      : (t.product ? `<span class="muted">Unmatched</span>` : `<span class="muted">Orphan note</span>`);
+    const title = t.product
+      ? (t.matchedProductN != null ? `<a href="product-${{t.matchedProductN}}.html"><strong>${{esc(t.product)}}</strong></a>` : `<strong>${{esc(t.product)}}</strong>`)
+      : `<span class="muted">(no product)</span>`;
+    return `<tr>
+      <td>${{t.n ?? "—"}}</td>
+      <td>${{title}}</td>
+      <td class="ka">${{esc(t.statusUpdate || "—")}}</td>
+      <td>${{esc(t.whereUsed || "—")}}</td>
+      <td>${{esc((t.headProducts||[]).join(", ") || "—")}}</td>
+      <td>${{esc(t.category || "—")}}</td>
+      <td>${{t.stage ? `<span class="badge ${{badgeClass(t.stage)}}">${{esc(t.stage)}}</span>` : "—"}}</td>
+      <td>${{esc(t.due || "—")}}</td>
+      <td>${{esc(t.cpo || "—")}}</td>
+      <td>${{esc(t.tpo || "—")}}</td>
+      <td>${{link}}</td>
+    </tr>`;
+  }}).join("");
+}}
+function bind() {{
+  const stages = [...new Set(ROWS.map(r => r.stage).filter(Boolean))];
+  const heads = [...new Set(ROWS.flatMap(r => r.headProducts || []).filter(Boolean))].sort();
+  const cats = [...new Set(ROWS.map(r => r.category).filter(Boolean))].sort();
+  function fill(id, values) {{
+    const sel = document.getElementById(id);
+    for (const v of values) {{ const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); }}
+  }}
+  fill("f-stage", stages); fill("f-head", heads); fill("f-cat", cats);
+  document.getElementById("note-filters").addEventListener("click", e => {{
+    const btn = e.target.closest(".chip"); if (!btn) return;
+    state.filter = btn.dataset.val;
+    document.querySelectorAll("#note-filters .chip").forEach(c => c.classList.toggle("active", c === btn));
+    render();
+  }});
+  document.getElementById("f-stage").addEventListener("change", e => {{ state.stage = e.target.value; render(); }});
+  document.getElementById("f-head").addEventListener("change", e => {{ state.head = e.target.value; render(); }});
+  document.getElementById("f-cat").addEventListener("change", e => {{ state.category = e.target.value; render(); }});
+  document.getElementById("q").addEventListener("input", e => {{ state.q = e.target.value.trim().toLowerCase(); render(); }});
+  render();
+}}
+bind();
+</script>
+"""
+    return shell("status", "TGA & NNI", body, products, updated, extra_js=js)
+
+
+
 def build_glossary(products: list[dict], updated: str) -> str:
     items = "".join(f"<dt>{esc(k)}</dt><dd>{esc(v)}</dd>" for k, v in GLOSSARY)
     body = f"""
@@ -1033,8 +1338,11 @@ def build_glossary(products: list[dict], updated: str) -> str:
 
 def main() -> None:
     products = load_products(EXCEL)
+    tga_rows = load_tga_nni(EXCEL)
+    attach_tga_notes(products, tga_rows)
     updated = data_updated_label()
     OUT_JSON.write_text(json.dumps(products, ensure_ascii=False, indent=2) + "\n")
+    OUT_TGA_JSON.write_text(json.dumps(tga_rows, ensure_ascii=False, indent=2) + "\n")
     SITE.mkdir(parents=True, exist_ok=True)
     (SITE / "assets").mkdir(exist_ok=True)
     (SITE / "assets" / "site.css").write_text(SHARED_CSS)
@@ -1043,19 +1351,21 @@ def main() -> None:
     (SITE / "platforms.html").write_text(build_platforms(products, updated), encoding="utf-8")
     (SITE / "roadmap.html").write_text(build_roadmap(products, updated), encoding="utf-8")
     (SITE / "owners.html").write_text(build_owners_index(products, updated), encoding="utf-8")
+    (SITE / "status.html").write_text(build_status_notes(products, tga_rows, updated), encoding="utf-8")
     (SITE / "glossary.html").write_text(build_glossary(products, updated), encoding="utf-8")
     codes = sorted({p["cpo"] for p in products if p["cpo"]} | {p["tpo"] for p in products if p["tpo"]})
     for code in codes:
         (SITE / f"owner-{code}.html").write_text(build_owner_page(code, products, updated), encoding="utf-8")
     for p in products:
         (SITE / f"product-{p['n']}.html").write_text(build_product_page(p, products, updated), encoding="utf-8")
-    # also write data.js for sync tooling consumers
     (SITE / "assets" / "data.js").write_text(
         "window.UGT_PRODUCTS = " + json.dumps(products, ensure_ascii=False) + ";\n"
+        + "window.UGT_TGA_NNI = " + json.dumps(tga_rows, ensure_ascii=False) + ";\n"
         + "window.UGT_UPDATED = " + json.dumps(updated) + ";\n",
         encoding="utf-8",
     )
-    print(f"Built {len(products)} products → {SITE} (updated: {updated})")
+    matched = sum(1 for t in tga_rows if t.get("matchedProductN") is not None)
+    print(f"Built {len(products)} products, {len(tga_rows)} TGA&NNI rows ({matched} matched) → {SITE} (updated: {updated})")
 
 
 if __name__ == "__main__":

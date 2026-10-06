@@ -50,3 +50,11 @@ The Excel source lives in Tornike’s OneDrive. **OneDrive access is MCP-only** 
 - Do **not** commit the `.xlsx` or any tokens (see `.gitignore`).
 - GitHub Pages serves from `/docs` on `main`.
 - Live site: https://brt928.github.io/ugt-cloud-portfolio/
+
+
+## Sheets consumed
+
+- `UGT Product Portfolio ALL` — primary product register (66 lines)
+- `TGA & NNI` — status updates (Georgian notes) and “where can it be used”; matched to ALL by product name + head product (+ technology for duplicates). Unmatched / orphan status rows still appear on `/status.html`.
+
+Build outputs `products.json` (with `statusUpdate` / `whereUsed` when matched) and `tga_nni.json`.

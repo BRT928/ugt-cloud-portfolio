@@ -13,6 +13,7 @@ https://brt928.github.io/ugt-cloud-portfolio/
 - Platforms — `/platforms.html`
 - Roadmap — `/roadmap.html`
 - Owners — `/owners.html`, `/owner-TGA.html`, …
+- TGA & NNI / Status notes — `/status.html`
 - Legend — `/glossary.html`
 - Product detail — `/product-1.html`, …
 
