@@ -534,6 +534,139 @@ tr:last-child td { border-bottom: 0; }
 }
 .search-box input { border: 0; outline: 0; background: transparent; width: 100%; font: inherit; font-size: .875rem; color: var(--fg); }
 .empty { margin-top: 2rem; padding: 2rem; text-align: center; color: var(--muted); background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+.count-row {
+  margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: .75rem 1.25rem;
+  align-items: center; justify-content: space-between;
+}
+.count-row .count { margin-top: 0; }
+.view-toggle {
+  display: inline-flex; background: var(--card); box-shadow: var(--shadow);
+  border-radius: 999px; padding: .2rem; gap: .15rem;
+}
+.view-toggle button {
+  border: 0; background: transparent; font: inherit; font-size: .8rem;
+  padding: .4rem .85rem; border-radius: 999px; color: var(--muted); cursor: pointer;
+}
+.view-toggle button:hover { color: var(--fg); }
+.view-toggle button.active { background: var(--accent); color: #fff; }
+body.view-cards .view-table-target { display: none !important; }
+body.view-table .view-cards-target { display: none !important; }
+.section-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  width: 100%; border: 0; background: transparent; padding: 0; cursor: pointer;
+  font: inherit; text-align: left; color: inherit;
+}
+.section-head h2 { margin: 0; }
+.section-head .chev { color: var(--muted); font-size: .9rem; transition: transform .15s; }
+.section.is-collapsed .chev { transform: rotate(-90deg); }
+.section.is-collapsed .section-body { display: none; }
+"""
+
+
+
+VIEW_TOGGLE_HTML = """
+<div class="count-row">
+  <p class="count" id="view-count">{count}</p>
+  <div class="view-toggle" data-view-toggle role="group" aria-label="Layout">
+    <button type="button" data-view="cards">Cards</button>
+    <button type="button" data-view="table">Table</button>
+    <button type="button" data-view="both">Both</button>
+  </div>
+</div>
+"""
+
+VIEW_JS = r"""
+(function () {
+  var KEY = "ugt-portfolio-view";
+  var VALID = { cards: 1, table: 1, both: 1 };
+  function read() {
+    var q = new URLSearchParams(location.search).get("view");
+    if (q && VALID[q]) return q;
+    try {
+      var s = localStorage.getItem(KEY);
+      if (s && VALID[s]) return s;
+    } catch (e) {}
+    return "both";
+  }
+  function apply(mode) {
+    document.body.classList.remove("view-cards", "view-table", "view-both");
+    document.body.classList.add("view-" + mode);
+    document.querySelectorAll("[data-view-toggle] button[data-view]").forEach(function (btn) {
+      btn.classList.toggle("active", btn.getAttribute("data-view") === mode);
+    });
+  }
+  function set(mode, updateUrl) {
+    if (!VALID[mode]) mode = "both";
+    try { localStorage.setItem(KEY, mode); } catch (e) {}
+    apply(mode);
+    if (updateUrl !== false) {
+      var u = new URL(location.href);
+      if (mode === "both") u.searchParams.delete("view");
+      else u.searchParams.set("view", mode);
+      history.replaceState({}, "", u);
+    }
+  }
+  function appendViewParam(href) {
+    var mode = read();
+    if (mode === "both" || !href) return href;
+    try {
+      var u = new URL(href, location.href);
+      u.searchParams.set("view", mode);
+      // keep relative for same-directory pages
+      var file = u.pathname.split("/").pop() || "index.html";
+      return file + u.search + u.hash;
+    } catch (e) {
+      return href;
+    }
+  }
+  window.ugtView = { read: read, set: set, apply: apply, appendViewParam: appendViewParam };
+  function boot() {
+    var q = new URLSearchParams(location.search).get("view");
+    if (q && VALID[q]) {
+      try { localStorage.setItem(KEY, q); } catch (e) {}
+    }
+    apply(read());
+    document.querySelectorAll("[data-view-toggle]").forEach(function (root) {
+      root.addEventListener("click", function (e) {
+        var btn = e.target.closest("button[data-view]");
+        if (!btn) return;
+        set(btn.getAttribute("data-view"));
+      });
+    });
+    document.querySelectorAll("a[href]").forEach(function (a) {
+      var href = a.getAttribute("href") || "";
+      if (!/products\.html|roadmap\.html|owner-/.test(href)) return;
+      a.addEventListener("click", function () {
+        var next = appendViewParam(a.getAttribute("href"));
+        if (next) a.setAttribute("href", next);
+      });
+    });
+    document.querySelectorAll("section.section[data-collapsible]").forEach(function (sec) {
+      var head = sec.querySelector(".section-head");
+      if (!head) return;
+      head.addEventListener("click", function () {
+        sec.classList.toggle("is-collapsed");
+        head.setAttribute("aria-expanded", sec.classList.contains("is-collapsed") ? "false" : "true");
+      });
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+"""
+
+
+def view_toggle_bar(count_html: str = "", count_id: str = "view-count") -> str:
+    return f"""
+<div class="count-row">
+  <p class="count" id="{count_id}">{count_html}</p>
+  <div class="view-toggle" data-view-toggle role="group" aria-label="Layout">
+    <button type="button" data-view="cards">Cards</button>
+    <button type="button" data-view="table">Table</button>
+    <button type="button" data-view="both">Both</button>
+  </div>
+</div>
 """
 
 
@@ -595,6 +728,7 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
     </div>
   </div>
 </div>
+<script src="assets/view.js"></script>
 {extra_js}
 </body>
 </html>
@@ -790,6 +924,18 @@ function renderChips(id, values, key, allLabel, extra) {
   else { const s=document.createElement("span"); s.className="filter-label"; s.textContent=key==="stage"?"Stage":"Due date"; el.appendChild(s); }
   el.insertAdjacentHTML("beforeend", html);
 }
+function syncUrl() {
+  const u = new URL(location.href);
+  const map = { due: state.due, stage: state.stage, platform: state.head, category: state.category, cpo: state.cpo, tpo: state.tpo };
+  for (const [k, v] of Object.entries(map)) {
+    if (v) u.searchParams.set(k, v);
+    else u.searchParams.delete(k);
+  }
+  const view = (window.ugtView && ugtView.read()) || "both";
+  if (view && view !== "both") u.searchParams.set("view", view);
+  else u.searchParams.delete("view");
+  history.replaceState({}, "", u);
+}
 function render() {
   const rows = PRODUCTS.filter(matches);
   document.getElementById("view-count").textContent = `${rows.length} line${rows.length===1?"":"s"} in view.`;
@@ -830,6 +976,7 @@ function render() {
       <td>${bits.length ? bits.join("<br/>") : "—"}</td>
     </tr>`;
   }).join("");
+  syncUrl();
 }
 function bind() {
   const dues = [...new Set(PRODUCTS.map(p => p.due).filter(Boolean))].sort();
@@ -880,42 +1027,6 @@ bind();
 
 def build_products(products: list[dict], updated: str) -> str:
     body = """
-      <p class="eyebrow">2026 register</p>
-      <h1>Products</h1>
-      <p class="lede">Filter by stage, quarter, platform, category or owner.</p>
-      <div class="filters">
-        <div class="filter-row" id="stage-filters"><span class="filter-label">Stage</span></div>
-        <div class="filter-row" id="due-filters"><span class="filter-label">Due date</span></div>
-        <div class="selects">
-          <label>Head product<select id="f-head"><option value="">All</option></select></label>
-          <label>Category<select id="f-cat"><option value="">All</option></select></label>
-          <label>Commercial owner<select id="f-cpo"><option value="">All</option><option value="__unassigned__">Unassigned</option></select></label>
-          <label>Technical owner<select id="f-tpo"><option value="">All</option><option value="__unassigned__">Unassigned</option></select></label>
-        </div>
-      </div>
-      <p class="count" id="view-count"></p>
-      <div class="cards" id="cards"></div>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
-        <tbody id="tbody"></tbody>
-      </table></div>
-      <div class="empty" id="empty" hidden>No products match these filters.</div>
-"""
-    # inject search into header via extra - simpler to add search in body top
-    body = """
-      <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end;justify-content:space-between">
-        <div>
-          <p class="eyebrow">2026 register</p>
-          <h1>Products</h1>
-          <p class="lede">Filter by stage, quarter, platform, category or owner.</p>
-        </div>
-        <label class="search-box"><span aria-hidden="true">⌕</span>
-          <input id="q" type="search" placeholder="Search products, owners, platforms" autocomplete="off"/>
-        </label>
-      </div>
-""" + body.split("</p>", 1)[-1] if False else body
-    # rewrite cleanly
-    body = """
       <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end;justify-content:space-between">
         <div>
           <p class="eyebrow">2026 register</p>
@@ -936,9 +1047,9 @@ def build_products(products: list[dict], updated: str) -> str:
           <label>Technical owner<select id="f-tpo"><option value="">All</option><option value="__unassigned__">Unassigned</option></select></label>
         </div>
       </div>
-      <p class="count" id="view-count"></p>
-      <div class="cards" id="cards"></div>
-      <div class="table-wrap"><table>
+""" + view_toggle_bar() + """
+      <div class="cards view-cards-target" id="cards"></div>
+      <div class="table-wrap view-table-target"><table>
         <thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table></div>
@@ -1000,12 +1111,13 @@ def build_roadmap(products: list[dict], updated: str) -> str:
     for due in dues:
         group = [p for p in products if p["due"] == due]
         sections.append(
-            f'<section class="section" id="due-{esc(due).replace(" ","-")}">'
-            f"<h2>{esc(due)}</h2>"
+            f'<section class="section" data-collapsible id="due-{esc(due).replace(" ","-")}">'
+            f'<button type="button" class="section-head" aria-expanded="true"><h2>{esc(due)}</h2><span class="chev">▾</span></button>'
+            f'<div class="section-body">'
             f'<p class="muted">Target from the register. <strong>{len(group)}</strong></p>'
-            f'<div class="cards">{"".join(product_card_html(p) for p in group)}</div>'
-            f'<div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>'
-            f"<tbody>{product_table_rows(group)}</tbody></table></div></section>"
+            f'<div class="cards view-cards-target">{"".join(product_card_html(p) for p in group)}</div>'
+            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>'
+            f"<tbody>{product_table_rows(group)}</tbody></table></div></div></section>"
         )
     # delivery stages first then production/pipeline/terminated like Grok
     stage_order = ["Pre-Production", "Development", "Pre-Development", "Pipeline", "Production", "Terminated"]
@@ -1022,18 +1134,20 @@ def build_roadmap(products: list[dict], updated: str) -> str:
         if not group:
             continue
         sections.append(
-            f'<section class="section" id="stage-{stage.lower().replace(" ","-")}">'
-            f"<h2>{esc(stage)}</h2>"
+            f'<section class="section" data-collapsible id="stage-{stage.lower().replace(" ","-")}">'
+            f'<button type="button" class="section-head" aria-expanded="true"><h2>{esc(stage)}</h2><span class="chev">▾</span></button>'
+            f'<div class="section-body">'
             f'<p class="muted">{esc(blurbs.get(stage, ""))} <strong>{len(group)}</strong></p>'
-            f'<div class="cards">{"".join(product_card_html(p) for p in group)}</div>'
-            f'<div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>'
-            f"<tbody>{product_table_rows(group)}</tbody></table></div></section>"
+            f'<div class="cards view-cards-target">{"".join(product_card_html(p) for p in group)}</div>'
+            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>'
+            f"<tbody>{product_table_rows(group)}</tbody></table></div></div></section>"
         )
     body = f"""
       <p class="eyebrow">2026 register</p>
       <h1>Roadmap</h1>
       <p class="lede">Year-quarter targets first, then the same register by lifecycle stage.</p>
-      <p class="muted" style="margin-top:1rem">By quarter</p>
+""" + view_toggle_bar(count_html="Cards / table layout") + f"""
+      <p class="muted" style="margin-top:1rem">By quarter — click a heading to collapse</p>
       {''.join(sections)}
 """
     return shell("roadmap", "Roadmap", body, products, updated)
@@ -1109,25 +1223,30 @@ def build_owner_page(code: str, products: list[dict], updated: str) -> str:
           </div>
         </div>
       </div>
+""" + view_toggle_bar(count_html=f"{len(owned)} lines · Cards / table") + """
 """
     if as_cpo:
         body += f"""
-      <section class="section">
-        <h2>As commercial owner</h2>
+      <section class="section" data-collapsible>
+        <button type="button" class="section-head" aria-expanded="true"><h2>As commercial owner</h2><span class="chev">▾</span></button>
+        <div class="section-body">
         <p class="muted">Accountable for the offer, packaging and go-to-market. · {len(as_cpo)} as CPO · {len(as_tpo)} as TPO</p>
-        <div class="cards">{''.join(product_card_html(p) for p in as_cpo)}</div>
-        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="cards view-cards-target">{''.join(product_card_html(p) for p in as_cpo)}</div>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody>{product_table_rows(as_cpo)}</tbody></table></div>
+        </div>
       </section>
 """
     if as_tpo:
         body += f"""
-      <section class="section">
-        <h2>As technical owner</h2>
+      <section class="section" data-collapsible>
+        <button type="button" class="section-head" aria-expanded="true"><h2>As technical owner</h2><span class="chev">▾</span></button>
+        <div class="section-body">
         <p class="muted">Accountable for technical delivery, architecture and operational readiness.</p>
-        <div class="cards">{''.join(product_card_html(p) for p in as_tpo)}</div>
-        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="cards view-cards-target">{''.join(product_card_html(p) for p in as_tpo)}</div>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody>{product_table_rows(as_tpo)}</tbody></table></div>
+        </div>
       </section>
 """
     return shell("owners", code, body, products, updated)
@@ -1346,6 +1465,7 @@ def main() -> None:
     SITE.mkdir(parents=True, exist_ok=True)
     (SITE / "assets").mkdir(exist_ok=True)
     (SITE / "assets" / "site.css").write_text(SHARED_CSS)
+    (SITE / "assets" / "view.js").write_text(VIEW_JS)
     (SITE / "index.html").write_text(build_overview(products, updated), encoding="utf-8")
     (SITE / "products.html").write_text(build_products(products, updated), encoding="utf-8")
     (SITE / "platforms.html").write_text(build_platforms(products, updated), encoding="utf-8")

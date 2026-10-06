@@ -51,10 +51,21 @@
         </div>
       </div>
 
-      <section class="section">
-        <h2>As technical owner</h2>
+<div class="count-row">
+  <p class="count" id="view-count">1 lines · Cards / table</p>
+  <div class="view-toggle" data-view-toggle role="group" aria-label="Layout">
+    <button type="button" data-view="cards">Cards</button>
+    <button type="button" data-view="table">Table</button>
+    <button type="button" data-view="both">Both</button>
+  </div>
+</div>
+
+
+      <section class="section" data-collapsible>
+        <button type="button" class="section-head" aria-expanded="true"><h2>As technical owner</h2><span class="chev">▾</span></button>
+        <div class="section-body">
         <p class="muted">Accountable for technical delivery, architecture and operational readiness.</p>
-        <div class="cards">
+        <div class="cards view-cards-target">
     <article class="card">
       <a class="card-stretch" href="./product-51.html" aria-label="Backup For Microsoft 365"></a>
       <div class="card-top">
@@ -67,14 +78,16 @@
       <div class="note-flag muted-flag" title="Everywhere, in every platform">Where: Everywhere, in every platform</div>
       <div class="owners"><a class="owner" href="./owner-TGA.html"><span class="avatar">TGA</span><span><div>TGA</div><div class="role">CPO</div></span></a><a class="owner" href="./owner-ZAN.html"><span class="avatar">ZAN</span><span><div>ZAN</div><div class="role">TPO</div></span></a></div>
     </article></div>
-        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody><tr><td><a href="./product-51.html"><strong>Backup For Microsoft 365</strong></a></td><td>Backup</td><td>Standalone</td><td><span class="badge badge-production">Production</span></td><td>Unscheduled</td><td>TGA</td><td>ZAN</td><td>Nakivo</td><td><span class="muted">Everywhere, in every platform</span></td></tr></tbody></table></div>
+        </div>
       </section>
 
       <p class="footer">Built from UGT_Product_Portfolio_2026.xlsx · sheet “UGT Product Portfolio ALL”.</p>
     </div>
   </div>
 </div>
+<script src="assets/view.js"></script>
 
 </body>
 </html>

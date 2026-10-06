@@ -55,10 +55,21 @@
         </div>
       </div>
 
-      <section class="section">
-        <h2>As commercial owner</h2>
+<div class="count-row">
+  <p class="count" id="view-count">47 lines · Cards / table</p>
+  <div class="view-toggle" data-view-toggle role="group" aria-label="Layout">
+    <button type="button" data-view="cards">Cards</button>
+    <button type="button" data-view="table">Table</button>
+    <button type="button" data-view="both">Both</button>
+  </div>
+</div>
+
+
+      <section class="section" data-collapsible>
+        <button type="button" class="section-head" aria-expanded="true"><h2>As commercial owner</h2><span class="chev">▾</span></button>
+        <div class="section-body">
         <p class="muted">Accountable for the offer, packaging and go-to-market. · 47 as CPO · 0 as TPO</p>
-        <div class="cards">
+        <div class="cards view-cards-target">
     <article class="card">
       <a class="card-stretch" href="./product-1.html" aria-label="Virtual Machine Instances"></a>
       <div class="card-top">
@@ -623,7 +634,7 @@
       <div class="note-flag muted-flag" title="Private Cloud">Where: Private Cloud</div>
       <div class="owners"><a class="owner" href="./owner-TGA.html"><span class="avatar">TGA</span><span><div>TGA</div><div class="role">CPO</div></span></a><a class="owner" href="./owner-AJA.html"><span class="avatar">AJA</span><span><div>AJA</div><div class="role">TPO</div></span></a></div>
     </article></div>
-        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody><tr><td><a href="./product-1.html"><strong>Virtual Machine Instances</strong></a></td><td>Compute</td><td>Universal Cloud, Public Cloud</td><td><span class="badge badge-production">Production</span></td><td>Unscheduled</td><td>TGA</td><td>AJA</td><td>Linux/ Windows</td><td>—</td></tr>
 <tr><td><a href="./product-2.html"><strong>Block Volumes/ Primary Storage</strong></a></td><td>Storage</td><td>Public Cloud</td><td><span class="badge badge-production">Production</span></td><td>2027 Q2</td><td>TGA</td><td>AJA</td><td>Storpool / Netapp</td><td>—</td></tr>
 <tr><td><a href="./product-3.html"><strong>Block Volumes/ Primary Storage</strong></a></td><td>Storage</td><td>Universal Cloud</td><td><span class="badge badge-pre-production">Pre-Production</span></td><td>2027 Q2</td><td>TGA</td><td>AJA</td><td>Netapp+ to be determined</td><td><span class="ka">აქ გავარკვიო სოსოსთან ალეტრაზე</span></td></tr>
@@ -671,12 +682,14 @@
 <tr><td><a href="./product-62.html"><strong>USB Device Over IP</strong></a></td><td>Network</td><td>Standalone</td><td><span class="badge badge-production">Production</span></td><td>Unscheduled</td><td>TGA</td><td>AJA</td><td>USB Switch</td><td><span class="muted">Universal Cloud</span></td></tr>
 <tr><td><a href="./product-63.html"><strong>Managed Site-to-Site VPN</strong></a></td><td>Security</td><td>Standalone</td><td><span class="badge badge-production">Production</span></td><td>Unscheduled</td><td>TGA</td><td>AJA</td><td>OpenVPN</td><td><span class="muted">Private Cloud</span></td></tr>
 <tr><td><a href="./product-64.html"><strong>Managed VPN Clients</strong></a></td><td>Security</td><td>Standalone</td><td><span class="badge badge-production">Production</span></td><td>Unscheduled</td><td>TGA</td><td>AJA</td><td>OpenVPN</td><td><span class="muted">Private Cloud</span></td></tr></tbody></table></div>
+        </div>
       </section>
 
       <p class="footer">Built from UGT_Product_Portfolio_2026.xlsx · sheet “UGT Product Portfolio ALL”.</p>
     </div>
   </div>
 </div>
+<script src="assets/view.js"></script>
 
 </body>
 </html>

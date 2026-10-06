@@ -55,10 +55,21 @@
         </div>
       </div>
 
-      <section class="section">
-        <h2>As technical owner</h2>
+<div class="count-row">
+  <p class="count" id="view-count">9 lines · Cards / table</p>
+  <div class="view-toggle" data-view-toggle role="group" aria-label="Layout">
+    <button type="button" data-view="cards">Cards</button>
+    <button type="button" data-view="table">Table</button>
+    <button type="button" data-view="both">Both</button>
+  </div>
+</div>
+
+
+      <section class="section" data-collapsible>
+        <button type="button" class="section-head" aria-expanded="true"><h2>As technical owner</h2><span class="chev">▾</span></button>
+        <div class="section-body">
         <p class="muted">Accountable for technical delivery, architecture and operational readiness.</p>
-        <div class="cards">
+        <div class="cards view-cards-target">
     <article class="card">
       <a class="card-stretch" href="./product-7.html" aria-label="Instance Backup"></a>
       <div class="card-top">
@@ -167,7 +178,7 @@
       
       <div class="owners"><a class="owner" href="./owner-GNA.html"><span class="avatar">GNA</span><span><div>GNA</div><div class="role">CPO</div></span></a><a class="owner" href="./owner-GBU.html"><span class="avatar">GBU</span><span><div>GBU</div><div class="role">TPO</div></span></a></div>
     </article></div>
-        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody><tr><td><a href="./product-7.html"><strong>Instance Backup</strong></a></td><td>Backup</td><td>Universal Cloud</td><td><span class="badge badge-pre-production">Pre-Production</span></td><td>2027 Q1</td><td>TGA</td><td>GBU</td><td>Cloudstack NAS Backup</td><td>—</td></tr>
 <tr><td><a href="./product-9.html"><strong>Cloud GPU</strong></a></td><td>AI</td><td>Universal Cloud</td><td><span class="badge badge-development">Development</span></td><td>2026 Q4</td><td>TGA</td><td>GBU</td><td>RTX2000 / L4</td><td><span class="ka">დასაჩექი მაქვს დოკუმენტაცია</span></td></tr>
 <tr><td><a href="./product-18.html"><strong>Agentless Backup</strong></a></td><td>Backup</td><td>Universal Cloud</td><td><span class="badge badge-pipeline">Pipeline</span></td><td>Unscheduled</td><td>TGA</td><td>GBU</td><td>Veeam</td><td>—</td></tr>
@@ -177,12 +188,14 @@
 <tr><td><a href="./product-35.html"><strong>One Click Agent VPS</strong></a></td><td>AI</td><td>SMB</td><td><span class="badge badge-pre-development">Pre-Development</span></td><td>2026 Q4</td><td>GNA</td><td>GBU</td><td>AI Agent / openclaw / Hermes</td><td>—</td></tr>
 <tr><td><a href="./product-36.html"><strong>Business App VPS</strong></a></td><td>Compute</td><td>SMB</td><td><span class="badge badge-pre-development">Pre-Development</span></td><td>2026 Q4</td><td>GNA</td><td>GBU</td><td>Templated Business Apps</td><td>—</td></tr>
 <tr><td><a href="./product-38.html"><strong>Easy Backup</strong></a></td><td>Backup</td><td>SMB</td><td><span class="badge badge-production">Production</span></td><td>Unscheduled</td><td>GNA</td><td>GBU</td><td>Nas Backup</td><td>—</td></tr></tbody></table></div>
+        </div>
       </section>
 
       <p class="footer">Built from UGT_Product_Portfolio_2026.xlsx · sheet “UGT Product Portfolio ALL”.</p>
     </div>
   </div>
 </div>
+<script src="assets/view.js"></script>
 
 </body>
 </html>

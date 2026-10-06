@@ -56,10 +56,21 @@
         </div>
       </div>
 
-      <section class="section">
-        <h2>As technical owner</h2>
+<div class="count-row">
+  <p class="count" id="view-count">30 lines · Cards / table</p>
+  <div class="view-toggle" data-view-toggle role="group" aria-label="Layout">
+    <button type="button" data-view="cards">Cards</button>
+    <button type="button" data-view="table">Table</button>
+    <button type="button" data-view="both">Both</button>
+  </div>
+</div>
+
+
+      <section class="section" data-collapsible>
+        <button type="button" class="section-head" aria-expanded="true"><h2>As technical owner</h2><span class="chev">▾</span></button>
+        <div class="section-body">
         <p class="muted">Accountable for technical delivery, architecture and operational readiness.</p>
-        <div class="cards">
+        <div class="cards view-cards-target">
     <article class="card">
       <a class="card-stretch" href="./product-11.html" aria-label="DR (disaster recovery)"></a>
       <div class="card-top">
@@ -420,7 +431,7 @@
       <div class="note-flag muted-flag" title="Private Cloud">Where: Private Cloud</div>
       <div class="owners"><a class="owner" href="./owner-TGA.html"><span class="avatar">TGA</span><span><div>TGA</div><div class="role">CPO</div></span></a><a class="owner" href="./owner-SME.html"><span class="avatar">SME</span><span><div>SME</div><div class="role">TPO</div></span></a></div>
     </article></div>
-        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody><tr><td><a href="./product-11.html"><strong>DR (disaster recovery)</strong></a></td><td>Backup</td><td>Universal Cloud</td><td><span class="badge badge-development">Development</span></td><td>2026 Q4</td><td>TGA</td><td>SME</td><td>Sendense / Veeam</td><td><span class="ka">აფდეითი დაყენდა და ამ კვირაში მორჩება კომფიგურაცია</span></td></tr>
 <tr><td><a href="./product-20.html"><strong>Dedicated Private Cloud on VMware</strong></a></td><td>Compute</td><td>Private Cloud</td><td><span class="badge badge-pre-development">Pre-Development</span></td><td>2027 Q1</td><td>GMA</td><td>SME</td><td>Vmware / BYOL</td><td>—</td></tr>
 <tr><td><a href="./product-21.html"><strong>Dedicated Private Cloud on Hyper V</strong></a></td><td>Compute</td><td>Private Cloud</td><td><span class="badge badge-pre-production">Pre-Production</span></td><td>Unscheduled</td><td>GMA</td><td>SME</td><td>Hyper V</td><td>—</td></tr>
@@ -451,12 +462,14 @@
 <tr><td><a href="./product-55.html"><strong>UGT Port Connect</strong></a></td><td>Network</td><td>Standalone</td><td><span class="badge badge-pre-development">Pre-Development</span></td><td>2027 Q1</td><td>TGA</td><td>SME</td><td>Switch</td><td><span class="muted">Private Cloud</span></td></tr>
 <tr><td><a href="./product-56.html"><strong>UGT Cloud Inter-Link - 10 Gbps UGT TBS1 / TBS2</strong></a></td><td>Network</td><td>Standalone</td><td><span class="badge badge-pre-development">Pre-Development</span></td><td>2027 Q1</td><td>TGA</td><td>SME</td><td>Existing Connection</td><td><span class="muted">Private Cloud</span></td></tr>
 <tr><td><a href="./product-57.html"><strong>RDA</strong></a></td><td>Network</td><td>Standalone</td><td><span class="badge badge-production">Production</span></td><td>Unscheduled</td><td>TGA</td><td>SME</td><td>TS Plus Standard/Ent/Ult/Web &amp; Mobile</td><td><span class="muted">Private Cloud</span></td></tr></tbody></table></div>
+        </div>
       </section>
 
       <p class="footer">Built from UGT_Product_Portfolio_2026.xlsx · sheet “UGT Product Portfolio ALL”.</p>
     </div>
   </div>
 </div>
+<script src="assets/view.js"></script>
 
 </body>
 </html>
