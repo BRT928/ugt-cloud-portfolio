@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Products · UGT Cloud Portfolio</title>
+<meta name="description" content="UGT Cloud product portfolio — products, platforms, lifecycle stages, and CPO / TPO ownership."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/site.css"/>
+
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <a class="brand" href="index.html">
+      <div class="logo">U</div>
+      <div>
+        <div class="font-display" style="font-size:1.15rem">UGT Cloud</div>
+        <div class="sub">Portfolio</div>
+      </div>
+    </a>
+    <nav class="side"><a class="" href="index.html">Overview</a><a class="active" href="products.html">Products</a><a class="" href="platforms.html">Platforms</a><a class="" href="roadmap.html">Roadmap</a><a class="" href="owners.html">Owners</a><a class="" href="glossary.html">Legend</a></nav>
+    <div class="snap">
+      <div class="label">Snapshot</div>
+      <div class="num">66</div>
+      <div class="hint">products in the 2026 register</div>
+      <div class="updated">Data last updated<br/>06 Oct 2026, 14:04 GET</div>
+    </div>
+  </aside>
+  <div>
+    <header class="top">
+      <div class="stats">25 live · 15 in delivery · 15 pipeline</div>
+    </header>
+    <div class="content">
+
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end;justify-content:space-between">
+        <div>
+          <p class="eyebrow">2026 register</p>
+          <h1>Products</h1>
+          <p class="lede">Filter by stage, quarter, platform, category or owner.</p>
+        </div>
+        <label class="search-box"><span aria-hidden="true">⌕</span>
+          <input id="q" type="search" placeholder="Search products, owners, platforms" autocomplete="off"/>
+        </label>
+      </div>
+      <div class="filters">
+        <div class="filter-row" id="stage-filters"><span class="filter-label">Stage</span></div>
+        <div class="filter-row" id="due-filters"><span class="filter-label">Due date</span></div>
+        <div class="selects">
+          <label>Head product<select id="f-head"><option value="">All</option></select></label>
+          <label>Category<select id="f-cat"><option value="">All</option></select></label>
+          <label>Commercial owner<select id="f-cpo"><option value="">All</option><option value="__unassigned__">Unassigned</option></select></label>
+          <label>Technical owner<select id="f-tpo"><option value="">All</option><option value="__unassigned__">Unassigned</option></select></label>
+        </div>
+      </div>
+      <p class="count" id="view-count"></p>
+      <div class="cards" id="cards"></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table></div>
+      <div class="empty" id="empty" hidden>No products match these filters.</div>
+
+      <p class="footer">Built from UGT_Product_Portfolio_2026.xlsx · sheet “UGT Product Portfolio ALL”.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const PRODUCTS = [{"n": 1, "product": "Virtual Machine Instances", "headProducts": ["Universal Cloud", "Public Cloud"], "category": "Compute", "technology": "Linux/ Windows", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 2, "product": "Block Volumes/ Primary Storage", "headProducts": ["Public Cloud"], "category": "Storage", "technology": "Storpool / Netapp", "stage": "Production", "due": "2027 Q2", "cpo": "TGA", "tpo": "AJA"}, {"n": 3, "product": "Block Volumes/ Primary Storage", "headProducts": ["Universal Cloud"], "category": "Storage", "technology": "Netapp+ to be determined", "stage": "Pre-Production", "due": "2027 Q2", "cpo": "TGA", "tpo": "AJA"}, {"n": 4, "product": "VPC", "headProducts": ["Universal Cloud", "Public Cloud"], "category": "Network", "technology": "Cloudstack", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 5, "product": "Virtual Network Firewall", "headProducts": ["Public Cloud"], "category": "Network", "technology": "Pfsense/Fortinet", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 6, "product": "VNF Appliance", "headProducts": ["Universal Cloud"], "category": "Network", "technology": "Pfsense/Fortinet/Mikrotik", "stage": "Pre-Production", "due": "2027 Q1", "cpo": "TGA", "tpo": "AJA"}, {"n": 7, "product": "Instance Backup", "headProducts": ["Universal Cloud"], "category": "Backup", "technology": "Cloudstack NAS Backup", "stage": "Pre-Production", "due": "2027 Q1", "cpo": "TGA", "tpo": "GBU"}, {"n": 8, "product": "Cloud Metal", "headProducts": ["Universal Cloud", "Bare Metal"], "category": "Compute", "technology": "Canonical Maas", "stage": "Development", "due": "2027 Q1", "cpo": "TGA", "tpo": "VMD"}, {"n": 9, "product": "Cloud GPU", "headProducts": ["Universal Cloud"], "category": "AI", "technology": "RTX2000 / L4", "stage": "Development", "due": "2026 Q4", "cpo": "TGA", "tpo": "GBU"}, {"n": 10, "product": "Client VPN Instance", "headProducts": ["Universal Cloud"], "category": "Network", "technology": "Wire guard", "stage": "Development", "due": "2026 Q4", "cpo": "TGA", "tpo": "AJA"}, {"n": 11, "product": "DR (disaster recovery)", "headProducts": ["Universal Cloud"], "category": "Backup", "technology": "Sendense / Veeam", "stage": "Development", "due": "2026 Q4", "cpo": "TGA", "tpo": "SME"}, {"n": 12, "product": "Kubernetes", "headProducts": ["Universal Cloud"], "category": "Compute", "technology": "Cloudstack", "stage": "Pipeline", "due": null, "cpo": null, "tpo": null}, {"n": 13, "product": "Kubernetes", "headProducts": ["Public Cloud"], "category": "Compute", "technology": "Cloudstack", "stage": "Pipeline", "due": null, "cpo": null, "tpo": null}, {"n": 14, "product": "Kubernetes", "headProducts": ["Standalone"], "category": "Compute", "technology": "", "stage": "Pipeline", "due": null, "cpo": null, "tpo": null}, {"n": 15, "product": "DBaaS", "headProducts": ["Universal Cloud"], "category": "Database", "technology": "Xaas", "stage": "Pipeline", "due": null, "cpo": null, "tpo": null}, {"n": 16, "product": "DBaaS", "headProducts": ["Standalone"], "category": "Database", "technology": "", "stage": "Pipeline", "due": null, "cpo": null, "tpo": null}, {"n": 17, "product": "AI Assistant", "headProducts": ["Universal Cloud"], "category": "AI", "technology": "StackAI?", "stage": "Pre-Development", "due": "2027 Q1", "cpo": "TGA", "tpo": "AJA"}, {"n": 18, "product": "Agentless Backup", "headProducts": ["Universal Cloud"], "category": "Backup", "technology": "Veeam", "stage": "Pipeline", "due": null, "cpo": "TGA", "tpo": "GBU"}, {"n": 19, "product": "Shared FileSystems", "headProducts": ["Universal Cloud"], "category": "Storage", "technology": "Cloudstack", "stage": "Pre-Development", "due": "2026 Q4", "cpo": "TGA", "tpo": "GBU"}, {"n": 20, "product": "Dedicated Private Cloud on VMware", "headProducts": ["Private Cloud"], "category": "Compute", "technology": "Vmware / BYOL", "stage": "Pre-Development", "due": "2027 Q1", "cpo": "GMA", "tpo": "SME"}, {"n": 21, "product": "Dedicated Private Cloud on Hyper V", "headProducts": ["Private Cloud"], "category": "Compute", "technology": "Hyper V", "stage": "Pre-Production", "due": null, "cpo": "GMA", "tpo": "SME"}, {"n": 22, "product": "Dedicated Private Cloud on Cloudstack", "headProducts": ["Private Cloud"], "category": "Compute", "technology": "Cloudstack", "stage": "Development", "due": "2027 Q1", "cpo": "GMA", "tpo": "SME"}, {"n": 23, "product": "Dedicated Private Cloud on HPE morpheus", "headProducts": ["Private Cloud"], "category": "Compute", "technology": "HPE Morpheus", "stage": "Pipeline", "due": null, "cpo": "GMA", "tpo": "SME"}, {"n": 24, "product": "Dedicated Private Cloud on Nutanix", "headProducts": ["Private Cloud"], "category": "Compute", "technology": "Nutanix", "stage": "Pre-Development", "due": "2027 Q1", "cpo": "TGA", "tpo": "SME"}, {"n": 25, "product": "Dedicated Private Cloud on Proxmox", "headProducts": ["Private Cloud"], "category": "Compute", "technology": "Proxmox", "stage": "Pipeline", "due": null, "cpo": "GMA", "tpo": "SME"}, {"n": 26, "product": "Agentless Backup", "headProducts": ["Private Cloud"], "category": "Backup", "technology": "Veeam/ Nakivo Cloud backup &", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 27, "product": "DR (disaster recovery)", "headProducts": ["Private Cloud"], "category": "Backup", "technology": "Nakivo/Veeam", "stage": "Pre-Production", "due": null, "cpo": null, "tpo": "SME"}, {"n": 28, "product": "Dedicated Servers", "headProducts": ["Bare Metal"], "category": "Compute", "technology": "HPE/ Supermicro", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 29, "product": "Dedicated GPU Servers", "headProducts": ["Bare Metal"], "category": "AI", "technology": "Nvidia/ HPE /Supermicro", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 30, "product": "Firewalls", "headProducts": ["Bare Metal"], "category": "Security", "technology": "", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 31, "product": "Switches", "headProducts": ["Bare Metal"], "category": "Network", "technology": "", "stage": "Pre-Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 32, "product": "NAS Aplliance", "headProducts": ["Bare Metal"], "category": "Backup", "technology": "", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 33, "product": "Standard VPS", "headProducts": ["SMB"], "category": "Compute", "technology": "Linux/ Windows/BitNinja/ISP", "stage": "Production", "due": null, "cpo": "GNA", "tpo": "GBU"}, {"n": 34, "product": "Managed VPS", "headProducts": ["SMB"], "category": "Compute", "technology": "AI ?", "stage": "Development", "due": "2027 Q1", "cpo": "GNA", "tpo": "GBU"}, {"n": 35, "product": "One Click Agent VPS", "headProducts": ["SMB"], "category": "AI", "technology": "AI Agent / openclaw / Hermes", "stage": "Pre-Development", "due": "2026 Q4", "cpo": "GNA", "tpo": "GBU"}, {"n": 36, "product": "Business App VPS", "headProducts": ["SMB"], "category": "Compute", "technology": "Templated Business Apps", "stage": "Pre-Development", "due": "2026 Q4", "cpo": "GNA", "tpo": "GBU"}, {"n": 37, "product": "S3 Standart One Zone (For SMB) Packages", "headProducts": ["SMB"], "category": "Storage", "technology": "Sliced Ceph", "stage": "Terminated", "due": null, "cpo": "GNA", "tpo": "SME"}, {"n": 38, "product": "Easy Backup", "headProducts": ["SMB"], "category": "Backup", "technology": "Nas Backup", "stage": "Production", "due": null, "cpo": "GNA", "tpo": "GBU"}, {"n": 39, "product": "Block Storages", "headProducts": ["Private Cloud"], "category": "Storage", "technology": "All Flash HPE Alletra FBS", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 40, "product": "Block Storages", "headProducts": ["Private Cloud"], "category": "Storage", "technology": "Hybrid HPE Nimble HBS/CBS", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 41, "product": "File Storages", "headProducts": ["Private Cloud", "Universal Cloud", "Public Cloud"], "category": "Storage", "technology": "Netapp AFF QLC FS2 Flash", "stage": "Production", "due": "2026 Q4", "cpo": "TGA", "tpo": "SME"}, {"n": 42, "product": "File Storages", "headProducts": ["Private Cloud", "Universal Cloud", "Public Cloud", "Standalone"], "category": "Backup", "technology": "AIC JBODs (Toshiba Drives) FS2 Basic", "stage": "Development", "due": "2026 Q4", "cpo": "TGA", "tpo": "SME"}, {"n": 43, "product": "S3 Standard (One Zone)", "headProducts": ["Standalone", "Universal Cloud"], "category": "Storage", "technology": "Object Storage (CEPH) PAYG/ Reserved", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 44, "product": "S3 Standard ( Multi Zone)", "headProducts": ["Standalone"], "category": "Storage", "technology": "", "stage": "Pipeline", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 45, "product": "S3 Active Archive", "headProducts": ["Standalone"], "category": "Backup", "technology": "CEPH", "stage": "Development", "due": "2026 Q4", "cpo": "TGA", "tpo": "SME"}, {"n": 46, "product": "S3 Premium", "headProducts": ["Standalone"], "category": "Storage", "technology": "CEPH", "stage": "Pipeline", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 47, "product": "S3 Cold Archive", "headProducts": ["Standalone"], "category": "Backup", "technology": "PoINT Archival Gateway", "stage": "Pipeline", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 48, "product": "Shared Storage (One Drive Alternative)", "headProducts": ["Standalone"], "category": "Storage", "technology": "Nextcloud", "stage": "Pipeline", "due": null, "cpo": "TGA", "tpo": null}, {"n": 49, "product": "Dynamic GPU", "headProducts": ["Standalone"], "category": "AI", "technology": "Hosted AI", "stage": "Pre-Production", "due": "2027 Q1", "cpo": "TGA", "tpo": "SME"}, {"n": 50, "product": "Co-Location", "headProducts": ["Standalone"], "category": "Infrastructure", "technology": "UGT Data Center/ HPE Racks", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 51, "product": "Backup For Microsoft 365", "headProducts": ["Standalone"], "category": "Backup", "technology": "Nakivo", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "ZAN"}, {"n": 52, "product": "MarketPlace", "headProducts": ["Unplaced"], "category": "Platform", "technology": "Hostbill", "stage": "Pipeline", "due": null, "cpo": "TGA", "tpo": null}, {"n": 53, "product": "UGT Cloud Connect - 10 Gbps Customer-UGT", "headProducts": ["Standalone"], "category": "Network", "technology": "Dark Fiber", "stage": "Pre-Development", "due": "2027 Q1", "cpo": "TGA", "tpo": "SME"}, {"n": 54, "product": "UGT Cloud Connect - 10 Gbps POP-UGT", "headProducts": ["Standalone"], "category": "Network", "technology": "CWDM", "stage": "Pre-Development", "due": "2027 Q1", "cpo": "TGA", "tpo": "SME"}, {"n": 55, "product": "UGT Port Connect", "headProducts": ["Standalone"], "category": "Network", "technology": "Switch", "stage": "Pre-Development", "due": "2027 Q1", "cpo": "TGA", "tpo": "SME"}, {"n": 56, "product": "UGT Cloud Inter-Link - 10 Gbps UGT TBS1 / TBS2", "headProducts": ["Standalone"], "category": "Network", "technology": "Existing Connection", "stage": "Pre-Development", "due": "2027 Q1", "cpo": "TGA", "tpo": "SME"}, {"n": 57, "product": "RDA", "headProducts": ["Standalone"], "category": "Network", "technology": "TS Plus Standard/Ent/Ult/Web & Mobile", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME"}, {"n": 58, "product": "Firewalls", "headProducts": ["Standalone"], "category": "Security", "technology": "Checkpoint/Fortinet/vFirewalls", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 59, "product": "Global Internet - Dedicated Connection", "headProducts": ["Standalone"], "category": "Network", "technology": "", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 60, "product": "Local Internet - Dedicated Connection", "headProducts": ["Standalone"], "category": "Network", "technology": "", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 61, "product": "Public IPv4 Adresses", "headProducts": ["Standalone"], "category": "Network", "technology": "IPv4/ IP Blocks", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 62, "product": "USB Device Over IP", "headProducts": ["Standalone"], "category": "Network", "technology": "USB Switch", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 63, "product": "Managed Site-to-Site VPN", "headProducts": ["Standalone"], "category": "Security", "technology": "OpenVPN", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 64, "product": "Managed VPN Clients", "headProducts": ["Standalone"], "category": "Security", "technology": "OpenVPN", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA"}, {"n": 65, "product": "Professional Services", "headProducts": ["Cross-portfolio"], "category": "Service", "technology": "", "stage": "Pipeline", "due": null, "cpo": "GMA", "tpo": "AJA"}, {"n": 66, "product": "Support Services", "headProducts": ["Cross-portfolio"], "category": "Service", "technology": "", "stage": "Pipeline", "due": null, "cpo": "GMA", "tpo": "AJA"}];
+const STAGES = ["Production", "Pre-Production", "Development", "Pre-Development", "Pipeline", "Terminated"];
+const state = { stage: "", due: "", head: "", category: "", cpo: "", tpo: "", q: "" };
+
+function badgeClass(stage) {
+  return "badge-" + String(stage || "").toLowerCase().replace(/\s+/g, "-");
+}
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function ownerChip(code, role) {
+  if (!code) return `<span class="owner"><span class="avatar muted">—</span><span><div>Unassigned</div><div class="role">${role}</div></span></span>`;
+  return `<a class="owner" href="owner-${esc(code)}.html"><span class="avatar">${esc(code)}</span><span><div>${esc(code)}</div><div class="role">${role}</div></span></a>`;
+}
+function matches(p) {
+  if (state.stage && p.stage !== state.stage) return false;
+  if (state.due === "Unscheduled") { if (p.due) return false; }
+  else if (state.due && p.due !== state.due) return false;
+  if (state.head && !(p.headProducts || []).includes(state.head)) return false;
+  if (state.category && p.category !== state.category) return false;
+  if (state.cpo === "__unassigned__") { if (p.cpo) return false; }
+  else if (state.cpo && p.cpo !== state.cpo) return false;
+  if (state.tpo === "__unassigned__") { if (p.tpo) return false; }
+  else if (state.tpo && p.tpo !== state.tpo) return false;
+  if (state.q) {
+    const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", ...(p.headProducts || [])].join(" ").toLowerCase();
+    if (!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+function renderChips(id, values, key, allLabel, extra) {
+  const el = document.getElementById(id);
+  const label = el.querySelector(".filter-label");
+  let html = "";
+  html += `<button type="button" class="chip ${state[key]===""?"active":""}" data-key="${key}" data-val="">${allLabel}</button>`;
+  for (const v of values) html += `<button type="button" class="chip ${state[key]===v?"active":""}" data-key="${key}" data-val="${esc(v)}">${esc(v)}</button>`;
+  if (extra) for (const [lab, val] of extra) html += `<button type="button" class="chip ${state[key]===val?"active":""}" data-key="${key}" data-val="${esc(val)}">${esc(lab)}</button>`;
+  el.innerHTML = "";
+  if (label) el.appendChild(label);
+  else { const s=document.createElement("span"); s.className="filter-label"; s.textContent=key==="stage"?"Stage":"Due date"; el.appendChild(s); }
+  el.insertAdjacentHTML("beforeend", html);
+}
+function render() {
+  const rows = PRODUCTS.filter(matches);
+  document.getElementById("view-count").textContent = `${rows.length} line${rows.length===1?"":"s"} in view.`;
+  const cards = document.getElementById("cards");
+  const tbody = document.getElementById("tbody");
+  const empty = document.getElementById("empty");
+  if (!rows.length) { cards.innerHTML=""; tbody.innerHTML=""; empty.hidden=false; return; }
+  empty.hidden = true;
+  cards.innerHTML = rows.map(p => `
+    <a class="card" href="product-${p.n}.html">
+      <div class="card-top"><div class="card-title">${esc(p.product)}</div><span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></div>
+      <div class="meta">${esc(p.category || "—")}</div>
+      <div class="heads">${(p.headProducts||[]).map(h=>`<span class="pill">${esc(h)}</span>`).join("")}</div>
+      <div class="meta">${esc(p.due || "Unscheduled")}${p.technology ? " · " + esc(p.technology) : ""}</div>
+      <div class="owners">${ownerChip(p.cpo,"CPO")}${ownerChip(p.tpo,"TPO")}</div>
+    </a>`).join("");
+  tbody.innerHTML = rows.map(p => `
+    <tr>
+      <td><a href="product-${p.n}.html"><strong>${esc(p.product)}</strong></a></td>
+      <td>${esc(p.category || "—")}</td>
+      <td>${esc((p.headProducts||[]).join(", "))}</td>
+      <td><span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></td>
+      <td>${esc(p.due || "Unscheduled")}</td>
+      <td>${esc(p.cpo || "Unassigned")}</td>
+      <td>${esc(p.tpo || "Unassigned")}</td>
+      <td>${esc(p.technology || "—")}</td>
+    </tr>`).join("");
+}
+function bind() {
+  const dues = [...new Set(PRODUCTS.map(p => p.due).filter(Boolean))].sort();
+  const heads = [...new Set(PRODUCTS.flatMap(p => p.headProducts).filter(h => h && h !== "Unplaced"))].sort((a,b)=>a.localeCompare(b));
+  const cats = [...new Set(PRODUCTS.map(p => p.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const cpos = [...new Set(PRODUCTS.map(p => p.cpo).filter(Boolean))].sort();
+  const tpos = [...new Set(PRODUCTS.map(p => p.tpo).filter(Boolean))].sort();
+  function fill(id, values, withUnassigned) {
+    const sel = document.getElementById(id);
+    const keep = withUnassigned ? 2 : 1;
+    const opts = [...sel.querySelectorAll("option")].slice(0, keep);
+    sel.innerHTML = ""; opts.forEach(o => sel.appendChild(o));
+    for (const v of values) { const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); }
+  }
+  fill("f-head", heads, false); fill("f-cat", cats, false); fill("f-cpo", cpos, true); fill("f-tpo", tpos, true);
+  const params = new URLSearchParams(location.search);
+  if (params.get("due")) state.due = params.get("due");
+  if (params.get("stage")) state.stage = params.get("stage");
+  if (params.get("platform")) state.head = params.get("platform");
+  if (params.get("category")) state.category = params.get("category");
+  if (params.get("cpo")) state.cpo = params.get("cpo");
+  if (params.get("tpo")) state.tpo = params.get("tpo");
+  renderChips("stage-filters", STAGES, "stage", "All");
+  renderChips("due-filters", dues, "due", "All", [["Unscheduled","Unscheduled"]]);
+  if (state.head) document.getElementById("f-head").value = state.head;
+  if (state.category) document.getElementById("f-cat").value = state.category;
+  if (state.cpo) document.getElementById("f-cpo").value = state.cpo;
+  if (state.tpo) document.getElementById("f-tpo").value = state.tpo;
+  document.getElementById("stage-filters").addEventListener("click", e => {
+    const btn = e.target.closest(".chip"); if (!btn) return;
+    state.stage = btn.dataset.val; renderChips("stage-filters", STAGES, "stage", "All"); render();
+  });
+  document.getElementById("due-filters").addEventListener("click", e => {
+    const btn = e.target.closest(".chip"); if (!btn) return;
+    state.due = btn.dataset.val; renderChips("due-filters", dues, "due", "All", [["Unscheduled","Unscheduled"]]); render();
+  });
+  document.getElementById("f-head").addEventListener("change", e => { state.head = e.target.value; render(); });
+  document.getElementById("f-cat").addEventListener("change", e => { state.category = e.target.value; render(); });
+  document.getElementById("f-cpo").addEventListener("change", e => { state.cpo = e.target.value; render(); });
+  document.getElementById("f-tpo").addEventListener("change", e => { state.tpo = e.target.value; render(); });
+  document.getElementById("q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+  render();
+}
+bind();
+</script>
+
+</body>
+</html>
