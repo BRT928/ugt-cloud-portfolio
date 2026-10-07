@@ -62,7 +62,7 @@
   {
     "n": 4,
     "product": "VNF Appliance",
-    "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
+    "statusUpdate": "",
     "headProduct": "Universal Cloud",
     "category": "Network",
     "technology": "Pfsense/Fortinet/Mikrotik",
@@ -182,7 +182,7 @@
   {
     "n": 9,
     "product": "DR (disaster recovery)",
-    "statusUpdate": "აფდეითი დაყენდა და ამ კვირაში მორჩება კომფიგურაცია",
+    "statusUpdate": "აფდეითი დაყენდა და 9-მდე მორჩება კომფიგურაცია",
     "headProduct": "Universal Cloud",
     "category": "Backup",
     "technology": "Sendense / Veeam",
@@ -282,7 +282,7 @@
   {
     "n": 14,
     "product": "AI Assistant",
-    "statusUpdate": "თორნიკესთან და ალეკოსთან ერთად გავიარო და შემდეგი ნაბიჯები, მივყვეთ ცხვარიაშვილის ამოცანას თუ გავაკეთოთ StackAI-ის POC",
+    "statusUpdate": "ქოლი 7-ში ალეკოსთან და თორნიკესთან და გადავწყვიტავთ შემდეგ ნაბიჯებს, ასევე მოიწერეს რომ არ გვირჩევენ მხოლოდ stack.ai-ის ინტგრაციას StackConsole CMP -ის გარეშე რაც gamechanger-ია",
     "headProduct": "Universal Cloud",
     "category": "AI",
     "technology": "StackAI?",

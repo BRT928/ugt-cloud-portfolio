@@ -93,7 +93,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "AJA",
-    "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
+    "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-5"
   },
@@ -174,7 +174,7 @@
     "due": "2026 Q4",
     "cpo": "TGA",
     "tpo": "SME",
-    "statusUpdate": "აფდეითი დაყენდა და ამ კვირაში მორჩება კომფიგურაცია",
+    "statusUpdate": "აფდეითი დაყენდა და 9-მდე მორჩება კომფიგურაცია",
     "whereUsed": null,
     "tgaId": "tga-11"
   },
@@ -270,7 +270,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "AJA",
-    "statusUpdate": "თორნიკესთან და ალეკოსთან ერთად გავიარო და შემდეგი ნაბიჯები, მივყვეთ ცხვარიაშვილის ამოცანას თუ გავაკეთოთ StackAI-ის POC",
+    "statusUpdate": "ქოლი 7-ში ალეკოსთან და თორნიკესთან და გადავწყვიტავთ შემდეგ ნაბიჯებს, ასევე მოიწერეს რომ არ გვირჩევენ მხოლოდ stack.ai-ის ინტგრაციას StackConsole CMP -ის გარეშე რაც gamechanger-ია",
     "whereUsed": null,
     "tgaId": "tga-16"
   },
