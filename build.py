@@ -153,7 +153,13 @@ def name_key(s: str) -> str:
 def load_tga_nni(path: Path) -> list[dict]:
     """Load TGA & NNI sheet. Keep Georgian text; include orphan status rows."""
     wb = openpyxl.load_workbook(path, data_only=True)
-    ws = wb["TGA & NNI"]
+    ws = None
+    for cand in ("TGA & NNI", "NNI", "TGA&NNI", "TGA and NNI"):
+        if cand in wb.sheetnames:
+            ws = wb[cand]
+            break
+    if ws is None:
+        raise KeyError(f"Status sheet not found (tried 'TGA & NNI', 'NNI'); sheets: {wb.sheetnames}")
     raw_headers = [ws.cell(1, c).value for c in range(1, 13)]
     # Normalise header names (leading space on Status Update)
     headers = [clean_text(h) if h else f"col{c}" for c, h in enumerate(raw_headers, 1)]

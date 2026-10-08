@@ -22,7 +22,7 @@
   {
     "n": 2,
     "product": "Block Volumes/ Primary Storage",
-    "statusUpdate": "აქ გავარკვიო სოსოსთან ალეტრაზე",
+    "statusUpdate": "",
     "headProduct": "Universal Cloud",
     "category": "Storage",
     "technology": "Netapp+ to be determined",
@@ -62,7 +62,7 @@
   {
     "n": 4,
     "product": "VNF Appliance",
-    "statusUpdate": "",
+    "statusUpdate": "მიკროტიკზე აკომფიგებს სერგი",
     "headProduct": "Universal Cloud",
     "category": "Network",
     "technology": "Pfsense/Fortinet/Mikrotik",
@@ -122,7 +122,7 @@
   {
     "n": null,
     "product": "",
-    "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
+    "statusUpdate": "ეს არის მეორე ეტაპი ამ პროდუქტის, რაც იგულისხმება როდესაც უსიში დაინერგება მერე დაიწყოს მუშაობა ამაზე",
     "headProduct": "Bare Metal",
     "category": "",
     "technology": "",
@@ -142,7 +142,7 @@
   {
     "n": 7,
     "product": "Cloud GPU",
-    "statusUpdate": "დასაჩექი მაქვს დოკუმენტაცია",
+    "statusUpdate": "დოკუმენტაციის ნაწილში რა იცვლება?",
     "headProduct": "Universal Cloud",
     "category": "AI",
     "technology": "RTX2000 / L4",
@@ -282,7 +282,7 @@
   {
     "n": 14,
     "product": "AI Assistant",
-    "statusUpdate": "ქოლი 7-ში ალეკოსთან და თორნიკესთან და გადავწყვიტავთ შემდეგ ნაბიჯებს, ასევე მოიწერეს რომ არ გვირჩევენ მხოლოდ stack.ai-ის ინტგრაციას StackConsole CMP -ის გარეშე რაც gamechanger-ია",
+    "statusUpdate": "დასაზუსტებელია ადმინისტრირებისთვის თუ გამოვიყენებთ მხოლოდ CMP-ს, მიწერილია ველოდებით პასუხს",
     "headProduct": "Universal Cloud",
     "category": "AI",
     "technology": "StackAI?",
@@ -317,7 +317,7 @@
     ],
     "excelRow": 17,
     "id": "tga-17",
-    "matchedProductN": 18
+    "matchedProductN": 26
   },
   {
     "n": 16,
@@ -602,7 +602,7 @@
   {
     "n": 30,
     "product": "Standard VPS",
-    "statusUpdate": "",
+    "statusUpdate": "მონიკას და გუგას კომენტარები",
     "headProduct": "SMB",
     "category": "Compute",
     "technology": "Linux/ Windows/BitNinja/ISP",
@@ -622,7 +622,7 @@
   {
     "n": 31,
     "product": "Managed VPS",
-    "statusUpdate": "",
+    "statusUpdate": "გუგას დავუკავშირდე",
     "headProduct": "SMB",
     "category": "Compute",
     "technology": "AI ?",
@@ -642,7 +642,7 @@
   {
     "n": 32,
     "product": "One Click Agent VPS",
-    "statusUpdate": "",
+    "statusUpdate": "გიორგის მოწერილზე ჩავერთო?",
     "headProduct": "SMB",
     "category": "AI",
     "technology": "AI Agent / openclaw / Hermes",
@@ -657,7 +657,7 @@
     ],
     "excelRow": 38,
     "id": "tga-38",
-    "matchedProductN": 35
+    "matchedProductN": null
   },
   {
     "n": 33,
@@ -780,6 +780,26 @@
     "matchedProductN": 41
   },
   {
+    "n": null,
+    "product": "",
+    "statusUpdate": "მულტიზონი სადაა?",
+    "headProduct": "Universal Cloud",
+    "category": "",
+    "technology": "",
+    "subProducts": "",
+    "stage": "",
+    "due": "",
+    "cpo": "",
+    "tpo": "",
+    "whereUsed": "",
+    "headProducts": [
+      "Universal Cloud"
+    ],
+    "excelRow": 45,
+    "id": "tga-45",
+    "matchedProductN": null
+  },
+  {
     "n": 39,
     "product": "File Storages",
     "statusUpdate": "",
@@ -800,9 +820,29 @@
     "matchedProductN": 42
   },
   {
+    "n": null,
+    "product": "",
+    "statusUpdate": "მულტიზონი სადაა?",
+    "headProduct": "Standalone",
+    "category": "",
+    "technology": "",
+    "subProducts": "",
+    "stage": "",
+    "due": "",
+    "cpo": "",
+    "tpo": "",
+    "whereUsed": "",
+    "headProducts": [
+      "Standalone"
+    ],
+    "excelRow": 48,
+    "id": "tga-48",
+    "matchedProductN": null
+  },
+  {
     "n": 40,
     "product": "S3 Standard (One Zone)",
-    "statusUpdate": "",
+    "statusUpdate": "ლოკის და ელასტიკის გატესტვა",
     "headProduct": "Standalone",
     "category": "Storage",
     "technology": "Object Storage (CEPH) PAYG/ Reserved",
@@ -922,7 +962,7 @@
   {
     "n": 46,
     "product": "Dynamic GPU",
-    "statusUpdate": "",
+    "statusUpdate": "მივწერე დღეს და ველოდები პასუხს",
     "headProduct": "Standalone",
     "category": "AI",
     "technology": "Hosted AI",
@@ -1222,7 +1262,7 @@
   {
     "n": 61,
     "product": "Professional Services",
-    "statusUpdate": "",
+    "statusUpdate": "თორნიკემ უნდა გადაწყვიტოს დიზაინს როგორ ვაკეთებთ",
     "headProduct": "ALL",
     "category": "Service",
     "technology": "",

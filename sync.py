@@ -160,7 +160,12 @@ def main() -> None:
     if not EXCEL.exists():
         raise SystemExit(f"Missing Excel at {EXCEL}; DownloadFile first")
     update_state(meta)
-    apply_rebuild_push(summary)
+    try:
+        apply_rebuild_push(summary)
+    except BaseException:
+        # roll back saved state so the next run retries instead of reporting NO_CHANGE
+        STATE.write_text(json.dumps(prev, indent=2) + "\n")
+        raise
 
 
 if __name__ == "__main__":

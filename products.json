@@ -11,7 +11,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-2"
@@ -27,7 +27,7 @@
     "stage": "Production",
     "due": "2027 Q2",
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -43,8 +43,8 @@
     "stage": "Pre-Production",
     "due": "2027 Q2",
     "cpo": "TGA",
-    "tpo": "AJA",
-    "statusUpdate": "აქ გავარკვიო სოსოსთან ალეტრაზე",
+    "tpo": null,
+    "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-3"
   },
@@ -60,7 +60,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-4"
@@ -76,7 +76,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -92,8 +92,8 @@
     "stage": "Pre-Production",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "AJA",
-    "statusUpdate": null,
+    "tpo": null,
+    "statusUpdate": "მიკროტიკზე აკომფიგებს სერგი",
     "whereUsed": null,
     "tgaId": "tga-5"
   },
@@ -108,7 +108,7 @@
     "stage": "Pre-Production",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "GBU",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-6"
@@ -125,7 +125,7 @@
     "stage": "Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "VMD",
+    "tpo": null,
     "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
     "whereUsed": null,
     "tgaId": "tga-7"
@@ -141,8 +141,8 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "GBU",
-    "statusUpdate": "დასაჩექი მაქვს დოკუმენტაცია",
+    "tpo": null,
+    "statusUpdate": "დოკუმენტაციის ნაწილში რა იცვლება?",
     "whereUsed": null,
     "tgaId": "tga-9"
   },
@@ -157,7 +157,7 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": "შეხვედრაა ჩანიშნული და გავივლით რესერჩის შედეგებს",
     "whereUsed": null,
     "tgaId": "tga-10"
@@ -173,7 +173,7 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": "აფდეითი დაყენდა და 9-მდე მორჩება კომფიგურაცია",
     "whereUsed": null,
     "tgaId": "tga-11"
@@ -269,26 +269,26 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "AJA",
-    "statusUpdate": "ქოლი 7-ში ალეკოსთან და თორნიკესთან და გადავწყვიტავთ შემდეგ ნაბიჯებს, ასევე მოიწერეს რომ არ გვირჩევენ მხოლოდ stack.ai-ის ინტგრაციას StackConsole CMP -ის გარეშე რაც gamechanger-ია",
+    "tpo": null,
+    "statusUpdate": "დასაზუსტებელია ადმინისტრირებისთვის თუ გამოვიყენებთ მხოლოდ CMP-ს, მიწერილია ველოდებით პასუხს",
     "whereUsed": null,
     "tgaId": "tga-16"
   },
   {
     "n": 18,
-    "product": "Agentless Backup",
+    "product": "Comprehensive Backup",
     "headProducts": [
       "Universal Cloud"
     ],
     "category": "Backup",
-    "technology": "Veeam",
+    "technology": "Veeam/KBOSS",
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": "GBU",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-17"
+    "tgaId": null
   },
   {
     "n": 19,
@@ -301,7 +301,7 @@
     "stage": "Pre-Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "GBU",
+    "tpo": null,
     "statusUpdate": "გიას აქვს ეს ამოცანა და 12-მდე აქვს დედლაინი, მანამდეც დავსინქონდებით",
     "whereUsed": null,
     "tgaId": "tga-18"
@@ -317,7 +317,7 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "GMA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-19"
@@ -333,7 +333,7 @@
     "stage": "Pre-Production",
     "due": null,
     "cpo": "GMA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-20"
@@ -349,7 +349,7 @@
     "stage": "Development",
     "due": "2027 Q1",
     "cpo": "GMA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-21"
@@ -365,7 +365,7 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "GMA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-22"
@@ -381,7 +381,7 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-23"
@@ -397,7 +397,7 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "GMA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-24"
@@ -413,7 +413,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-25"
@@ -429,7 +429,7 @@
     "stage": "Pre-Production",
     "due": null,
     "cpo": null,
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-26"
@@ -445,7 +445,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-27"
@@ -461,7 +461,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-28"
@@ -477,7 +477,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-29"
@@ -493,7 +493,7 @@
     "stage": "Pre-Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-32"
@@ -509,7 +509,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-35"
@@ -525,8 +525,8 @@
     "stage": "Production",
     "due": null,
     "cpo": "GNA",
-    "tpo": "GBU",
-    "statusUpdate": null,
+    "tpo": null,
+    "statusUpdate": "მონიკას და გუგას კომენტარები",
     "whereUsed": null,
     "tgaId": "tga-36"
   },
@@ -541,14 +541,14 @@
     "stage": "Development",
     "due": "2027 Q1",
     "cpo": "GNA",
-    "tpo": "GBU",
-    "statusUpdate": null,
+    "tpo": null,
+    "statusUpdate": "გუგას დავუკავშირდე",
     "whereUsed": null,
     "tgaId": "tga-37"
   },
   {
     "n": 35,
-    "product": "One Click Agent VPS",
+    "product": "AI VPS",
     "headProducts": [
       "SMB"
     ],
@@ -557,10 +557,10 @@
     "stage": "Pre-Development",
     "due": "2026 Q4",
     "cpo": "GNA",
-    "tpo": "GBU",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-38"
+    "tgaId": null
   },
   {
     "n": 36,
@@ -573,7 +573,7 @@
     "stage": "Pre-Development",
     "due": "2026 Q4",
     "cpo": "GNA",
-    "tpo": "GBU",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-39"
@@ -589,7 +589,7 @@
     "stage": "Terminated",
     "due": null,
     "cpo": "GNA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-40"
@@ -605,7 +605,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "GNA",
-    "tpo": "GBU",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-41"
@@ -621,7 +621,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-42"
@@ -637,7 +637,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-43"
@@ -655,7 +655,7 @@
     "stage": "Production",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-44"
@@ -674,7 +674,7 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-46"
@@ -691,8 +691,8 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
-    "statusUpdate": null,
+    "tpo": null,
+    "statusUpdate": "ლოკის და ელასტიკის გატესტვა",
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-49"
   },
@@ -707,7 +707,7 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-51"
@@ -723,7 +723,7 @@
     "stage": "Development",
     "due": "2026 Q4",
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": "loop-ში გამზადებულია დისქოვერი ფაზა/ გადაწყვეტილია პირველადი გაშვებისთვის დაბილვის სოლუშენი/ სერგი აკეთებს ბილინგის მოდელს ამის შემდგომ დატესტვენ სხვადასხვა ექაუნთით სხვადასხვა ხერხით როგორ მუშაობს, თუ სწორი იყო დავიწყებთ ვალიდაციის და გაპროდაქშენების ნაბიჯებს",
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-52"
@@ -739,7 +739,7 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-53"
@@ -755,7 +755,7 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-54"
@@ -787,8 +787,8 @@
     "stage": "Pre-Production",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME",
-    "statusUpdate": null,
+    "tpo": null,
+    "statusUpdate": "მივწერე დღეს და ველოდები პასუხს",
     "whereUsed": null,
     "tgaId": "tga-56"
   },
@@ -803,7 +803,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-57"
@@ -819,7 +819,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "ZAN",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-58"
@@ -851,7 +851,7 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-59"
@@ -867,7 +867,7 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-63"
@@ -883,7 +883,7 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-67"
@@ -899,7 +899,7 @@
     "stage": "Pre-Development",
     "due": "2027 Q1",
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-71"
@@ -915,7 +915,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "SME",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-75"
@@ -931,7 +931,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-79"
@@ -947,7 +947,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-83"
@@ -963,7 +963,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-87"
@@ -979,7 +979,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-91"
@@ -995,7 +995,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Universal Cloud",
     "tgaId": "tga-95"
@@ -1011,7 +1011,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-97"
@@ -1027,7 +1027,7 @@
     "stage": "Production",
     "due": null,
     "cpo": "TGA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-100"
@@ -1043,8 +1043,8 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "GMA",
-    "tpo": "AJA",
-    "statusUpdate": null,
+    "tpo": null,
+    "statusUpdate": "თორნიკემ უნდა გადაწყვიტოს დიზაინს როგორ ვაკეთებთ",
     "whereUsed": null,
     "tgaId": "tga-103"
   },
@@ -1059,7 +1059,7 @@
     "stage": "Pipeline",
     "due": null,
     "cpo": "GMA",
-    "tpo": "AJA",
+    "tpo": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-104"
