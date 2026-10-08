@@ -1,6 +1,8 @@
 *.xlsx
-*.png
+# screenshots at the repo root only; docs/ and brand/ images are site assets
+/*.png
 __pycache__/
 .DS_Store
 gh_login.log
 site/
+*token*

@@ -435,12 +435,14 @@ aside.rail {
   border-right: 1px solid var(--border); padding: 1.25rem;
   display: flex; flex-direction: column;
 }
-.brand { display: flex; align-items: center; gap: .75rem; text-decoration: none; color: inherit; }
+.brand { display: flex; flex-direction: column; align-items: flex-start; gap: .4rem; text-decoration: none; color: inherit; padding: .1rem .25rem 0; }
+.brand picture { display: block; line-height: 0; }
+.brand-logo { display: block; width: 172px; max-width: 100%; height: auto; }
 .logo {
   width: 2.25rem; height: 2.25rem; border-radius: 8px; background: var(--accent);
   color: var(--accent-fg); display: grid; place-items: center; font-weight: 700; font-size: .85rem;
 }
-.brand .sub { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.brand .sub { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); padding-left: 2px; }
 nav.side { margin-top: 2rem; display: flex; flex-direction: column; gap: .25rem; flex: 1; }
 nav.side a {
   display: flex; align-items: center; gap: .75rem; min-height: 2.75rem;
@@ -884,6 +886,10 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>{esc(title)} · UGT Cloud Portfolio</title>
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48"/>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png"/>
+<meta name="theme-color" content="#153bb6"/>
 <meta name="description" content="UGT Cloud product portfolio — products, platforms, lifecycle stages, and CPO / TPO ownership."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -894,12 +900,12 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
 <body>
 <div class="app">
   <aside class="rail">
-    <a class="brand" href="index.html">
-      <div class="logo">U</div>
-      <div>
-        <div class="font-display" style="font-size:1.15rem">UGT Cloud</div>
-        <div class="sub">Portfolio</div>
-      </div>
+    <a class="brand" href="index.html" aria-label="UGT Cloud Portfolio — overview">
+      <picture>
+        <source type="image/webp" srcset="assets/logo-344.webp 2x, assets/logo-516.webp 3x"/>
+        <img class="brand-logo" src="assets/logo-344.png" srcset="assets/logo-344.png 2x, assets/logo-516.png 3x" width="172" height="70" alt="UGT Cloud"/>
+      </picture>
+      <span class="sub">Portfolio</span>
     </a>
     <nav class="side">{nav_html}</nav>
     <div class="snap">
@@ -1668,6 +1674,22 @@ def build_glossary(products: list[dict], updated: str) -> str:
     return shell("glossary", "Legend", body, products, updated)
 
 
+BRAND = ROOT / "brand"
+BRAND_FILES = ("logo-344.png", "logo-516.png", "logo-344.webp", "logo-516.webp",
+               "favicon-32.png", "apple-touch-icon.png", "favicon.ico")
+
+
+def copy_brand_assets() -> None:
+    """Copy logo + favicon (generated once by make_brand.py) into docs/ so every build keeps them."""
+    import shutil
+    missing = [f for f in BRAND_FILES if not (BRAND / f).exists()]
+    if missing:
+        raise SystemExit(f"Missing brand assets {missing} in {BRAND}; run make_brand.py")
+    for f in BRAND_FILES:
+        shutil.copy2(BRAND / f, SITE / "assets" / f)
+    shutil.copy2(BRAND / "favicon.ico", SITE / "favicon.ico")
+
+
 def main() -> None:
     products = load_products(EXCEL)
     tga_rows = load_tga_nni(EXCEL)
@@ -1679,6 +1701,7 @@ def main() -> None:
     (SITE / "assets").mkdir(exist_ok=True)
     (SITE / "assets" / "site.css").write_text(SHARED_CSS)
     (SITE / "assets" / "view.js").write_text(VIEW_JS)
+    copy_brand_assets()
     (SITE / "assets" / "resize.js").write_text(RESIZE_JS)
     (SITE / "index.html").write_text(build_overview(products, updated), encoding="utf-8")
     (SITE / "products.html").write_text(build_products(products, updated), encoding="utf-8")

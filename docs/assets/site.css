@@ -26,12 +26,14 @@ aside.rail {
   border-right: 1px solid var(--border); padding: 1.25rem;
   display: flex; flex-direction: column;
 }
-.brand { display: flex; align-items: center; gap: .75rem; text-decoration: none; color: inherit; }
+.brand { display: flex; flex-direction: column; align-items: flex-start; gap: .4rem; text-decoration: none; color: inherit; padding: .1rem .25rem 0; }
+.brand picture { display: block; line-height: 0; }
+.brand-logo { display: block; width: 172px; max-width: 100%; height: auto; }
 .logo {
   width: 2.25rem; height: 2.25rem; border-radius: 8px; background: var(--accent);
   color: var(--accent-fg); display: grid; place-items: center; font-weight: 700; font-size: .85rem;
 }
-.brand .sub { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.brand .sub { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); padding-left: 2px; }
 nav.side { margin-top: 2rem; display: flex; flex-direction: column; gap: .25rem; flex: 1; }
 nav.side a {
   display: flex; align-items: center; gap: .75rem; min-height: 2.75rem;

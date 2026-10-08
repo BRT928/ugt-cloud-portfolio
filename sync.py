@@ -102,13 +102,18 @@ def apply_rebuild_push(summary: str) -> None:
     if docs_dst.exists():
         shutil.rmtree(docs_dst)
     shutil.copytree(ROOT / "docs", docs_dst)
-    for name in ("build.py", "sync.py", "SYNC_STEPS.md", "products.json", "tga_nni.json", "state.json", "README.md"):
+    for name in ("build.py", "sync.py", "make_brand.py", "SYNC_STEPS.md", "products.json", "tga_nni.json", "state.json", "README.md"):
         src = ROOT / name
         if src.exists():
             shutil.copy2(src, REPO / name)
+    # brand sources (logo + favicons) so the repo alone can rebuild the site
+    if (ROOT / "brand").exists():
+        if (REPO / "brand").exists():
+            shutil.rmtree(REPO / "brand")
+        shutil.copytree(ROOT / "brand", REPO / "brand")
     # .gitignore
     (REPO / ".gitignore").write_text(
-        "*.xlsx\n*.png\n__pycache__/\n.DS_Store\ngh_login.log\nsite/\n"
+        "*.xlsx\n# screenshots at the repo root only; docs/ and brand/ images are site assets\n/*.png\n__pycache__/\n.DS_Store\ngh_login.log\nsite/\n*token*\n"
     )
     run(["git", "add", "-A"], cwd=REPO)
     # commit only if changes
