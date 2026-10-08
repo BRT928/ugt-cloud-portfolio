@@ -46,7 +46,7 @@ def summarise_diff(old: list[dict] | None, new: list[dict]) -> str:
     for n in sorted(set(old_by) & set(new_by)):
         a, b = old_by[n], new_by[n]
         fields = []
-        for k in ("product", "headProducts", "category", "technology", "stage", "due", "cpo", "tpo", "statusUpdate", "whereUsed"):
+        for k in ("product", "headProducts", "category", "technology", "stage", "due", "cpo", "tpo", "statusUpdate", "whereUsed", "description"):
             if a.get(k) != b.get(k):
                 fields.append(f"{k}: {a.get(k)!r} → {b.get(k)!r}")
         if fields:

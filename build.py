@@ -98,14 +98,58 @@ def tech_display(tech: str, sub: str) -> str:
     return " ".join(b for b in (tech, sub) if b)
 
 
+def clean_multiline(v) -> str:
+    """Trim a free-text cell but keep the author's line breaks and wording verbatim."""
+    if v is None:
+        return ""
+    s = str(v).replace("\xa0", " ").replace("\r\n", "\n").replace("\r", "\n")
+    lines = [re.sub(r"[ \t]+", " ", ln).strip() for ln in s.split("\n")]
+    out, blank = [], False
+    for ln in lines:
+        if not ln:
+            if out and not blank:
+                out.append("")
+            blank = True
+            continue
+        out.append(ln)
+        blank = False
+    return "\n".join(out).strip()
+
+
+# Header aliases (matched case-insensitively, by name — never by column position)
+HEADER_ALIASES = {
+    "Description": ("description", "descriptions", "product description", "აღწერა", "აღწერილობა"),
+}
+
+
+def find_header_row(ws, must_have=("product",), scan_rows: int = 15) -> int:
+    for r in range(1, min(scan_rows, ws.max_row) + 1):
+        vals = {clean_text(ws.cell(r, c).value).lower() for c in range(1, ws.max_column + 1)}
+        if all(m in vals for m in must_have):
+            return r
+    return 3
+
+
+def canonical_header(h: str) -> str:
+    low = h.lower()
+    for canon, aliases in HEADER_ALIASES.items():
+        if low in aliases:
+            return canon
+    return h
+
+
 def load_products(path: Path) -> list[dict]:
     wb = openpyxl.load_workbook(path, data_only=True)
     ws = wb["UGT Product Portfolio ALL"]
     ncols = ws.max_column
-    headers = [clean_text(ws.cell(3, c).value) or f"col{c}" for c in range(1, ncols + 1)]
+    hdr_row = find_header_row(ws)
+    headers = [canonical_header(clean_text(ws.cell(hdr_row, c).value)) or f"col{c}" for c in range(1, ncols + 1)]
     products = []
-    for r in range(4, ws.max_row + 1):
-        row = {headers[c - 1]: ws.cell(r, c).value for c in range(1, ncols + 1)}
+    for r in range(hdr_row + 1, ws.max_row + 1):
+        row = {}
+        for c in range(1, ncols + 1):
+            # first occurrence of a header wins
+            row.setdefault(headers[c - 1], ws.cell(r, c).value)
         name = clean_text(row.get("Product"))
         if not name and row.get("N") is None:
             continue
@@ -133,6 +177,7 @@ def load_products(path: Path) -> list[dict]:
                 "due": due,
                 "cpo": owner_or_none(row.get("CPO")),
                 "tpo": owner_or_none(row.get("TPO")),
+                "description": clean_multiline(row.get("Description")) or None,
             }
         )
     return products
@@ -316,6 +361,9 @@ def product_card_html(p: dict, base: str = ".") -> str:
         note = f'<div class="note-flag" title="{esc(p["statusUpdate"])}">📝 Status note</div>'
     elif p.get("whereUsed"):
         note = f'<div class="note-flag muted-flag" title="{esc(p["whereUsed"])}">Where: {esc(p["whereUsed"])}</div>'
+    desc = ""
+    if p.get("description"):
+        desc = f'<p class="card-desc ka" title="{esc(p["description"])}">{esc(p["description"])}</p>'
     return f"""
     <article class="card">
       <a class="card-stretch" href="{base}/product-{p['n']}.html" aria-label="{esc(p['product'])}"></a>
@@ -326,6 +374,7 @@ def product_card_html(p: dict, base: str = ".") -> str:
       <div class="meta">{esc(p['category'] or '—')}</div>
       <div class="heads">{heads}</div>
       <div class="meta">{esc(due)}{tech}</div>
+      {desc}
       {note}
       <div class="owners">{owner_chip_html(p['cpo'], 'CPO', base)}{owner_chip_html(p['tpo'], 'TPO', base)}</div>
     </article>"""
@@ -480,6 +529,18 @@ h3 { margin: 0; font-size: 1rem; }
 .note-panel .ka { font-size: 1rem; line-height: 1.55; white-space: pre-wrap; }
 .card-top { display: flex; justify-content: space-between; gap: .5rem; align-items: flex-start; }
 .card-title { font-weight: 600; font-size: .95rem; }
+.card-desc {
+  margin: 0; font-size: .82rem; line-height: 1.45; color: var(--fg); opacity: .85;
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; overflow-wrap: anywhere;
+}
+.desc-panel { margin-top: 1.25rem; border-left: 4px solid var(--accent); }
+.desc-panel .ka { font-size: 1.05rem; line-height: 1.65; white-space: pre-line; margin: .6rem 0 0; }
+td.desc-cell { max-width: 22rem; }
+td.desc-cell .desc-trunc {
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; font-size: .82rem; cursor: help;
+}
 .badge {
   display: inline-flex; align-items: center; border-radius: 999px;
   padding: .2rem .55rem; font-size: .7rem; font-weight: 600; white-space: nowrap;
@@ -914,7 +975,7 @@ function matches(p) {
   if (state.tpo === "__unassigned__") { if (p.tpo) return false; }
   else if (state.tpo && p.tpo !== state.tpo) return false;
   if (state.q) {
-    const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.statusUpdate || "", p.whereUsed || "", ...(p.headProducts || [])].join(" ").toLowerCase();
+    const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.statusUpdate || "", p.whereUsed || "", p.description || "", ...(p.headProducts || [])].join(" ").toLowerCase();
     if (!hay.includes(state.q)) return false;
   }
   return true;
@@ -962,6 +1023,7 @@ function render() {
       <div class="meta">${esc(p.category || "—")}</div>
       <div class="heads">${(p.headProducts||[]).map(h=>`<span class="pill">${esc(h)}</span>`).join("")}</div>
       <div class="meta">${esc(p.due || "Unscheduled")}${p.technology ? " · " + esc(p.technology) : ""}</div>
+      ${p.description ? `<p class="card-desc ka" title="${esc(p.description)}">${esc(p.description)}</p>` : ""}
       ${note}
       <div class="owners">${ownerChip(p.cpo,"CPO")}${ownerChip(p.tpo,"TPO")}</div>
     </article>`;
@@ -973,6 +1035,7 @@ function render() {
     return `
     <tr>
       <td><a href="product-${p.n}.html"><strong>${esc(p.product)}</strong></a></td>
+      <td class="desc-cell">${p.description ? `<span class="ka desc-trunc" title="${esc(p.description)}">${esc(p.description)}</span>` : "—"}</td>
       <td>${esc(p.category || "—")}</td>
       <td>${esc((p.headProducts||[]).join(", "))}</td>
       <td><span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></td>
@@ -1041,7 +1104,7 @@ def build_products(products: list[dict], updated: str) -> str:
           <p class="lede">Filter by stage, quarter, platform, category or owner.</p>
         </div>
         <label class="search-box"><span aria-hidden="true">⌕</span>
-          <input id="q" type="search" placeholder="Search products, owners, platforms" autocomplete="off"/>
+          <input id="q" type="search" placeholder="Search products, descriptions, owners, platforms" autocomplete="off"/>
         </label>
       </div>
       <div class="filters">
@@ -1057,7 +1120,7 @@ def build_products(products: list[dict], updated: str) -> str:
 """ + view_toggle_bar() + """
       <div class="cards view-cards-target" id="cards"></div>
       <div class="table-wrap view-table-target"><table>
-        <thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <thead><tr><th>Product</th><th>Description</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table></div>
       <div class="empty" id="empty" hidden>No products match these filters.</div>
@@ -1278,6 +1341,16 @@ def build_product_page(p: dict, products: list[dict], updated: str) -> str:
             '<p class="muted" style="margin:.5rem 0 0">No status note or usage note on the TGA &amp; NNI sheet for this line. '
             '<a href="status.html">Browse all notes</a>.</p></div>'
         )
+    if p.get("description"):
+        desc_panel = (
+            '<div class="panel desc-panel"><h2>Description</h2>'
+            f'<p class="ka">{esc(p["description"])}</p></div>'
+        )
+    else:
+        desc_panel = (
+            '<div class="panel desc-panel"><h2>Description</h2>'
+            '<p class="muted" style="margin:.5rem 0 0">No description in the register yet.</p></div>'
+        )
     body = f"""
       <p class="eyebrow"><a class="muted" href="products.html">Products</a> / {esc(p['product'])}</p>
       <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;justify-content:space-between">
@@ -1287,6 +1360,7 @@ def build_product_page(p: dict, products: list[dict], updated: str) -> str:
         </div>
         <span class="badge {badge_class(p['stage'])}" style="font-size:.85rem;padding:.4rem .75rem">{esc(p['stage'])}</span>
       </div>
+      {desc_panel}
       <div class="detail-grid">
         <div class="panel">
           <h2>Register details</h2>

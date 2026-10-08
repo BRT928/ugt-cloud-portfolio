@@ -12,6 +12,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "გამოთვლითი ინსტანცია vCPU-ით, ოპერატიული მეხსიერებით და დისკით, Linux ან Windows ოპერაციული სისტემით.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-2"
@@ -28,6 +29,7 @@
     "due": "2027 Q2",
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "ძირითადი მეხსიერება — ვირტუალურ მანქანაზე მიერთებული მუდმივი დისკი (Storpool/NetApp), Public Cloud-ში.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -44,6 +46,7 @@
     "due": "2027 Q2",
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "ძირითადი მეხსიერება — Universal Cloud-ის ვირტუალურ მანქანაზე მიერთებული მუდმივი დისკი .",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-3"
@@ -61,6 +64,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "VPC (ვირტუალური კერძო ქსელი) — იზოლირებული ქსელური გარემო საკუთარი ქვექსელებითა და მარშრუტიზაციით, CloudStack-ზე.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-4"
@@ -77,6 +81,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "ვირტუალური ქსელური ფაირვოლი — Public Cloud-ში ტრაფიკის ფილტრაცია და დაცვა (pfSense/Fortinet).",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -93,6 +98,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "ვირტუალური ქსელური ფუნქციები (ფაირვოლი/როუტერი) pfSense, Fortinet ან MikroTik-ზე, Universal Cloud-ში.",
     "statusUpdate": "მიკროტიკზე აკომფიგებს სერგი",
     "whereUsed": null,
     "tgaId": "tga-5"
@@ -109,6 +115,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "GBU",
+    "description": "ინსტანციის სარეზერვო ასლი — ვირტუალური მანქანის მთლიანი ასლი შენახული ქსელურ ,ნელ საცავზე NAS მეორე დატაცენტრში",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-6"
@@ -126,6 +133,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "VMD",
+    "description": "2 წუთში პროვიზირებადი ფიზიკური სერვერი როგორც სერვისი (bare metal),/ გამოყოფილი რესურსი კლაუდსტეკის ორკესტრაციით.",
     "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
     "whereUsed": null,
     "tgaId": "tga-7"
@@ -142,6 +150,7 @@
     "due": "2026 Q4",
     "cpo": "TGA",
     "tpo": "GBU",
+    "description": "ვირტუალური მანქანა თავისი დედიქეითედ ჯიპიუთი.",
     "statusUpdate": "დოკუმენტაციის ნაწილში რა იცვლება?",
     "whereUsed": null,
     "tgaId": "tga-9"
@@ -158,6 +167,7 @@
     "due": "2026 Q4",
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "კლიენტური VPN -ის ვირტუალური მანქანა, მომხმარებლის უსაფრთხო დაშორებული წვდომისთვის.",
     "statusUpdate": "შეხვედრაა ჩანიშნული და გავივლით რესერჩის შედეგებს",
     "whereUsed": null,
     "tgaId": "tga-10"
@@ -174,6 +184,7 @@
     "due": "2026 Q4",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "კატასტროფების აღდგენა (DR) — ინფრასტრუქტურის აღდგენა ავარიის შემთხვევაში (Sendense/Veeam), Universal Cloud-ში.",
     "statusUpdate": "აფდეითი დაყენდა და 9-მდე მორჩება კომფიგურაცია",
     "whereUsed": null,
     "tgaId": "tga-11"
@@ -190,6 +201,7 @@
     "due": null,
     "cpo": null,
     "tpo": null,
+    "description": "კონტეინერების ორკესტრაციის პლატფორმა Universal Cloud-ზე (CloudStack).",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-12"
@@ -206,6 +218,7 @@
     "due": null,
     "cpo": null,
     "tpo": null,
+    "description": "კონტეინერების ორკესტრაციის პლატფორმა Public Cloud-ზე (CloudStack).",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -222,6 +235,7 @@
     "due": null,
     "cpo": null,
     "tpo": null,
+    "description": "დამოუკიდებელი კლასტერი, კონკრეტულ ღრუბლოვან პლატფორმაზე მიბმის გარეშე.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-13"
@@ -238,6 +252,7 @@
     "due": null,
     "cpo": null,
     "tpo": null,
+    "description": "მონაცემთა ბაზა როგორც სერვისი (XaaS), Universal Cloud-ში; ბაზის ადმინისტრირებას უიჯითი ქლაუდი იღებს.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-14"
@@ -254,6 +269,7 @@
     "due": null,
     "cpo": null,
     "tpo": null,
+    "description": "მონაცემთა ბაზა როგორც სერვისი Standalone განთავსებით, კონკრეტული ღრუბლოვანი პლატფორმის გარეშე.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-15"
@@ -270,6 +286,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "AI ასისტენტი რომელიც ეხმარება კლიენტს გააკეთოს ნებისმიერი მოქმედება ჩათის მეშვეობით Universal Cloud-ში.",
     "statusUpdate": "დასაზუსტებელია ადმინისტრირებისთვის თუ გამოვიყენებთ მხოლოდ CMP-ს, მიწერილია ველოდებით პასუხს",
     "whereUsed": null,
     "tgaId": "tga-16"
@@ -286,6 +303,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "GBU",
+    "description": "სრული ფუნქციონალით რეზერვირება, ინკრემეტალური, გრანულარული ბექაფირება, აგენტის საჭიროების გარეშე",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -302,6 +320,7 @@
     "due": "2026 Q4",
     "cpo": "TGA",
     "tpo": "GBU",
+    "description": "საზიარო ფაილური სისტემა — რამდენიმე ინსტანციაზე ერთდროულად მიერთებული ფაილური მეხსიერება (CloudStack).",
     "statusUpdate": "გიას აქვს ეს ამოცანა და 12-მდე აქვს დედლაინი, მანამდეც დავსინქონდებით",
     "whereUsed": null,
     "tgaId": "tga-18"
@@ -318,6 +337,7 @@
     "due": "2027 Q1",
     "cpo": "GMA",
     "tpo": "SME",
+    "description": "მომხმარებლისთვის გამოყოფილი VMware გარემო (ლიცენზია BYOL).",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-19"
@@ -334,6 +354,7 @@
     "due": null,
     "cpo": "GMA",
     "tpo": "SME",
+    "description": "Microsoft Hyper-V ჰიპერვიზორზე აგებული კერძო კლასტერი.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-20"
@@ -350,6 +371,7 @@
     "due": "2027 Q1",
     "cpo": "GMA",
     "tpo": "SME",
+    "description": "Apache CloudStack-ზე აგებული გამოყოფილი გარემო.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-21"
@@ -366,6 +388,7 @@
     "due": null,
     "cpo": "GMA",
     "tpo": "SME",
+    "description": "HPE Morpheus-ით მართული კერძო კლასტერი.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-22"
@@ -382,6 +405,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "Nutanix HCI პლატფორმაზე აგებული კერძო კლასტერი.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-23"
@@ -398,6 +422,7 @@
     "due": null,
     "cpo": "GMA",
     "tpo": "SME",
+    "description": "Proxmox VE-ზე აგებული კერძო კლასტერი.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-24"
@@ -414,6 +439,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "კერძო კლასტერების VM-ების სარეზერვო ასლი Veeam/Nakivo-თი, აგენტის გარეშე.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-25"
@@ -430,6 +456,7 @@
     "due": null,
     "cpo": null,
     "tpo": "SME",
+    "description": "კატასტროფების აღდგენა (DR) — კერძო ღრუბლის აღდგენის სერვისი ავარიის შემთხვევაში (Nakivo/Veeam).",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-26"
@@ -446,6 +473,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "გამოყოფილი სერვერები — ფიზიკური სერვერი (HPE/Supermicro), სრულად მომხმარებლისთვის გამოყოფილი.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-27"
@@ -462,6 +490,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "გამოყოფილი GPU სერვერები — ფიზიკური სერვერი Nvidia GPU-ით (HPE/Supermicro) AI-სა და მძიმე გამოთვლისთვის.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-28"
@@ -478,6 +507,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "ფაირვოლები (Bare Metal) — ფიზიკური უსაფრთხოების მოწყობილობა ტრაფიკის ფილტრაციისთვის.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-29"
@@ -494,6 +524,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "კომუტატორები (Switches) — ფიზიკური ქსელური კომუტატორები Bare Metal ინფრასტრუქტურაში.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-32"
@@ -510,6 +541,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "ქსელური საცავი ფაილებისა და ბექაპისთვის. ნელ დისკებზე",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-35"
@@ -526,6 +558,7 @@
     "due": null,
     "cpo": "GNA",
     "tpo": "GBU",
+    "description": "სტანდარტული იზოლირებული VPS-ები მცირე ბიზნესისთვის ვირტუალური სერვერი 1 ფაბლიქ მისამართით",
     "statusUpdate": "მონიკას და გუგას კომენტარები",
     "whereUsed": null,
     "tgaId": "tga-36"
@@ -542,6 +575,7 @@
     "due": "2027 Q1",
     "cpo": "GNA",
     "tpo": "GBU",
+    "description": "მართვადი VPS — ადმინისტრირებადი ვირტუალური სერვერი SMB-სთვის; მართვა პროვაიდერის მხარესაა.",
     "statusUpdate": "გუგას დავუკავშირდე",
     "whereUsed": null,
     "tgaId": "tga-37"
@@ -558,6 +592,7 @@
     "due": "2026 Q4",
     "cpo": "GNA",
     "tpo": "GBU",
+    "description": "AI აგენტის VPS — წინასწარ მომზადებული VPS AI აგენტით (OpenClaw/Hermes/n8n).",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -574,6 +609,7 @@
     "due": "2026 Q4",
     "cpo": "GNA",
     "tpo": "GBU",
+    "description": "დაშაბლონებული ბიზნეს აპლიკაციებით გამზადებული ვირტუალური სერვერი.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-39"
@@ -590,6 +626,7 @@
     "due": null,
     "cpo": "GNA",
     "tpo": "SME",
+    "description": "ობიექტური მეხსიერების პაკეტები მცირე ბიზნესისთვის, ერთ ზონაში (Ceph).",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-40"
@@ -606,6 +643,7 @@
     "due": null,
     "cpo": "GNA",
     "tpo": "GBU",
+    "description": "SMB-სთვის გამარტივებული სარეზერვო ასლი NAS-ზე.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-41"
@@ -622,6 +660,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "მაღალი წარმადობის ბლოკური საცავი ნვმე სსდებზე HPE Alletra-ზე, კერძო ღრუბლისთვის.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-42"
@@ -638,6 +677,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "ჰიბრიდული ბლოკური მეხსიერება HPE Nimble-ზე, კერძო ღრუბლისთვის. სსდ+ჰდდ",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-43"
@@ -656,6 +696,7 @@
     "due": "2026 Q4",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "NetApp AFF (QLC) ფაილური საცავი Private, Universal და Public Cloud-ისთვის. სსდ ებით ნვმე",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-44"
@@ -675,6 +716,7 @@
     "due": "2026 Q4",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "ტევადი ფაილური/ბექაპ საცავი AIC JBOD-ზე (Toshiba დისკები). ნელი ჰდდებით",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-46"
@@ -692,6 +734,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "S3 Standard (ერთი ზონა) — ობიექტური საცავი S3 API-ით, ერთ ზონაში (Ceph). ჰდდებით",
     "statusUpdate": "ლოკის და ელასტიკის გატესტვა",
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-49"
@@ -708,6 +751,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "S3 Standard (რამდენიმე ზონა) — ობიექტური საცავი რამდენიმე ზონაში, მაღალი ხელმისაწვდომობით.",
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-51"
@@ -724,6 +768,7 @@
     "due": "2026 Q4",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "იშვიათი გამოყენებისთვის ობიექტური სანახი, წარმადობა იგივე რაც სტანდარტს , უბრალოდ შეინახე და დაივიწყე მიდგომით",
     "statusUpdate": "loop-ში გამზადებულია დისქოვერი ფაზა/ გადაწყვეტილია პირველადი გაშვებისთვის დაბილვის სოლუშენი/ სერგი აკეთებს ბილინგის მოდელს ამის შემდგომ დატესტვენ სხვადასხვა ექაუნთით სხვადასხვა ხერხით როგორ მუშაობს, თუ სწორი იყო დავიწყებთ ვალიდაციის და გაპროდაქშენების ნაბიჯებს",
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-52"
@@ -740,6 +785,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "S3 Premium — პრემიუმ ობიექტური მეხსიერება უფრო მაღალი წარმადობით (Ceph).",
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-53"
@@ -756,6 +802,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "ცივი არქივი გრძელვადიანი შენახვისთვის (PoINT Archival Gateway), დაბალი ღირებულებით. ლენტური ბიბლიოთეკა,",
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-54"
@@ -772,6 +819,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": null,
+    "description": "საზიარო მეხსიერება (OneDrive-ის ალტერნატივა) — ფაილების გაზიარება და სინქრონიზაცია Nextcloud-ზე.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-55"
@@ -788,6 +836,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "1 ჯიპიუს რამოდენიმე კლიენტზე გაზიარება,",
     "statusUpdate": "მივწერე დღეს და ველოდები პასუხს",
     "whereUsed": null,
     "tgaId": "tga-56"
@@ -804,6 +853,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "მომხმარებლის საკუთარი აღჭურვილობის განთავსება UGT მონაცემთა ცენტრში (HPE კარადები).",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-57"
@@ -820,6 +870,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "ZAN",
+    "description": "Microsoft 365-ის ბექაპი — Exchange, SharePoint, OneDrive და Teams მონაცემების სარეზერვო ასლი (Nakivo).",
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-58"
@@ -836,6 +887,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": null,
+    "description": "მარკეტპლეისი — პროდუქტებისა და სერვისების შეკვეთის პლატფორმა (HostBill).",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -852,6 +904,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "UGT Cloud Connect 10 გბიტ/წმ (მომხმარებელი–UGT) — პირდაპირი ბოჭკოვანი არხი (dark fiber) მომხმარებლის ოფისიდან UGT-მდე.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-59"
@@ -868,6 +921,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "UGT Cloud Connect 10 გბიტ/წმ (POP–UGT) — 10 გბიტ/წმ არხი POP წერტილიდან UGT-მდე (CWDM).",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-63"
@@ -884,6 +938,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "UGT Port Connect — პორტის შეერთება კომუტატორზე UGT-ის ქსელთან დასაკავშირებლად.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-67"
@@ -900,6 +955,7 @@
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "UGT Cloud Inter-Link 10 გბიტ/წმ — შიდა კავშირი UGT-ის TBS1 და TBS2 მოედნებს შორის.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-71"
@@ -916,6 +972,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
+    "description": "RDA — დისტანციური სამუშაო მაგიდა (Remote Desktop Access) TS Plus-ზე.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-75"
@@ -932,6 +989,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "ფაირვოლები (Standalone) — გამოყოფილი ფაირვოლი Check Point/Fortinet ან ვირტუალური ფაირვოლი.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-79"
@@ -948,6 +1006,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "გლობალური ინტერნეტი — გამოყოფილი საერთაშორისო ინტერნეტ-არხი.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-83"
@@ -964,6 +1023,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "ლოკალური ინტერნეტი — გამოყოფილი ადგილობრივი ინტერნეტ-არხი.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-87"
@@ -980,6 +1040,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "საჯარო IPv4 მისამართები — დამატებითი საჯარო IPv4 მისამართების გამოყოფა.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-91"
@@ -996,6 +1057,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "USB მოწყობილობა IP-ზე — USB მოწყობილობის (გასაღები, ლიცენზია) დისტანციური მიერთება IP-ით.",
     "statusUpdate": null,
     "whereUsed": "Universal Cloud",
     "tgaId": "tga-95"
@@ -1012,6 +1074,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "მართვადი Site-to-Site VPN — ოფისებს შორის დაშიფრული გვირაბი (OpenVPN), პროვაიდერის მიერ მართული.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-97"
@@ -1028,6 +1091,7 @@
     "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
+    "description": "მართვადი VPN კლიენტები — მომხმარებლის VPN წვდომა (OpenVPN), პროვაიდერის მიერ მართული.",
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-100"
@@ -1044,6 +1108,7 @@
     "due": null,
     "cpo": "GMA",
     "tpo": "AJA",
+    "description": "პროფესიული სერვისები — დანერგვა, მიგრაცია, არქიტექტურა და კონსულტაცია ყველა პროდუქტზე.",
     "statusUpdate": "თორნიკემ უნდა გადაწყვიტოს დიზაინს როგორ ვაკეთებთ",
     "whereUsed": null,
     "tgaId": "tga-103"
@@ -1060,6 +1125,7 @@
     "due": null,
     "cpo": "GMA",
     "tpo": "AJA",
+    "description": "მხარდაჭერის სერვისები — ტექნიკური მხარდაჭერა და ინციდენტებზე რეაგირება ყველა პროდუქტზე.",
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-104"
