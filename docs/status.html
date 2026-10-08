@@ -44,22 +44,14 @@
         <div class="kpi"><div class="k">With where</div><div class="v">20</div></div>
         <div class="kpi"><div class="k">Matched to ALL</div><div class="v">61</div></div>
       </div>
-      <div class="filters" style="margin-top:1.5rem">
-        <div class="filter-row" id="note-filters">
-          <span class="filter-label">Show</span>
-          <button type="button" class="chip active" data-val="">All</button>
-          <button type="button" class="chip" data-val="status">Has status note</button>
-          <button type="button" class="chip" data-val="where">Has where-used</button>
-          <button type="button" class="chip" data-val="unmatched">Unmatched</button>
-        </div>
-        <div class="selects">
-          <label>Stage<select id="f-stage"><option value="">All</option></select></label>
-          <label>Head product<select id="f-head"><option value="">All</option></select></label>
-          <label>Category<select id="f-cat"><option value="">All</option></select></label>
-          <label class="search-box" style="margin-left:0;min-width:14rem">Search
-            <input id="q" type="search" placeholder="Search notes (incl. Georgian)" autocomplete="off"/>
-          </label>
-        </div>
+      <div class="filters" id="filters" style="margin-top:1.5rem">
+        <label class="search-box" style="margin-left:0;max-width:26rem"><span aria-hidden="true">⌕</span>
+          <input id="q" type="search" placeholder="Search notes (incl. Georgian)" autocomplete="off"/>
+        </label>
+        <div class="filter-row" id="note-filters" role="group" aria-label="Show"><span class="filter-label">Show</span></div>
+        <div class="filter-row" id="stage-filters" role="group" aria-label="Stage"><span class="filter-label">Stage</span></div>
+        <div class="filter-row" id="head-filters" role="group" aria-label="Head product"><span class="filter-label">Head product</span></div>
+        <div class="filter-row" id="cat-filters" role="group" aria-label="Category"><span class="filter-label">Category</span></div>
       </div>
       <p class="count" id="view-count"></p>
       <div class="table-wrap">
@@ -132,29 +124,48 @@ function render() {
     </tr>`;
   }).join("");
 }
+function chipsHtml(key, values, extra) {
+  const one = (lab, val) => `<button type="button" class="chip ${state[key]===val?"active":""}" data-key="${key}" data-val="${esc(val)}" aria-pressed="${state[key]===val}">${esc(lab)}</button>`;
+  return one("All", "") + values.map(v => one(v, v)).join("") + (extra || []).map(([l, v]) => one(l, v)).join("");
+}
+function paint(id, key, values, extra) {
+  const el = document.getElementById(id);
+  const label = el.querySelector(".filter-label");
+  el.innerHTML = "";
+  el.appendChild(label);
+  el.insertAdjacentHTML("beforeend", chipsHtml(key, values, extra));
+}
 function bind() {
-  const stages = [...new Set(ROWS.map(r => r.stage).filter(Boolean))];
-  const heads = [...new Set(ROWS.flatMap(r => r.headProducts || []).filter(Boolean))].sort();
-  const cats = [...new Set(ROWS.map(r => r.category).filter(Boolean))].sort();
-  function fill(id, values) {
-    const sel = document.getElementById(id);
-    for (const v of values) { const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); }
-  }
-  fill("f-stage", stages); fill("f-head", heads); fill("f-cat", cats);
-  document.getElementById("note-filters").addEventListener("click", e => {
-    const btn = e.target.closest(".chip"); if (!btn) return;
-    state.filter = btn.dataset.val;
-    document.querySelectorAll("#note-filters .chip").forEach(c => c.classList.toggle("active", c === btn));
+  const STAGE_ORDER = ["Production", "Pre-Production", "Development", "Pre-Development", "Pipeline", "Terminated"];
+  const HEAD_ORDER = ["Universal Cloud", "Public Cloud", "Private Cloud", "Bare Metal", "SMB", "Standalone", "Cross-portfolio"];
+  const stageSet = new Set(ROWS.map(r => r.stage).filter(Boolean));
+  const stages = STAGE_ORDER.filter(s => stageSet.has(s)).concat([...stageSet].filter(s => !STAGE_ORDER.includes(s)).sort());
+  const headSet = new Set(ROWS.flatMap(r => r.headProducts || []).filter(Boolean));
+  const heads = HEAD_ORDER.filter(h => headSet.has(h))
+    .concat([...headSet].filter(h => !HEAD_ORDER.includes(h) && h !== "Unplaced").sort((a,b)=>a.localeCompare(b)))
+    .concat(headSet.has("Unplaced") ? ["Unplaced"] : []);
+  const cats = [...new Set(ROWS.map(r => r.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const GROUPS = {
+    filter:   () => paint("note-filters", "filter", [], [["Has status note","status"],["Has where-used","where"],["Unmatched","unmatched"]]),
+    stage:    () => paint("stage-filters", "stage", stages),
+    head:     () => paint("head-filters", "head", heads),
+    category: () => paint("cat-filters", "category", cats),
+  };
+  Object.values(GROUPS).forEach(fn => fn());
+  document.getElementById("filters").addEventListener("click", e => {
+    const btn = e.target.closest(".chip[data-key]"); if (!btn) return;
+    const key = btn.dataset.key;
+    if (!(key in GROUPS)) return;
+    state[key] = btn.dataset.val;
+    GROUPS[key]();
     render();
   });
-  document.getElementById("f-stage").addEventListener("change", e => { state.stage = e.target.value; render(); });
-  document.getElementById("f-head").addEventListener("change", e => { state.head = e.target.value; render(); });
-  document.getElementById("f-cat").addEventListener("change", e => { state.category = e.target.value; render(); });
   document.getElementById("q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
   render();
 }
 bind();
 </script>
 
+<script src="assets/resize.js"></script>
 </body>
 </html>

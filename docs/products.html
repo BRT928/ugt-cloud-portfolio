@@ -45,15 +45,13 @@
           <input id="q" type="search" placeholder="Search products, descriptions, owners, platforms" autocomplete="off"/>
         </label>
       </div>
-      <div class="filters">
-        <div class="filter-row" id="stage-filters"><span class="filter-label">Stage</span></div>
-        <div class="filter-row" id="due-filters"><span class="filter-label">Due date</span></div>
-        <div class="selects">
-          <label>Head product<select id="f-head"><option value="">All</option></select></label>
-          <label>Category<select id="f-cat"><option value="">All</option></select></label>
-          <label>Commercial owner<select id="f-cpo"><option value="">All</option><option value="__unassigned__">Unassigned</option></select></label>
-          <label>Technical owner<select id="f-tpo"><option value="">All</option><option value="__unassigned__">Unassigned</option></select></label>
-        </div>
+      <div class="filters" id="filters">
+        <div class="filter-row" id="stage-filters" role="group" aria-label="Stage"><span class="filter-label">Stage</span></div>
+        <div class="filter-row" id="due-filters" role="group" aria-label="Due date"><span class="filter-label">Due date</span></div>
+        <div class="filter-row" id="head-filters" role="group" aria-label="Head product"><span class="filter-label">Head product</span></div>
+        <div class="filter-row" id="cat-filters" role="group" aria-label="Category"><span class="filter-label">Category</span></div>
+        <div class="filter-row" id="cpo-filters" role="group" aria-label="Commercial owner"><span class="filter-label">Commercial owner</span></div>
+        <div class="filter-row" id="tpo-filters" role="group" aria-label="Technical owner"><span class="filter-label">Technical owner</span></div>
       </div>
 
 <div class="count-row">
@@ -111,14 +109,14 @@ function matches(p) {
 }
 function renderChips(id, values, key, allLabel, extra) {
   const el = document.getElementById(id);
+  if (!el) return;
   const label = el.querySelector(".filter-label");
   let html = "";
-  html += `<button type="button" class="chip ${state[key]===""?"active":""}" data-key="${key}" data-val="">${allLabel}</button>`;
-  for (const v of values) html += `<button type="button" class="chip ${state[key]===v?"active":""}" data-key="${key}" data-val="${esc(v)}">${esc(v)}</button>`;
-  if (extra) for (const [lab, val] of extra) html += `<button type="button" class="chip ${state[key]===val?"active":""}" data-key="${key}" data-val="${esc(val)}">${esc(lab)}</button>`;
+  html += `<button type="button" class="chip ${state[key]===""?"active":""}" data-key="${key}" data-val="" aria-pressed="${state[key]===""}">${allLabel}</button>`;
+  for (const v of values) html += `<button type="button" class="chip ${state[key]===v?"active":""}" data-key="${key}" data-val="${esc(v)}" aria-pressed="${state[key]===v}">${esc(v)}</button>`;
+  if (extra) for (const [lab, val] of extra) html += `<button type="button" class="chip ${state[key]===val?"active":""}" data-key="${key}" data-val="${esc(val)}" aria-pressed="${state[key]===val}">${esc(lab)}</button>`;
   el.innerHTML = "";
   if (label) el.appendChild(label);
-  else { const s=document.createElement("span"); s.className="filter-label"; s.textContent=key==="stage"?"Stage":"Due date"; el.appendChild(s); }
   el.insertAdjacentHTML("beforeend", html);
 }
 function syncUrl() {
@@ -178,19 +176,27 @@ function render() {
   syncUrl();
 }
 function bind() {
+  const HEAD_ORDER = ["Universal Cloud", "Public Cloud", "Private Cloud", "Bare Metal", "SMB", "Standalone", "Cross-portfolio"];
   const dues = [...new Set(PRODUCTS.map(p => p.due).filter(Boolean))].sort();
-  const heads = [...new Set(PRODUCTS.flatMap(p => p.headProducts).filter(h => h && h !== "Unplaced"))].sort((a,b)=>a.localeCompare(b));
+  const headSet = new Set(PRODUCTS.flatMap(p => p.headProducts || []).filter(Boolean));
+  const heads = HEAD_ORDER.filter(h => headSet.has(h))
+    .concat([...headSet].filter(h => !HEAD_ORDER.includes(h) && h !== "Unplaced").sort((a,b)=>a.localeCompare(b)))
+    .concat(headSet.has("Unplaced") ? ["Unplaced"] : []);
   const cats = [...new Set(PRODUCTS.map(p => p.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  const cpos = [...new Set(PRODUCTS.map(p => p.cpo).filter(Boolean))].sort();
-  const tpos = [...new Set(PRODUCTS.map(p => p.tpo).filter(Boolean))].sort();
-  function fill(id, values, withUnassigned) {
-    const sel = document.getElementById(id);
-    const keep = withUnassigned ? 2 : 1;
-    const opts = [...sel.querySelectorAll("option")].slice(0, keep);
-    sel.innerHTML = ""; opts.forEach(o => sel.appendChild(o));
-    for (const v of values) { const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); }
-  }
-  fill("f-head", heads, false); fill("f-cat", cats, false); fill("f-cpo", cpos, true); fill("f-tpo", tpos, true);
+  function countBy(key) { const m = {}; PRODUCTS.forEach(p => { if (p[key]) m[p[key]] = (m[p[key]] || 0) + 1; }); return m; }
+  const cpoCount = countBy("cpo");
+  const cpos = Object.keys(cpoCount).sort((a,b) => (cpoCount[b]-cpoCount[a]) || a.localeCompare(b));   // biggest commercial owner first
+  const tpos = Object.keys(countBy("tpo")).sort((a,b)=>a.localeCompare(b));
+  const unCpo = PRODUCTS.some(p => !p.cpo) || state.cpo === "__unassigned__";
+  const unTpo = PRODUCTS.some(p => !p.tpo) || state.tpo === "__unassigned__";
+  const GROUPS = {
+    stage:    () => renderChips("stage-filters", STAGES, "stage", "All"),
+    due:      () => renderChips("due-filters", dues, "due", "All", [["Unscheduled","Unscheduled"]]),
+    head:     () => renderChips("head-filters", heads, "head", "All"),
+    category: () => renderChips("cat-filters", cats, "category", "All"),
+    cpo:      () => renderChips("cpo-filters", cpos, "cpo", "All", unCpo ? [["Unassigned","__unassigned__"]] : null),
+    tpo:      () => renderChips("tpo-filters", tpos, "tpo", "All", unTpo ? [["Unassigned","__unassigned__"]] : null),
+  };
   const params = new URLSearchParams(location.search);
   if (params.get("due")) state.due = params.get("due");
   if (params.get("stage")) state.stage = params.get("stage");
@@ -198,29 +204,21 @@ function bind() {
   if (params.get("category")) state.category = params.get("category");
   if (params.get("cpo")) state.cpo = params.get("cpo");
   if (params.get("tpo")) state.tpo = params.get("tpo");
-  renderChips("stage-filters", STAGES, "stage", "All");
-  renderChips("due-filters", dues, "due", "All", [["Unscheduled","Unscheduled"]]);
-  if (state.head) document.getElementById("f-head").value = state.head;
-  if (state.category) document.getElementById("f-cat").value = state.category;
-  if (state.cpo) document.getElementById("f-cpo").value = state.cpo;
-  if (state.tpo) document.getElementById("f-tpo").value = state.tpo;
-  document.getElementById("stage-filters").addEventListener("click", e => {
-    const btn = e.target.closest(".chip"); if (!btn) return;
-    state.stage = btn.dataset.val; renderChips("stage-filters", STAGES, "stage", "All"); render();
+  Object.values(GROUPS).forEach(fn => fn());
+  document.getElementById("filters").addEventListener("click", e => {
+    const btn = e.target.closest(".chip[data-key]"); if (!btn) return;
+    const key = btn.dataset.key;
+    if (!(key in GROUPS)) return;
+    state[key] = btn.dataset.val;
+    GROUPS[key]();
+    render();
   });
-  document.getElementById("due-filters").addEventListener("click", e => {
-    const btn = e.target.closest(".chip"); if (!btn) return;
-    state.due = btn.dataset.val; renderChips("due-filters", dues, "due", "All", [["Unscheduled","Unscheduled"]]); render();
-  });
-  document.getElementById("f-head").addEventListener("change", e => { state.head = e.target.value; render(); });
-  document.getElementById("f-cat").addEventListener("change", e => { state.category = e.target.value; render(); });
-  document.getElementById("f-cpo").addEventListener("change", e => { state.cpo = e.target.value; render(); });
-  document.getElementById("f-tpo").addEventListener("change", e => { state.tpo = e.target.value; render(); });
   document.getElementById("q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
   render();
 }
 bind();
 </script>
 
+<script src="assets/resize.js"></script>
 </body>
 </html>

@@ -490,15 +490,20 @@ h3 { margin: 0; font-size: 1rem; }
 .owner-list li:last-child { border-bottom: 0; }
 .gap-list { list-style: none; margin: .75rem 0 0; padding: 0; }
 .gap-list li { display: flex; justify-content: space-between; gap: .75rem; padding: .35rem 0; font-size: .9rem; }
-.filters { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
-.filter-row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
-.filter-label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); min-width: 7.5rem; }
+.filters { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 1.35rem; }
+.filter-row { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; }
+.filter-row > .filter-label { flex: 0 0 100%; margin-bottom: .2rem; }
+.filter-label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .chip {
-  border: 0; background: var(--card); box-shadow: var(--shadow); border-radius: 999px;
-  padding: .45rem .85rem; font: inherit; font-size: .8rem; color: var(--muted); cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; background: #dfe9f5; box-shadow: none; border-radius: 999px;
+  min-height: 2.6rem; padding: .55rem 1rem; font: inherit; font-size: .9rem; line-height: 1.2;
+  color: #3d4f63; cursor: pointer; text-decoration: none; white-space: nowrap;
+  transition: background-color .12s ease, color .12s ease;
 }
-.chip:hover { color: var(--fg); }
-.chip.active { background: var(--accent); color: #fff; box-shadow: none; }
+.chip:hover { background: #d3e1f1; color: var(--fg); }
+.chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chip.active, .chip.active:hover { background: var(--accent); color: #fff; }
 .selects { display: flex; flex-wrap: wrap; gap: .75rem; }
 .selects label {
   display: flex; flex-direction: column; gap: .35rem;
@@ -576,6 +581,21 @@ th {
   font-weight: 600; background: #f7fafc; position: sticky; top: 0;
 }
 tr:last-child td { border-bottom: 0; }
+table.resizable th { position: sticky; }
+table.rz-fixed { table-layout: fixed; }
+table.rz-fixed th, table.rz-fixed td { overflow-wrap: anywhere; word-break: normal; white-space: normal; }
+.col-resizer {
+  position: absolute; top: 0; right: 0; width: 10px; height: 100%; z-index: 3;
+  cursor: col-resize; touch-action: none; user-select: none;
+}
+.col-resizer::after {
+  content: ""; position: absolute; top: 22%; bottom: 22%; left: 4px; width: 2px; border-radius: 2px;
+  background: var(--border); transition: background-color .12s ease;
+}
+.col-resizer::after { left: auto; right: 0; }
+th:hover > .col-resizer::after { background: #a9bdd3; }
+.col-resizer:hover::after, body.rz-dragging .col-resizer::after { background: var(--accent); }
+body.rz-dragging { cursor: col-resize; user-select: none; }
 .matrix-wrap { overflow: auto; margin-top: 1rem; }
 .matrix { font-size: .8rem; }
 .matrix th, .matrix td { text-align: center; white-space: nowrap; }
@@ -643,6 +663,109 @@ VIEW_TOGGLE_HTML = """
   </div>
 </div>
 """
+
+RESIZE_JS = r"""
+/* Drag-to-resize table columns. Widths persist per table type in localStorage.
+   Double-click a handle to reset that table to automatic widths. */
+(function () {
+  var PREFIX = "ugt-colw:v1:";
+  function pageKind() {
+    var f = (location.pathname.split("/").pop() || "index.html").replace(/\.html$/, "");
+    if (/^owner-/.test(f)) return "owner";
+    if (/^product-\d+/.test(f)) return "product";
+    return f || "index";
+  }
+  function headCells(t) {
+    var row = t.tHead && t.tHead.rows[t.tHead.rows.length - 1];
+    return row ? Array.prototype.slice.call(row.cells) : [];
+  }
+  function sig(t) {
+    return headCells(t).map(function (th) { return (th.textContent || "").trim(); }).join("|");
+  }
+  function keyOf(t) { return PREFIX + pageKind() + ":" + sig(t); }
+  function load(k) { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } }
+  function save(k, w) { try { localStorage.setItem(k, JSON.stringify(w)); } catch (e) {} }
+  function clear(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  function sameTables(t) {
+    var k = keyOf(t);
+    return Array.prototype.filter.call(document.querySelectorAll("table.resizable"), function (x) { return keyOf(x) === k; });
+  }
+  function ensureCols(t) {
+    var cg = t.querySelector("colgroup.rz");
+    var n = headCells(t).length;
+    if (!cg) { cg = document.createElement("colgroup"); cg.className = "rz"; t.insertBefore(cg, t.firstChild); }
+    while (cg.children.length < n) cg.appendChild(document.createElement("col"));
+    return Array.prototype.slice.call(cg.children, 0, n);
+  }
+  function apply(t, widths) {
+    var cols = ensureCols(t), sum = 0;
+    cols.forEach(function (c, i) { var w = Math.max(48, Math.round(widths[i] || 120)); c.style.width = w + "px"; sum += w; });
+    t.style.width = sum + "px";
+    t.classList.add("rz-fixed");
+  }
+  function measure(t) {
+    t.classList.remove("rz-fixed");
+    t.style.width = "";
+    ensureCols(t).forEach(function (c) { c.style.width = ""; });
+    var avail = t.parentElement ? t.parentElement.clientWidth : 0;
+    var w = headCells(t).map(function (th) { return Math.min(480, Math.max(64, th.getBoundingClientRect().width)); });
+    var sum = w.reduce(function (a, b) { return a + b; }, 0);
+    if (avail && sum < avail) { var extra = (avail - sum) / w.length; w = w.map(function (x) { return x + extra; }); }
+    return w;
+  }
+  function init(t) {
+    if (t.dataset.rzReady) return;
+    if (!t.offsetWidth) return;              // hidden (e.g. Cards view) — retried when it becomes visible
+    t.dataset.rzReady = "1";
+    var saved = load(keyOf(t));
+    var cells = headCells(t);
+    apply(t, saved && saved.length === cells.length ? saved : measure(t));
+    cells.forEach(function (th, i) {
+      if (th.querySelector(".col-resizer")) return;
+      var h = document.createElement("span");
+      h.className = "col-resizer";
+      h.setAttribute("role", "separator");
+      h.setAttribute("aria-orientation", "vertical");
+      h.title = "Drag to resize · double-click to reset widths";
+      th.appendChild(h);
+      h.addEventListener("pointerdown", function (e) {
+        e.preventDefault(); e.stopPropagation();
+        var cols = ensureCols(t);
+        var startX = e.clientX, startW = cols[i].getBoundingClientRect().width || parseFloat(cols[i].style.width) || 120;
+        var widths = cols.map(function (c) { return parseFloat(c.style.width) || c.getBoundingClientRect().width; });
+        h.setPointerCapture(e.pointerId);
+        document.body.classList.add("rz-dragging");
+        function move(ev) { widths[i] = Math.max(48, startW + ev.clientX - startX); sameTables(t).forEach(function (x) { apply(x, widths); }); }
+        function up() {
+          h.removeEventListener("pointermove", move); h.removeEventListener("pointerup", up); h.removeEventListener("pointercancel", up);
+          document.body.classList.remove("rz-dragging");
+          save(keyOf(t), widths.map(Math.round));
+        }
+        h.addEventListener("pointermove", move); h.addEventListener("pointerup", up); h.addEventListener("pointercancel", up);
+      });
+      h.addEventListener("click", function (e) { e.stopPropagation(); });
+      h.addEventListener("dblclick", function (e) {
+        e.preventDefault(); e.stopPropagation();
+        clear(keyOf(t));
+        sameTables(t).forEach(function (x) { if (x.offsetWidth) apply(x, measure(x)); });
+      });
+    });
+  }
+  function setup() {
+    var tables = document.querySelectorAll(".table-wrap > table:not(.matrix)");
+    var ro = window.ResizeObserver ? new ResizeObserver(function (es) { es.forEach(function (en) { init(en.target); }); }) : null;
+    Array.prototype.forEach.call(tables, function (t) {
+      if (!headCells(t).length) return;
+      t.classList.add("resizable");
+      init(t);
+      if (ro) ro.observe(t);
+    });
+    window.ugtResizeInit = function () { Array.prototype.forEach.call(document.querySelectorAll("table.resizable"), init); };
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", setup); else setup();
+})();
+"""
+
 
 VIEW_JS = r"""
 (function () {
@@ -798,6 +921,7 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
 </div>
 <script src="assets/view.js"></script>
 {extra_js}
+<script src="assets/resize.js"></script>
 </body>
 </html>
 """
@@ -982,14 +1106,14 @@ function matches(p) {
 }
 function renderChips(id, values, key, allLabel, extra) {
   const el = document.getElementById(id);
+  if (!el) return;
   const label = el.querySelector(".filter-label");
   let html = "";
-  html += `<button type="button" class="chip ${state[key]===""?"active":""}" data-key="${key}" data-val="">${allLabel}</button>`;
-  for (const v of values) html += `<button type="button" class="chip ${state[key]===v?"active":""}" data-key="${key}" data-val="${esc(v)}">${esc(v)}</button>`;
-  if (extra) for (const [lab, val] of extra) html += `<button type="button" class="chip ${state[key]===val?"active":""}" data-key="${key}" data-val="${esc(val)}">${esc(lab)}</button>`;
+  html += `<button type="button" class="chip ${state[key]===""?"active":""}" data-key="${key}" data-val="" aria-pressed="${state[key]===""}">${allLabel}</button>`;
+  for (const v of values) html += `<button type="button" class="chip ${state[key]===v?"active":""}" data-key="${key}" data-val="${esc(v)}" aria-pressed="${state[key]===v}">${esc(v)}</button>`;
+  if (extra) for (const [lab, val] of extra) html += `<button type="button" class="chip ${state[key]===val?"active":""}" data-key="${key}" data-val="${esc(val)}" aria-pressed="${state[key]===val}">${esc(lab)}</button>`;
   el.innerHTML = "";
   if (label) el.appendChild(label);
-  else { const s=document.createElement("span"); s.className="filter-label"; s.textContent=key==="stage"?"Stage":"Due date"; el.appendChild(s); }
   el.insertAdjacentHTML("beforeend", html);
 }
 function syncUrl() {
@@ -1049,19 +1173,27 @@ function render() {
   syncUrl();
 }
 function bind() {
+  const HEAD_ORDER = ["Universal Cloud", "Public Cloud", "Private Cloud", "Bare Metal", "SMB", "Standalone", "Cross-portfolio"];
   const dues = [...new Set(PRODUCTS.map(p => p.due).filter(Boolean))].sort();
-  const heads = [...new Set(PRODUCTS.flatMap(p => p.headProducts).filter(h => h && h !== "Unplaced"))].sort((a,b)=>a.localeCompare(b));
+  const headSet = new Set(PRODUCTS.flatMap(p => p.headProducts || []).filter(Boolean));
+  const heads = HEAD_ORDER.filter(h => headSet.has(h))
+    .concat([...headSet].filter(h => !HEAD_ORDER.includes(h) && h !== "Unplaced").sort((a,b)=>a.localeCompare(b)))
+    .concat(headSet.has("Unplaced") ? ["Unplaced"] : []);
   const cats = [...new Set(PRODUCTS.map(p => p.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  const cpos = [...new Set(PRODUCTS.map(p => p.cpo).filter(Boolean))].sort();
-  const tpos = [...new Set(PRODUCTS.map(p => p.tpo).filter(Boolean))].sort();
-  function fill(id, values, withUnassigned) {
-    const sel = document.getElementById(id);
-    const keep = withUnassigned ? 2 : 1;
-    const opts = [...sel.querySelectorAll("option")].slice(0, keep);
-    sel.innerHTML = ""; opts.forEach(o => sel.appendChild(o));
-    for (const v of values) { const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); }
-  }
-  fill("f-head", heads, false); fill("f-cat", cats, false); fill("f-cpo", cpos, true); fill("f-tpo", tpos, true);
+  function countBy(key) { const m = {}; PRODUCTS.forEach(p => { if (p[key]) m[p[key]] = (m[p[key]] || 0) + 1; }); return m; }
+  const cpoCount = countBy("cpo");
+  const cpos = Object.keys(cpoCount).sort((a,b) => (cpoCount[b]-cpoCount[a]) || a.localeCompare(b));   // biggest commercial owner first
+  const tpos = Object.keys(countBy("tpo")).sort((a,b)=>a.localeCompare(b));
+  const unCpo = PRODUCTS.some(p => !p.cpo) || state.cpo === "__unassigned__";
+  const unTpo = PRODUCTS.some(p => !p.tpo) || state.tpo === "__unassigned__";
+  const GROUPS = {
+    stage:    () => renderChips("stage-filters", STAGES, "stage", "All"),
+    due:      () => renderChips("due-filters", dues, "due", "All", [["Unscheduled","Unscheduled"]]),
+    head:     () => renderChips("head-filters", heads, "head", "All"),
+    category: () => renderChips("cat-filters", cats, "category", "All"),
+    cpo:      () => renderChips("cpo-filters", cpos, "cpo", "All", unCpo ? [["Unassigned","__unassigned__"]] : null),
+    tpo:      () => renderChips("tpo-filters", tpos, "tpo", "All", unTpo ? [["Unassigned","__unassigned__"]] : null),
+  };
   const params = new URLSearchParams(location.search);
   if (params.get("due")) state.due = params.get("due");
   if (params.get("stage")) state.stage = params.get("stage");
@@ -1069,24 +1201,15 @@ function bind() {
   if (params.get("category")) state.category = params.get("category");
   if (params.get("cpo")) state.cpo = params.get("cpo");
   if (params.get("tpo")) state.tpo = params.get("tpo");
-  renderChips("stage-filters", STAGES, "stage", "All");
-  renderChips("due-filters", dues, "due", "All", [["Unscheduled","Unscheduled"]]);
-  if (state.head) document.getElementById("f-head").value = state.head;
-  if (state.category) document.getElementById("f-cat").value = state.category;
-  if (state.cpo) document.getElementById("f-cpo").value = state.cpo;
-  if (state.tpo) document.getElementById("f-tpo").value = state.tpo;
-  document.getElementById("stage-filters").addEventListener("click", e => {
-    const btn = e.target.closest(".chip"); if (!btn) return;
-    state.stage = btn.dataset.val; renderChips("stage-filters", STAGES, "stage", "All"); render();
+  Object.values(GROUPS).forEach(fn => fn());
+  document.getElementById("filters").addEventListener("click", e => {
+    const btn = e.target.closest(".chip[data-key]"); if (!btn) return;
+    const key = btn.dataset.key;
+    if (!(key in GROUPS)) return;
+    state[key] = btn.dataset.val;
+    GROUPS[key]();
+    render();
   });
-  document.getElementById("due-filters").addEventListener("click", e => {
-    const btn = e.target.closest(".chip"); if (!btn) return;
-    state.due = btn.dataset.val; renderChips("due-filters", dues, "due", "All", [["Unscheduled","Unscheduled"]]); render();
-  });
-  document.getElementById("f-head").addEventListener("change", e => { state.head = e.target.value; render(); });
-  document.getElementById("f-cat").addEventListener("change", e => { state.category = e.target.value; render(); });
-  document.getElementById("f-cpo").addEventListener("change", e => { state.cpo = e.target.value; render(); });
-  document.getElementById("f-tpo").addEventListener("change", e => { state.tpo = e.target.value; render(); });
   document.getElementById("q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
   render();
 }
@@ -1107,15 +1230,13 @@ def build_products(products: list[dict], updated: str) -> str:
           <input id="q" type="search" placeholder="Search products, descriptions, owners, platforms" autocomplete="off"/>
         </label>
       </div>
-      <div class="filters">
-        <div class="filter-row" id="stage-filters"><span class="filter-label">Stage</span></div>
-        <div class="filter-row" id="due-filters"><span class="filter-label">Due date</span></div>
-        <div class="selects">
-          <label>Head product<select id="f-head"><option value="">All</option></select></label>
-          <label>Category<select id="f-cat"><option value="">All</option></select></label>
-          <label>Commercial owner<select id="f-cpo"><option value="">All</option><option value="__unassigned__">Unassigned</option></select></label>
-          <label>Technical owner<select id="f-tpo"><option value="">All</option><option value="__unassigned__">Unassigned</option></select></label>
-        </div>
+      <div class="filters" id="filters">
+        <div class="filter-row" id="stage-filters" role="group" aria-label="Stage"><span class="filter-label">Stage</span></div>
+        <div class="filter-row" id="due-filters" role="group" aria-label="Due date"><span class="filter-label">Due date</span></div>
+        <div class="filter-row" id="head-filters" role="group" aria-label="Head product"><span class="filter-label">Head product</span></div>
+        <div class="filter-row" id="cat-filters" role="group" aria-label="Category"><span class="filter-label">Category</span></div>
+        <div class="filter-row" id="cpo-filters" role="group" aria-label="Commercial owner"><span class="filter-label">Commercial owner</span></div>
+        <div class="filter-row" id="tpo-filters" role="group" aria-label="Technical owner"><span class="filter-label">Technical owner</span></div>
       </div>
 """ + view_toggle_bar() + """
       <div class="cards view-cards-target" id="cards"></div>
@@ -1414,22 +1535,14 @@ def build_status_notes(products: list[dict], tga_rows: list[dict], updated: str)
         <div class="kpi"><div class="k">With where</div><div class="v">{with_where}</div></div>
         <div class="kpi"><div class="k">Matched to ALL</div><div class="v">{matched}</div></div>
       </div>
-      <div class="filters" style="margin-top:1.5rem">
-        <div class="filter-row" id="note-filters">
-          <span class="filter-label">Show</span>
-          <button type="button" class="chip active" data-val="">All</button>
-          <button type="button" class="chip" data-val="status">Has status note</button>
-          <button type="button" class="chip" data-val="where">Has where-used</button>
-          <button type="button" class="chip" data-val="unmatched">Unmatched</button>
-        </div>
-        <div class="selects">
-          <label>Stage<select id="f-stage"><option value="">All</option></select></label>
-          <label>Head product<select id="f-head"><option value="">All</option></select></label>
-          <label>Category<select id="f-cat"><option value="">All</option></select></label>
-          <label class="search-box" style="margin-left:0;min-width:14rem">Search
-            <input id="q" type="search" placeholder="Search notes (incl. Georgian)" autocomplete="off"/>
-          </label>
-        </div>
+      <div class="filters" id="filters" style="margin-top:1.5rem">
+        <label class="search-box" style="margin-left:0;max-width:26rem"><span aria-hidden="true">⌕</span>
+          <input id="q" type="search" placeholder="Search notes (incl. Georgian)" autocomplete="off"/>
+        </label>
+        <div class="filter-row" id="note-filters" role="group" aria-label="Show"><span class="filter-label">Show</span></div>
+        <div class="filter-row" id="stage-filters" role="group" aria-label="Stage"><span class="filter-label">Stage</span></div>
+        <div class="filter-row" id="head-filters" role="group" aria-label="Head product"><span class="filter-label">Head product</span></div>
+        <div class="filter-row" id="cat-filters" role="group" aria-label="Category"><span class="filter-label">Category</span></div>
       </div>
       <p class="count" id="view-count"></p>
       <div class="table-wrap">
@@ -1445,6 +1558,7 @@ def build_status_notes(products: list[dict], tga_rows: list[dict], updated: str)
       </div>
       <div class="empty" id="empty" hidden>No rows match these filters.</div>
 """
+    stages_json = json.dumps(STAGES)
     js = f"""
 <script>
 const ROWS = {data_json};
@@ -1497,24 +1611,42 @@ function render() {{
     </tr>`;
   }}).join("");
 }}
+function chipsHtml(key, values, extra) {{
+  const one = (lab, val) => `<button type="button" class="chip ${{state[key]===val?"active":""}}" data-key="${{key}}" data-val="${{esc(val)}}" aria-pressed="${{state[key]===val}}">${{esc(lab)}}</button>`;
+  return one("All", "") + values.map(v => one(v, v)).join("") + (extra || []).map(([l, v]) => one(l, v)).join("");
+}}
+function paint(id, key, values, extra) {{
+  const el = document.getElementById(id);
+  const label = el.querySelector(".filter-label");
+  el.innerHTML = "";
+  el.appendChild(label);
+  el.insertAdjacentHTML("beforeend", chipsHtml(key, values, extra));
+}}
 function bind() {{
-  const stages = [...new Set(ROWS.map(r => r.stage).filter(Boolean))];
-  const heads = [...new Set(ROWS.flatMap(r => r.headProducts || []).filter(Boolean))].sort();
-  const cats = [...new Set(ROWS.map(r => r.category).filter(Boolean))].sort();
-  function fill(id, values) {{
-    const sel = document.getElementById(id);
-    for (const v of values) {{ const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); }}
-  }}
-  fill("f-stage", stages); fill("f-head", heads); fill("f-cat", cats);
-  document.getElementById("note-filters").addEventListener("click", e => {{
-    const btn = e.target.closest(".chip"); if (!btn) return;
-    state.filter = btn.dataset.val;
-    document.querySelectorAll("#note-filters .chip").forEach(c => c.classList.toggle("active", c === btn));
+  const STAGE_ORDER = {stages_json};
+  const HEAD_ORDER = ["Universal Cloud", "Public Cloud", "Private Cloud", "Bare Metal", "SMB", "Standalone", "Cross-portfolio"];
+  const stageSet = new Set(ROWS.map(r => r.stage).filter(Boolean));
+  const stages = STAGE_ORDER.filter(s => stageSet.has(s)).concat([...stageSet].filter(s => !STAGE_ORDER.includes(s)).sort());
+  const headSet = new Set(ROWS.flatMap(r => r.headProducts || []).filter(Boolean));
+  const heads = HEAD_ORDER.filter(h => headSet.has(h))
+    .concat([...headSet].filter(h => !HEAD_ORDER.includes(h) && h !== "Unplaced").sort((a,b)=>a.localeCompare(b)))
+    .concat(headSet.has("Unplaced") ? ["Unplaced"] : []);
+  const cats = [...new Set(ROWS.map(r => r.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const GROUPS = {{
+    filter:   () => paint("note-filters", "filter", [], [["Has status note","status"],["Has where-used","where"],["Unmatched","unmatched"]]),
+    stage:    () => paint("stage-filters", "stage", stages),
+    head:     () => paint("head-filters", "head", heads),
+    category: () => paint("cat-filters", "category", cats),
+  }};
+  Object.values(GROUPS).forEach(fn => fn());
+  document.getElementById("filters").addEventListener("click", e => {{
+    const btn = e.target.closest(".chip[data-key]"); if (!btn) return;
+    const key = btn.dataset.key;
+    if (!(key in GROUPS)) return;
+    state[key] = btn.dataset.val;
+    GROUPS[key]();
     render();
   }});
-  document.getElementById("f-stage").addEventListener("change", e => {{ state.stage = e.target.value; render(); }});
-  document.getElementById("f-head").addEventListener("change", e => {{ state.head = e.target.value; render(); }});
-  document.getElementById("f-cat").addEventListener("change", e => {{ state.category = e.target.value; render(); }});
   document.getElementById("q").addEventListener("input", e => {{ state.q = e.target.value.trim().toLowerCase(); render(); }});
   render();
 }}
@@ -1547,6 +1679,7 @@ def main() -> None:
     (SITE / "assets").mkdir(exist_ok=True)
     (SITE / "assets" / "site.css").write_text(SHARED_CSS)
     (SITE / "assets" / "view.js").write_text(VIEW_JS)
+    (SITE / "assets" / "resize.js").write_text(RESIZE_JS)
     (SITE / "index.html").write_text(build_overview(products, updated), encoding="utf-8")
     (SITE / "products.html").write_text(build_products(products, updated), encoding="utf-8")
     (SITE / "platforms.html").write_text(build_platforms(products, updated), encoding="utf-8")
