@@ -101,10 +101,11 @@ def tech_display(tech: str, sub: str) -> str:
 def load_products(path: Path) -> list[dict]:
     wb = openpyxl.load_workbook(path, data_only=True)
     ws = wb["UGT Product Portfolio ALL"]
-    headers = [ws.cell(3, c).value for c in range(1, 11)]
+    ncols = ws.max_column
+    headers = [clean_text(ws.cell(3, c).value) or f"col{c}" for c in range(1, ncols + 1)]
     products = []
     for r in range(4, ws.max_row + 1):
-        row = {headers[c - 1]: ws.cell(r, c).value for c in range(1, 11)}
+        row = {headers[c - 1]: ws.cell(r, c).value for c in range(1, ncols + 1)}
         name = clean_text(row.get("Product"))
         if not name and row.get("N") is None:
             continue
