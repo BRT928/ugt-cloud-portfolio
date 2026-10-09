@@ -26,7 +26,7 @@
     "category": "Storage",
     "technology": "Storpool / Netapp",
     "stage": "Production",
-    "due": "2027 Q2",
+    "due": null,
     "cpo": "TGA",
     "tpo": "AJA",
     "description": "ძირითადი მეხსიერება — ვირტუალურ მანქანაზე მიერთებული მუდმივი დისკი (Storpool/NetApp), Public Cloud-ში.",
@@ -693,7 +693,7 @@
     "category": "Storage",
     "technology": "Netapp AFF QLC FS2 Flash",
     "stage": "Production",
-    "due": "2026 Q4",
+    "due": null,
     "cpo": "TGA",
     "tpo": "SME",
     "description": "NetApp AFF (QLC) ფაილური საცავი Private, Universal და Public Cloud-ისთვის. სსდ ებით ნვმე",
@@ -826,20 +826,20 @@
   },
   {
     "n": 49,
-    "product": "Dynamic GPU",
+    "product": "GPUaaS",
     "headProducts": [
       "Standalone"
     ],
     "category": "AI",
-    "technology": "Hosted AI",
+    "technology": "Hosted AI Dynamic GPU",
     "stage": "Pre-Production",
     "due": "2027 Q1",
     "cpo": "TGA",
     "tpo": "SME",
     "description": "1 ჯიპიუს რამოდენიმე კლიენტზე გაზიარება,",
-    "statusUpdate": "მივწერე დღეს და ველოდები პასუხს",
+    "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-56"
+    "tgaId": null
   },
   {
     "n": 50,
