@@ -119,6 +119,7 @@ def clean_multiline(v) -> str:
 # Header aliases (matched case-insensitively, by name — never by column position)
 HEADER_ALIASES = {
     "Description": ("description", "descriptions", "product description", "აღწერა", "აღწერილობა"),
+    "PortalName": ("product name in portal", "product name in the portal", "portal name", "portal product name", "name in portal"),
 }
 
 
@@ -178,6 +179,7 @@ def load_products(path: Path) -> list[dict]:
                 "cpo": owner_or_none(row.get("CPO")),
                 "tpo": owner_or_none(row.get("TPO")),
                 "description": clean_multiline(row.get("Description")) or None,
+                "portalName": clean_text(row.get("PortalName")) or None,
             }
         )
     return products
@@ -206,9 +208,9 @@ def load_tga_nni(path: Path) -> list[dict]:
             break
     if ws is None:
         raise KeyError(f"Status sheet not found (tried 'TGA & NNI', 'NNI'); sheets: {wb.sheetnames}")
-    raw_headers = [ws.cell(1, c).value for c in range(1, 13)]
+    raw_headers = [ws.cell(1, c).value for c in range(1, ws.max_column + 1)]
     # Normalise header names (leading space on Status Update)
-    headers = [clean_text(h) if h else f"col{c}" for c, h in enumerate(raw_headers, 1)]
+    headers = [canonical_header(clean_text(h)) if h else f"col{c}" for c, h in enumerate(raw_headers, 1)]
     # Map known aliases
     rename = {
         "Status Update": "statusUpdate",
@@ -223,14 +225,17 @@ def load_tga_nni(path: Path) -> list[dict]:
         "CPO": "cpo",
         "TPO": "tpo",
         "N": "n",
+        "PortalName": "portalName",
     }
     rows = []
     for r in range(2, ws.max_row + 1):
-        raw = {headers[c - 1]: ws.cell(r, c).value for c in range(1, 13)}
+        raw = {}
+        for c in range(1, len(headers) + 1):
+            raw.setdefault(headers[c - 1], ws.cell(r, c).value)
         mapped = {}
         for k, v in raw.items():
             key = rename.get(k, k)
-            if key in ("statusUpdate", "whereUsed", "product", "headProduct", "technology", "subProducts", "category", "stage", "due", "cpo", "tpo"):
+            if key in ("statusUpdate", "whereUsed", "portalName", "product", "headProduct", "technology", "subProducts", "category", "stage", "due", "cpo", "tpo"):
                 # Preserve Georgian; only collapse whitespace / nbsp
                 if v is None:
                     mapped[key] = ""
@@ -364,11 +369,12 @@ def product_card_html(p: dict, base: str = ".") -> str:
     desc = ""
     if p.get("description"):
         desc = f'<p class="card-desc ka" title="{esc(p["description"])}">{esc(p["description"])}</p>'
+    portal = f'<div class="card-portal" title="Product name in portal">🏷 {esc(p["portalName"])}</div>' if p.get("portalName") else ""
     return f"""
     <article class="card">
       <a class="card-stretch" href="{base}/product-{p['n']}.html" aria-label="{esc(p['product'])}"></a>
       <div class="card-top">
-        <div class="card-title">{esc(p['product'])}</div>
+        <div><div class="card-title">{esc(p['product'])}</div>{portal}</div>
         <span class="badge {badge_class(p['stage'])}">{esc(p['stage'])}</span>
       </div>
       <div class="meta">{esc(p['category'] or '—')}</div>
@@ -401,6 +407,7 @@ def product_table_rows(products: list[dict], base: str = ".", include_notes: boo
             f"<td>{esc(p['cpo'] or 'Unassigned')}</td>"
             f"<td>{esc(p['tpo'] or 'Unassigned')}</td>"
             f"<td>{esc(p['technology'] or '—')}</td>"
+            f"<td>{esc(p.get('portalName') or '—')}</td>"
             f"{note_cell}"
             f"</tr>"
         )
@@ -455,6 +462,7 @@ nav.side a.active, nav.side a:hover { background: var(--secondary); color: var(-
 .snap .num { font-family: Fraunces, serif; font-size: 1.85rem; margin-top: .25rem; }
 .snap .hint { font-size: .875rem; color: var(--muted); margin-top: .25rem; }
 .updated { font-size: .7rem; color: var(--muted); margin-top: .6rem; line-height: 1.3; }
+.card-portal { font-size:.78rem; color: var(--accent); margin-top:.15rem; font-weight:500; }
 header.top {
   position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: .75rem;
   padding: .75rem 2rem; border-bottom: 1px solid var(--border);
@@ -1105,7 +1113,7 @@ function matches(p) {
   if (state.tpo === "__unassigned__") { if (p.tpo) return false; }
   else if (state.tpo && p.tpo !== state.tpo) return false;
   if (state.q) {
-    const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.statusUpdate || "", p.whereUsed || "", p.description || "", ...(p.headProducts || [])].join(" ").toLowerCase();
+    const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.statusUpdate || "", p.whereUsed || "", p.description || "", p.portalName || "", ...(p.headProducts || [])].join(" ").toLowerCase();
     if (!hay.includes(state.q)) return false;
   }
   return true;
@@ -1149,7 +1157,7 @@ function render() {
     return `
     <article class="card">
       <a class="card-stretch" href="product-${p.n}.html" aria-label="${esc(p.product)}"></a>
-      <div class="card-top"><div class="card-title">${esc(p.product)}</div><span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></div>
+      <div class="card-top"><div><div class="card-title">${esc(p.product)}</div>${p.portalName ? `<div class="card-portal" title="Product name in portal">🏷 ${esc(p.portalName)}</div>` : ""}</div><span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></div>
       <div class="meta">${esc(p.category || "—")}</div>
       <div class="heads">${(p.headProducts||[]).map(h=>`<span class="pill">${esc(h)}</span>`).join("")}</div>
       <div class="meta">${esc(p.due || "Unscheduled")}${p.technology ? " · " + esc(p.technology) : ""}</div>
@@ -1173,6 +1181,7 @@ function render() {
       <td>${esc(p.cpo || "Unassigned")}</td>
       <td>${esc(p.tpo || "Unassigned")}</td>
       <td>${esc(p.technology || "—")}</td>
+      <td>${esc(p.portalName || "—")}</td>
       <td>${bits.length ? bits.join("<br/>") : "—"}</td>
     </tr>`;
   }).join("");
@@ -1247,7 +1256,7 @@ def build_products(products: list[dict], updated: str) -> str:
 """ + view_toggle_bar() + """
       <div class="cards view-cards-target" id="cards"></div>
       <div class="table-wrap view-table-target"><table>
-        <thead><tr><th>Product</th><th>Description</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <thead><tr><th>Product</th><th>Description</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table></div>
       <div class="empty" id="empty" hidden>No products match these filters.</div>
@@ -1313,7 +1322,7 @@ def build_roadmap(products: list[dict], updated: str) -> str:
             f'<div class="section-body">'
             f'<p class="muted">Target from the register. <strong>{len(group)}</strong></p>'
             f'<div class="cards view-cards-target">{"".join(product_card_html(p) for p in group)}</div>'
-            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>'
+            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>'
             f"<tbody>{product_table_rows(group)}</tbody></table></div></div></section>"
         )
     # delivery stages first then production/pipeline/terminated like Grok
@@ -1336,7 +1345,7 @@ def build_roadmap(products: list[dict], updated: str) -> str:
             f'<div class="section-body">'
             f'<p class="muted">{esc(blurbs.get(stage, ""))} <strong>{len(group)}</strong></p>'
             f'<div class="cards view-cards-target">{"".join(product_card_html(p) for p in group)}</div>'
-            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>'
+            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>'
             f"<tbody>{product_table_rows(group)}</tbody></table></div></div></section>"
         )
     body = f"""
@@ -1429,7 +1438,7 @@ def build_owner_page(code: str, products: list[dict], updated: str) -> str:
         <div class="section-body">
         <p class="muted">Accountable for the offer, packaging and go-to-market. · {len(as_cpo)} as CPO · {len(as_tpo)} as TPO</p>
         <div class="cards view-cards-target">{''.join(product_card_html(p) for p in as_cpo)}</div>
-        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody>{product_table_rows(as_cpo)}</tbody></table></div>
         </div>
       </section>
@@ -1441,7 +1450,7 @@ def build_owner_page(code: str, products: list[dict], updated: str) -> str:
         <div class="section-body">
         <p class="muted">Accountable for technical delivery, architecture and operational readiness.</p>
         <div class="cards view-cards-target">{''.join(product_card_html(p) for p in as_tpo)}</div>
-        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody>{product_table_rows(as_tpo)}</tbody></table></div>
         </div>
       </section>
@@ -1478,12 +1487,13 @@ def build_product_page(p: dict, products: list[dict], updated: str) -> str:
             '<div class="panel desc-panel"><h2>Description</h2>'
             '<p class="muted" style="margin:.5rem 0 0">No description in the register yet.</p></div>'
         )
+    portal_dd = f'<dt>Portal name</dt><dd><strong>{esc(p["portalName"])}</strong></dd>' if p.get("portalName") else ""
     body = f"""
       <p class="eyebrow"><a class="muted" href="products.html">Products</a> / {esc(p['product'])}</p>
       <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;justify-content:space-between">
         <div>
           <h1>{esc(p['product'])}</h1>
-          <p class="lede">{esc(p['category'] or '—')} · line #{p['n']}</p>
+          <p class="lede">{esc(p['category'] or '—')} · line #{p['n']}</p>{('<p class="card-portal" style="font-size:.95rem;margin:.25rem 0 0">Portal name: <strong>' + esc(p['portalName']) + '</strong></p>') if p.get('portalName') else ''}
         </div>
         <span class="badge {badge_class(p['stage'])}" style="font-size:.85rem;padding:.4rem .75rem">{esc(p['stage'])}</span>
       </div>
@@ -1497,6 +1507,7 @@ def build_product_page(p: dict, products: list[dict], updated: str) -> str:
             <dt>Stage</dt><dd>{esc(p['stage'])}</dd>
             <dt>Due</dt><dd>{esc(p['due'] or 'Unscheduled')}</dd>
             <dt>Technology</dt><dd>{esc(p['technology'] or '—')}</dd>
+            {portal_dd}
           </dl>
         </div>
         <div class="panel">
@@ -1555,7 +1566,7 @@ def build_status_notes(products: list[dict], tga_rows: list[dict], updated: str)
         <table>
           <thead>
             <tr>
-              <th>N</th><th>Product</th><th>Status update</th><th>Where used</th>
+              <th>N</th><th>Product</th><th>Status update</th><th>Where used</th><th>Portal name</th>
               <th>Head</th><th>Category</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>ALL link</th>
             </tr>
           </thead>
@@ -1583,7 +1594,7 @@ function matches(t) {{
   if (state.head && !(t.headProducts || []).includes(state.head)) return false;
   if (state.category && t.category !== state.category) return false;
   if (state.q) {{
-    const hay = [t.product, t.statusUpdate, t.whereUsed, t.category, t.stage, t.due, t.cpo, t.tpo, ...(t.headProducts||[])].join(" ").toLowerCase();
+    const hay = [t.product, t.statusUpdate, t.whereUsed, t.portalName || "", t.category, t.stage, t.due, t.cpo, t.tpo, ...(t.headProducts||[])].join(" ").toLowerCase();
     if (!hay.includes(state.q)) return false;
   }}
   return true;
@@ -1607,6 +1618,7 @@ function render() {{
       <td>${{title}}</td>
       <td class="ka">${{esc(t.statusUpdate || "—")}}</td>
       <td>${{esc(t.whereUsed || "—")}}</td>
+      <td>${{esc(t.portalName || "—")}}</td>
       <td>${{esc((t.headProducts||[]).join(", ") || "—")}}</td>
       <td>${{esc(t.category || "—")}}</td>
       <td>${{t.stage ? `<span class="badge ${{badgeClass(t.stage)}}">${{esc(t.stage)}}</span>` : "—"}}</td>

@@ -46,6 +46,7 @@ nav.side a.active, nav.side a:hover { background: var(--secondary); color: var(-
 .snap .num { font-family: Fraunces, serif; font-size: 1.85rem; margin-top: .25rem; }
 .snap .hint { font-size: .875rem; color: var(--muted); margin-top: .25rem; }
 .updated { font-size: .7rem; color: var(--muted); margin-top: .6rem; line-height: 1.3; }
+.card-portal { font-size:.78rem; color: var(--accent); margin-top:.15rem; font-weight:500; }
 header.top {
   position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: .75rem;
   padding: .75rem 2rem; border-bottom: 1px solid var(--border);
