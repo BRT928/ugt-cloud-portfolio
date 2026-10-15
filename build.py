@@ -207,10 +207,34 @@ def find_header_row(ws, must_have=("product",), scan_rows: int = 15) -> int:
 
 def canonical_header(h: str) -> str:
     low = h.lower()
+    if re.match(r"^p+d+f", re.sub(r"[^a-z]", "", low)):
+        return "PDDF"
     for canon, aliases in HEADER_ALIASES.items():
         if low in aliases:
             return canon
     return h
+
+
+def pddf_link(ws, r, headers) -> str | None:
+    """Hyperlink on the PDDF cell, or a URL typed into it."""
+    if "PDDF" not in headers:
+        return None
+    c = ws.cell(r, headers.index("PDDF") + 1)
+    if c.hyperlink is not None and c.hyperlink.target:
+        return c.hyperlink.target
+    v = clean_text(c.value)
+    return v if re.match(r"^https?://", v or "") else None
+
+
+def pddf_html(p: dict) -> str:
+    if not p.get("pddf") and not p.get("pddfUrl"):
+        return "—"
+    label = p.get("pddf") or "PDF"
+    if p.get("pddfUrl"):
+        if re.match(r"^https?://", label):
+            label = "📄 PDF"
+        return f'<a href="{esc(p["pddfUrl"])}" target="_blank" rel="noopener">📄 {esc(label)}</a>' if not label.startswith("📄") else f'<a href="{esc(p["pddfUrl"])}" target="_blank" rel="noopener">{label}</a>'
+    return esc(label)
 
 
 def load_products(path: Path) -> list[dict]:
@@ -259,6 +283,8 @@ def load_products(path: Path) -> list[dict]:
                 "tpo": owner_or_none(row.get("TPO")),
                 "description": clean_multiline(row.get("Description")) or None,
                 "portalName": clean_text(row.get("PortalName")) or None,
+                "pddf": clean_text(row.get("PDDF")) or None,
+                "pddfUrl": pddf_link(ws, r, headers),
             }
         )
     return products
@@ -427,7 +453,7 @@ def fattrs(p: dict) -> str:
     """data-* attributes consumed by assets/filter.js"""
     text = " ".join(str(x) for x in [p["product"], p.get("category") or "", p["stage"], p.get("due") or "",
                     p.get("technology") or "", p.get("cpo") or "", p.get("tpo") or "", p.get("description") or "",
-                    p.get("portalName") or "", " ".join(p["headProducts"])]).lower()
+                    p.get("portalName") or "", p.get("pddf") or "", " ".join(p["headProducts"])]).lower()
     return (f' data-fitem data-n="{p["n"]}" data-f-stage="{esc(p["stage"])}" data-f-due="{esc(p.get("due") or "Unscheduled")}"'
             f' data-f-head="{esc("|".join(p["headProducts"]))}" data-f-category="{esc(p.get("category") or "")}"'
             f' data-f-cpo="{esc(p.get("cpo") or "Unassigned")}" data-f-tpo="{esc(p.get("tpo") or "Unassigned")}"'
@@ -498,6 +524,7 @@ def product_table_rows(products: list[dict], base: str = ".", include_notes: boo
             f"<td>{esc(p['tpo'] or 'Unassigned')}</td>"
             f"<td>{esc(p['technology'] or '—')}</td>"
             f"<td>{esc(p.get('portalName') or '—')}</td>"
+            f"<td>{pddf_html(p)}</td>"
             f"{note_cell}"
             f"</tr>"
         )
@@ -1370,7 +1397,7 @@ function matches(p) {
   if (state.tpo === "__unassigned__") { if (p.tpo) return false; }
   else if (state.tpo && p.tpo !== state.tpo) return false;
   if (state.q) {
-    const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.statusUpdate || "", p.whereUsed || "", p.description || "", p.portalName || "", ...(p.headProducts || [])].join(" ").toLowerCase();
+    const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.statusUpdate || "", p.whereUsed || "", p.description || "", p.portalName || "", p.pddf || "", ...(p.headProducts || [])].join(" ").toLowerCase();
     if (!hay.includes(state.q)) return false;
   }
   return true;
@@ -1439,6 +1466,7 @@ function render() {
       <td>${esc(p.tpo || "Unassigned")}</td>
       <td>${esc(p.technology || "—")}</td>
       <td>${esc(p.portalName || "—")}</td>
+      <td>${p.pddfUrl ? `<a href="${esc(p.pddfUrl)}" target="_blank" rel="noopener">📄 ${esc(/^https?:/.test(p.pddf||"") ? "PDF" : (p.pddf || "PDF"))}</a>` : esc(p.pddf || "—")}</td>
       <td>${bits.length ? bits.join("<br/>") : "—"}</td>
     </tr>`;
   }).join("");
@@ -1513,7 +1541,7 @@ def build_products(products: list[dict], updated: str) -> str:
 """ + view_toggle_bar() + """
       <div class="cards view-cards-target" id="cards"></div>
       <div class="table-wrap view-table-target"><table>
-        <thead><tr><th>Product</th><th>Description</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>
+        <thead><tr><th>Product</th><th>Description</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>PDDF phase</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table></div>
       <div class="empty" id="empty" hidden>No products match these filters.</div>
@@ -1576,7 +1604,7 @@ def build_roadmap(products: list[dict], updated: str) -> str:
             f'<div class="section-body">'
             f'<p class="muted">Target from the register. <strong>{len(group)}</strong></p>'
             f'<div class="cards view-cards-target">{"".join(product_card_html(p) for p in group)}</div>'
-            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>'
+            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>PDDF phase</th><th>TGA &amp; NNI</th></tr></thead>'
             f"<tbody>{product_table_rows(group)}</tbody></table></div></div></section>"
         )
     # delivery stages first then production/pipeline/terminated like Grok
@@ -1601,7 +1629,7 @@ def build_roadmap(products: list[dict], updated: str) -> str:
             f'<div class="section-body">'
             f'<p class="muted">{esc(blurbs.get(stage, ""))} <strong>{len(group)}</strong></p>'
             f'<div class="cards view-cards-target">{"".join(product_card_html(p) for p in group)}</div>'
-            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>'
+            f'<div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>PDDF phase</th><th>TGA &amp; NNI</th></tr></thead>'
             f"<tbody>{product_table_rows(group)}</tbody></table></div></div></section>"
         )
     body = f"""
@@ -1704,7 +1732,7 @@ def build_owner_page(code: str, products: list[dict], updated: str) -> str:
         <div class="section-body">
         <p class="muted">Accountable for the offer, packaging and go-to-market. · {len(as_cpo)} as CPO · {len(as_tpo)} as TPO</p>
         <div class="cards view-cards-target">{''.join(product_card_html(p) for p in as_cpo)}</div>
-        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>PDDF phase</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody>{product_table_rows(as_cpo)}</tbody></table></div>
         </div>
       </section>
@@ -1716,7 +1744,7 @@ def build_owner_page(code: str, products: list[dict], updated: str) -> str:
         <div class="section-body">
         <p class="muted">Accountable for technical delivery, architecture and operational readiness.</p>
         <div class="cards view-cards-target">{''.join(product_card_html(p) for p in as_tpo)}</div>
-        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>TGA &amp; NNI</th></tr></thead>
+        <div class="table-wrap view-table-target"><table><thead><tr><th>Product</th><th>Category</th><th>Head product</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Portal name</th><th>PDDF phase</th><th>TGA &amp; NNI</th></tr></thead>
         <tbody>{product_table_rows(as_tpo)}</tbody></table></div>
         </div>
       </section>
@@ -1754,6 +1782,11 @@ def build_product_page(p: dict, products: list[dict], updated: str) -> str:
             '<p class="muted" style="margin:.5rem 0 0">No description in the register yet.</p></div>'
         )
     portal_dd = f'<dt>Portal name</dt><dd><strong>{esc(p["portalName"])}</strong></dd>' if p.get("portalName") else ""
+    if p.get("pddf") or p.get("pddfUrl"):
+        portal_dd += f'<dt>PDDF phase</dt><dd>{pddf_html(p)}</dd>'
+        if p.get("pddfUrl"):
+            portal_dd += f'<dd><a class="chip active" href="{esc(p["pddfUrl"])}" target="_blank" rel="noopener">📄 Open PDF</a></dd>'
+
     body = f"""
       <p class="eyebrow"><a class="muted" href="products.html">Products</a> / {esc(p['product'])}</p>
       <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;justify-content:space-between">

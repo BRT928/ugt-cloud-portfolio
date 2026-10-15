@@ -14,6 +14,8 @@
     "tpo": "AJA",
     "description": "გამოთვლითი ინსტანცია vCPU-ით, ოპერატიული მეხსიერებით და დისკით, Linux ან Windows ოპერაციული სისტემით.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-2"
@@ -32,6 +34,8 @@
     "tpo": "AJA",
     "description": "ძირითადი მეხსიერება — ვირტუალურ მანქანაზე მიერთებული მუდმივი დისკი (Storpool/NetApp), Public Cloud-ში.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -50,6 +54,8 @@
     "tpo": "AJA",
     "description": "ძირითადი მეხსიერება — Universal Cloud-ის ვირტუალურ მანქანაზე მიერთებული მუდმივი დისკი .",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-3"
@@ -69,6 +75,8 @@
     "tpo": "AJA",
     "description": "VPC (ვირტუალური კერძო ქსელი) — იზოლირებული ქსელური გარემო საკუთარი ქვექსელებითა და მარშრუტიზაციით, CloudStack-ზე.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-4"
@@ -87,6 +95,8 @@
     "tpo": "AJA",
     "description": "ვირტუალური ქსელური ფაირვოლი — Public Cloud-ში ტრაფიკის ფილტრაცია და დაცვა (pfSense/Fortinet).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -105,6 +115,8 @@
     "tpo": "AJA",
     "description": "ვირტუალური ქსელური ფუნქციები (ფაირვოლი/როუტერი) pfSense, Fortinet ან MikroTik-ზე, Universal Cloud-ში.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "მიკროტიკზე აკომფიგებს სერგი",
     "whereUsed": null,
     "tgaId": "tga-5"
@@ -123,6 +135,8 @@
     "tpo": "GBU",
     "description": "ინსტანციის სარეზერვო ასლი — ვირტუალური მანქანის მთლიანი ასლი შენახული ქსელურ ,ნელ საცავზე NAS მეორე დატაცენტრში",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-6"
@@ -142,6 +156,8 @@
     "tpo": "VMD",
     "description": "2 წუთში პროვიზირებადი ფიზიკური სერვერი როგორც სერვისი (bare metal),/ გამოყოფილი რესურსი კლაუდსტეკის ორკესტრაციით.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "შეხვედრა გვაქვს და გავივლით",
     "whereUsed": null,
     "tgaId": "tga-7"
@@ -160,6 +176,8 @@
     "tpo": "GBU",
     "description": "ვირტუალური მანქანა თავისი დედიქეითედ ჯიპიუთი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "დოკუმენტაციის ნაწილში რა იცვლება?\nკითხვას ვერ მივხვდი რისი დოკუმენტაციის ნაწილში ?",
     "whereUsed": null,
     "tgaId": "tga-9"
@@ -178,6 +196,8 @@
     "tpo": "AJA",
     "description": "კლიენტური VPN -ის ვირტუალური მანქანა, მომხმარებლის უსაფრთხო დაშორებული წვდომისთვის.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "შეხვედრაა ჩანიშნული და გავივლით რესერჩის შედეგებს",
     "whereUsed": null,
     "tgaId": "tga-10"
@@ -196,6 +216,8 @@
     "tpo": "SME",
     "description": "კატასტროფების აღდგენა (DR) — ინფრასტრუქტურის აღდგენა ავარიის შემთხვევაში (Sendense/Veeam), Universal Cloud-ში.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "აფდეითი დაყენდა და 9-მდე მორჩება კომფიგურაცია",
     "whereUsed": null,
     "tgaId": "tga-11"
@@ -214,6 +236,8 @@
     "tpo": null,
     "description": "კონტეინერების ორკესტრაციის პლატფორმა Universal Cloud-ზე (CloudStack).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-12"
@@ -232,6 +256,8 @@
     "tpo": null,
     "description": "კონტეინერების ორკესტრაციის პლატფორმა Public Cloud-ზე (CloudStack).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -250,6 +276,8 @@
     "tpo": null,
     "description": "დამოუკიდებელი კლასტერი, კონკრეტულ ღრუბლოვან პლატფორმაზე მიბმის გარეშე.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-13"
@@ -268,6 +296,8 @@
     "tpo": null,
     "description": "მონაცემთა ბაზა როგორც სერვისი (XaaS), Universal Cloud-ში; ბაზის ადმინისტრირებას უიჯითი ქლაუდი იღებს.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-14"
@@ -286,6 +316,8 @@
     "tpo": null,
     "description": "მონაცემთა ბაზა როგორც სერვისი Standalone განთავსებით, კონკრეტული ღრუბლოვანი პლატფორმის გარეშე.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-15"
@@ -304,6 +336,8 @@
     "tpo": "AJA",
     "description": "AI ასისტენტი რომელიც ეხმარება კლიენტს გააკეთოს ნებისმიერი მოქმედება ჩათის მეშვეობით Universal Cloud-ში.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "დასაზუსტებელია ადმინისტრირებისთვის თუ გამოვიყენებთ მხოლოდ CMP-ს, მიწერილია ველოდებით პასუხს",
     "whereUsed": null,
     "tgaId": "tga-16"
@@ -322,6 +356,8 @@
     "tpo": "GBU",
     "description": "სრული ფუნქციონალით რეზერვირება, ინკრემეტალური, გრანულარული ბექაფირება, აგენტის საჭიროების გარეშე",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -340,6 +376,8 @@
     "tpo": "GBU",
     "description": "საზიარო ფაილური სისტემა — რამდენიმე ინსტანციაზე ერთდროულად მიერთებული ფაილური მეხსიერება (CloudStack).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "გიას აქვს ეს ამოცანა და 12-მდე აქვს დედლაინი, მანამდეც დავსინქონდებით",
     "whereUsed": null,
     "tgaId": "tga-18"
@@ -358,6 +396,8 @@
     "tpo": "SME",
     "description": "მომხმარებლისთვის გამოყოფილი VMware გარემო (ლიცენზია BYOL).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-19"
@@ -376,6 +416,8 @@
     "tpo": "SME",
     "description": "Microsoft Hyper-V ჰიპერვიზორზე აგებული კერძო კლასტერი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-20"
@@ -394,6 +436,8 @@
     "tpo": "SME",
     "description": "Apache CloudStack-ზე აგებული გამოყოფილი გარემო.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-21"
@@ -412,6 +456,8 @@
     "tpo": "SME",
     "description": "HPE Morpheus-ით მართული კერძო კლასტერი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-22"
@@ -430,6 +476,8 @@
     "tpo": "SME",
     "description": "Nutanix HCI პლატფორმაზე აგებული კერძო კლასტერი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-23"
@@ -448,6 +496,8 @@
     "tpo": "SME",
     "description": "Proxmox VE-ზე აგებული კერძო კლასტერი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-24"
@@ -466,6 +516,8 @@
     "tpo": "SME",
     "description": "კერძო კლასტერების VM-ების სარეზერვო ასლი Veeam/Nakivo-თი, აგენტის გარეშე.",
     "portalName": "Cloud backup &",
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-25"
@@ -484,6 +536,8 @@
     "tpo": "SME",
     "description": "კატასტროფების აღდგენა (DR) — კერძო ღრუბლის აღდგენის სერვისი ავარიის შემთხვევაში (Nakivo/Veeam).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-26"
@@ -502,6 +556,8 @@
     "tpo": "SME",
     "description": "გამოყოფილი სერვერები — ფიზიკური სერვერი (HPE/Supermicro), სრულად მომხმარებლისთვის გამოყოფილი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-27"
@@ -520,6 +576,8 @@
     "tpo": "SME",
     "description": "გამოყოფილი GPU სერვერები — ფიზიკური სერვერი Nvidia GPU-ით (HPE/Supermicro) AI-სა და მძიმე გამოთვლისთვის.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-28"
@@ -538,6 +596,8 @@
     "tpo": "SME",
     "description": "ფაირვოლები (Bare Metal) — ფიზიკური უსაფრთხოების მოწყობილობა ტრაფიკის ფილტრაციისთვის.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-29"
@@ -556,6 +616,8 @@
     "tpo": "SME",
     "description": "კომუტატორები (Switches) — ფიზიკური ქსელური კომუტატორები Bare Metal ინფრასტრუქტურაში.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-32"
@@ -574,6 +636,8 @@
     "tpo": "SME",
     "description": "ქსელური საცავი ფაილებისა და ბექაპისთვის. ნელ დისკებზე",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-35"
@@ -592,6 +656,8 @@
     "tpo": "GBU",
     "description": "სტანდარტული იზოლირებული VPS-ები მცირე ბიზნესისთვის ვირტუალური სერვერი 1 ფაბლიქ მისამართით",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "მონიკას და გუგას კომენტარები",
     "whereUsed": null,
     "tgaId": "tga-36"
@@ -610,6 +676,8 @@
     "tpo": "GBU",
     "description": "მართვადი VPS — ადმინისტრირებადი ვირტუალური სერვერი SMB-სთვის; მართვა პროვაიდერის მხარესაა.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "გუგას დავუკავშირდე",
     "whereUsed": null,
     "tgaId": "tga-37"
@@ -628,6 +696,8 @@
     "tpo": "GBU",
     "description": "AI აგენტის VPS — წინასწარ მომზადებული VPS AI აგენტით (OpenClaw/Hermes/n8n).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -646,6 +716,8 @@
     "tpo": "GBU",
     "description": "დაშაბლონებული ბიზნეს აპლიკაციებით გამზადებული ვირტუალური სერვერი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-39"
@@ -664,6 +736,8 @@
     "tpo": "SME",
     "description": "ობიექტური მეხსიერების პაკეტები მცირე ბიზნესისთვის, ერთ ზონაში (Ceph).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-40"
@@ -682,6 +756,8 @@
     "tpo": "GBU",
     "description": "SMB-სთვის გამარტივებული სარეზერვო ასლი NAS-ზე.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-41"
@@ -700,6 +776,8 @@
     "tpo": "SME",
     "description": "მაღალი წარმადობის ბლოკური საცავი ნვმე სსდებზე HPE Alletra-ზე, კერძო ღრუბლისთვის.",
     "portalName": "FBS",
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-42"
@@ -718,6 +796,8 @@
     "tpo": "SME",
     "description": "ჰიბრიდული ბლოკური მეხსიერება HPE Nimble-ზე, კერძო ღრუბლისთვის. სსდ+ჰდდ",
     "portalName": "HBS/CBS",
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-43"
@@ -738,6 +818,8 @@
     "tpo": "SME",
     "description": "NetApp AFF (QLC) ფაილური საცავი Private, Universal და Public Cloud-ისთვის. სსდ ებით ნვმე",
     "portalName": "FS2 Flash",
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-44"
@@ -759,6 +841,8 @@
     "tpo": "SME",
     "description": "ტევადი ფაილური/ბექაპ საცავი AIC JBOD-ზე (Toshiba დისკები). ნელი ჰდდებით",
     "portalName": "FS2 Basic",
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-46"
@@ -778,6 +862,8 @@
     "tpo": "SME",
     "description": "S3 Standard (ერთი ზონა) — ობიექტური საცავი S3 API-ით, ერთ ზონაში (Ceph). ჰდდებით",
     "portalName": "PAYG/ Reserved",
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "ლოკის და ელასტიკის გატესტვა",
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-49"
@@ -796,6 +882,8 @@
     "tpo": null,
     "description": null,
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -814,6 +902,8 @@
     "tpo": "SME",
     "description": "S3 Standard (რამდენიმე ზონა) — ობიექტური საცავი რამდენიმე ზონაში, მაღალი ხელმისაწვდომობით.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-51"
@@ -832,6 +922,8 @@
     "tpo": "SME",
     "description": "იშვიათი გამოყენებისთვის ობიექტური სანახი, წარმადობა იგივე რაც სტანდარტს , უბრალოდ შეინახე და დაივიწყე მიდგომით",
     "portalName": null,
+    "pddf": "Solution",
+    "pddfUrl": null,
     "statusUpdate": "loop-ში გამზადებულია დისქოვერი ფაზა/ გადაწყვეტილია პირველადი გაშვებისთვის დაბილვის სოლუშენი/ სერგი აკეთებს ბილინგის მოდელს ამის შემდგომ დატესტვენ სხვადასხვა ექაუნთით სხვადასხვა ხერხით როგორ მუშაობს, თუ სწორი იყო დავიწყებთ ვალიდაციის და გაპროდაქშენების ნაბიჯებს",
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-52"
@@ -850,6 +942,8 @@
     "tpo": "SME",
     "description": "S3 Premium — პრემიუმ ობიექტური მეხსიერება უფრო მაღალი წარმადობით (Ceph).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-53"
@@ -868,6 +962,8 @@
     "tpo": "SME",
     "description": "ცივი არქივი გრძელვადიანი შენახვისთვის (PoINT Archival Gateway), დაბალი ღირებულებით. ლენტური ბიბლიოთეკა,",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-54"
@@ -886,6 +982,8 @@
     "tpo": null,
     "description": "საზიარო მეხსიერება (OneDrive-ის ალტერნატივა) — ფაილების გაზიარება და სინქრონიზაცია Nextcloud-ზე.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-55"
@@ -904,6 +1002,8 @@
     "tpo": "SME",
     "description": "1 ჯიპიუს რამოდენიმე კლიენტზე გაზიარება,",
     "portalName": "Dynamic GPU",
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "მივწერე დღეს და ველოდები პასუხს",
     "whereUsed": null,
     "tgaId": "tga-56"
@@ -922,6 +1022,8 @@
     "tpo": "AJA",
     "description": "მომხმარებლის საკუთარი აღჭურვილობის განთავსება UGT მონაცემთა ცენტრში (HPE კარადები).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-57"
@@ -940,6 +1042,8 @@
     "tpo": "ZAN",
     "description": "Microsoft 365-ის ბექაპი — Exchange, SharePoint, OneDrive და Teams მონაცემების სარეზერვო ასლი (Nakivo).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "tgaId": "tga-58"
@@ -958,6 +1062,8 @@
     "tpo": null,
     "description": "მარკეტპლეისი — პროდუქტებისა და სერვისების შეკვეთის პლატფორმა (HostBill).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
@@ -976,6 +1082,8 @@
     "tpo": "SME",
     "description": "UGT Cloud Connect 10 გბიტ/წმ (მომხმარებელი–UGT) — პირდაპირი ბოჭკოვანი არხი (dark fiber) მომხმარებლის ოფისიდან UGT-მდე.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-59"
@@ -994,6 +1102,8 @@
     "tpo": "SME",
     "description": "UGT Cloud Connect 10 გბიტ/წმ (POP–UGT) — 10 გბიტ/წმ არხი POP წერტილიდან UGT-მდე (CWDM).",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-63"
@@ -1012,6 +1122,8 @@
     "tpo": "SME",
     "description": "UGT Port Connect — პორტის შეერთება კომუტატორზე UGT-ის ქსელთან დასაკავშირებლად.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-67"
@@ -1030,6 +1142,8 @@
     "tpo": "SME",
     "description": "UGT Cloud Inter-Link 10 გბიტ/წმ — შიდა კავშირი UGT-ის TBS1 და TBS2 მოედნებს შორის.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-71"
@@ -1048,6 +1162,8 @@
     "tpo": "SME",
     "description": "RDA — დისტანციური სამუშაო მაგიდა (Remote Desktop Access) TS Plus-ზე.",
     "portalName": "Standard/Ent/Ult/Web & Mobile",
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-75"
@@ -1066,6 +1182,8 @@
     "tpo": "AJA",
     "description": "ფაირვოლები (Standalone) — გამოყოფილი ფაირვოლი Check Point/Fortinet ან ვირტუალური ფაირვოლი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-79"
@@ -1084,6 +1202,8 @@
     "tpo": "AJA",
     "description": "გლობალური ინტერნეტი — გამოყოფილი საერთაშორისო ინტერნეტ-არხი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-83"
@@ -1102,6 +1222,8 @@
     "tpo": "AJA",
     "description": "ლოკალური ინტერნეტი — გამოყოფილი ადგილობრივი ინტერნეტ-არხი.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-87"
@@ -1120,6 +1242,8 @@
     "tpo": "AJA",
     "description": "საჯარო IPv4 მისამართები — დამატებითი საჯარო IPv4 მისამართების გამოყოფა.",
     "portalName": "IPv4/ IP Blocks",
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-91"
@@ -1138,6 +1262,8 @@
     "tpo": "AJA",
     "description": "USB მოწყობილობა IP-ზე — USB მოწყობილობის (გასაღები, ლიცენზია) დისტანციური მიერთება IP-ით.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Universal Cloud",
     "tgaId": "tga-95"
@@ -1156,6 +1282,8 @@
     "tpo": "AJA",
     "description": "მართვადი Site-to-Site VPN — ოფისებს შორის დაშიფრული გვირაბი (OpenVPN), პროვაიდერის მიერ მართული.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-97"
@@ -1174,6 +1302,8 @@
     "tpo": "AJA",
     "description": "მართვადი VPN კლიენტები — მომხმარებლის VPN წვდომა (OpenVPN), პროვაიდერის მიერ მართული.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-100"
@@ -1192,6 +1322,8 @@
     "tpo": "AJA",
     "description": "პროფესიული სერვისები — დანერგვა, მიგრაცია, არქიტექტურა და კონსულტაცია ყველა პროდუქტზე.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": "თორნიკემ უნდა გადაწყვიტოს დიზაინს როგორ ვაკეთებთ",
     "whereUsed": null,
     "tgaId": "tga-103"
@@ -1210,6 +1342,8 @@
     "tpo": "AJA",
     "description": "მხარდაჭერის სერვისები — ტექნიკური მხარდაჭერა და ინციდენტებზე რეაგირება ყველა პროდუქტზე.",
     "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-104"
