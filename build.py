@@ -74,10 +74,31 @@ def finalize_stages(products: list[dict]) -> None:
             STAGE_COLORS[s] = pool.pop(0) if pool else "#9CA3AF"
 
 
+SOFT_STAGE = {  # stage -> (background, text, dot)
+    "Production":     ("#E3F4EA", "#1E6B3E", "#2F9E5B"),
+    "Pre-Production": ("#EDF6E1", "#4A6B1F", "#7FB241"),
+    "Deployment":     ("#E2F1FA", "#185E85", "#2E94C9"),
+    "Development":    ("#FBF3D5", "#7A5C0A", "#D9A916"),
+    "Wishlist":       ("#FCEBDD", "#8A4512", "#E07B2E"),
+    "Terminated":     ("#FBE4E4", "#962B2B", "#D64545"),
+    "Pre-Development":("#EFE8F8", "#5B3A8C", "#8E68C9"),
+    "Pipeline":       ("#ECEEF2", "#454B57", "#8A93A3"),
+}
+SOFT_FALLBACK = [("#E6EEFB", "#2F4F8F", "#5B7FD1"), ("#F6E6F0", "#7D2F5E", "#C0569A"),
+                 ("#E2F3F1", "#1F625B", "#3BA597"), ("#F3EDE4", "#6B4E2A", "#A9824F")]
+
+
 def stage_css() -> str:
-    out = ["/* stage colours derived from the Excel Stage column fills */"]
-    for s, c in STAGE_COLORS.items():
-        out.append(f".{badge_class(s)} {{ background: {c}; color: {text_on(c)}; border: 1px solid rgba(0,0,0,.08); }}")
+    out = ["/* soft stage palette (hue family matches the Excel fills) */",
+           ".badge { display:inline-flex; align-items:center; gap:.35rem; font-weight:600; border-radius:999px; }",
+           ".badge::before { content:''; width:.45rem; height:.45rem; border-radius:50%; background:var(--dot, currentColor); flex:none; }"]
+    i = 0
+    for s in STAGES:
+        if s in SOFT_STAGE:
+            bg, fg, dot = SOFT_STAGE[s]
+        else:
+            bg, fg, dot = SOFT_FALLBACK[i % len(SOFT_FALLBACK)]; i += 1
+        out.append(f".{badge_class(s)} {{ background:{bg}; color:{fg}; --dot:{dot}; border:1px solid {dot}33; }}")
     return "\n".join(out) + "\n"
 PLATFORM_COLS = [
     "Universal Cloud",

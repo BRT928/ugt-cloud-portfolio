@@ -237,13 +237,15 @@ body.view-table .view-cards-target { display: none !important; }
 .section-head .chev { color: var(--muted); font-size: .9rem; transition: transform .15s; }
 .section.is-collapsed .chev { transform: rotate(-90deg); }
 .section.is-collapsed .section-body { display: none; }
-/* stage colours derived from the Excel Stage column fills */
-.badge-production { background: #00B050; color: #111111; border: 1px solid rgba(0,0,0,.08); }
-.badge-pre-production { background: #92D050; color: #111111; border: 1px solid rgba(0,0,0,.08); }
-.badge-deployment { background: #00B0F0; color: #111111; border: 1px solid rgba(0,0,0,.08); }
-.badge-wishlist { background: #FFC000; color: #111111; border: 1px solid rgba(0,0,0,.08); }
-.badge-development { background: #FFFF00; color: #111111; border: 1px solid rgba(0,0,0,.08); }
-.badge-terminated { background: #FF0000; color: #111111; border: 1px solid rgba(0,0,0,.08); }
+/* soft stage palette (hue family matches the Excel fills) */
+.badge { display:inline-flex; align-items:center; gap:.35rem; font-weight:600; border-radius:999px; }
+.badge::before { content:''; width:.45rem; height:.45rem; border-radius:50%; background:var(--dot, currentColor); flex:none; }
+.badge-production { background:#E3F4EA; color:#1E6B3E; --dot:#2F9E5B; border:1px solid #2F9E5B33; }
+.badge-pre-production { background:#EDF6E1; color:#4A6B1F; --dot:#7FB241; border:1px solid #7FB24133; }
+.badge-deployment { background:#E2F1FA; color:#185E85; --dot:#2E94C9; border:1px solid #2E94C933; }
+.badge-development { background:#FBF3D5; color:#7A5C0A; --dot:#D9A916; border:1px solid #D9A91633; }
+.badge-wishlist { background:#FCEBDD; color:#8A4512; --dot:#E07B2E; border:1px solid #E07B2E33; }
+.badge-terminated { background:#FBE4E4; color:#962B2B; --dot:#D64545; border:1px solid #D6454533; }
 
 .ffilters { margin-top: 1.5rem; }
 .ffilters .ftop { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; }
