@@ -144,12 +144,6 @@ td.desc-cell .desc-trunc {
   display: inline-flex; align-items: center; border-radius: 999px;
   padding: .2rem .55rem; font-size: .7rem; font-weight: 600; white-space: nowrap;
 }
-.badge-production { color: #166534; background: #dcfce7; }
-.badge-pre-production { color: #9a3412; background: #ffedd5; }
-.badge-development { color: #1e40af; background: #dbeafe; }
-.badge-pre-development { color: #6b21a8; background: #f3e8ff; }
-.badge-pipeline { color: #3f3f46; background: #f4f4f5; }
-.badge-terminated { color: #991b1b; background: #fee2e2; }
 .meta { font-size: .8rem; color: var(--muted); }
 .heads { display: flex; flex-wrap: wrap; gap: .35rem; }
 .pill { background: var(--secondary); color: var(--fg); border-radius: 6px; padding: .15rem .45rem; font-size: .72rem; }
@@ -243,3 +237,15 @@ body.view-table .view-cards-target { display: none !important; }
 .section-head .chev { color: var(--muted); font-size: .9rem; transition: transform .15s; }
 .section.is-collapsed .chev { transform: rotate(-90deg); }
 .section.is-collapsed .section-body { display: none; }
+/* stage colours derived from the Excel Stage column fills */
+.badge-production { background: #00B050; color: #111111; border: 1px solid rgba(0,0,0,.08); }
+.badge-pre-production { background: #92D050; color: #111111; border: 1px solid rgba(0,0,0,.08); }
+.badge-deployment { background: #00B0F0; color: #111111; border: 1px solid rgba(0,0,0,.08); }
+.badge-wishlist { background: #FFC000; color: #111111; border: 1px solid rgba(0,0,0,.08); }
+.badge-development { background: #FFFF00; color: #111111; border: 1px solid rgba(0,0,0,.08); }
+.badge-terminated { background: #FF0000; color: #111111; border: 1px solid rgba(0,0,0,.08); }
+
+.ffilters { margin-top: 1.5rem; }
+.ffilters .ftop { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; }
+.fcount { font-size:.85rem; color: var(--muted); }
+[data-fitem].fhide, [data-fsection].fhide { display: none !important; }

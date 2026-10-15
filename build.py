@@ -20,14 +20,65 @@ SITE = ROOT / "docs"  # GitHub Pages /docs
 
 STAGE_FIX = {"Pre-Prodcution": "Pre-Production"}
 HEAD_FIX = {"ALL": "Cross-portfolio"}
-STAGES = [
+# Preferred lifecycle order; actual STAGES is rebuilt from the Excel in main().
+STAGE_ORDER = [
     "Production",
     "Pre-Production",
+    "Deployment",
     "Development",
     "Pre-Development",
+    "Wishlist",
     "Pipeline",
     "Terminated",
 ]
+STAGES = list(STAGE_ORDER)
+STAGE_COLORS: dict[str, str] = {}  # stage -> "#RRGGBB", read from the Excel Stage cell fills
+FALLBACK_COLORS = ["#8E7CC3", "#E06666", "#6FA8DC", "#F6B26B", "#93C47D", "#C27BA0", "#76A5AF", "#FFD966", "#A4C2F4", "#B4A7D6"]
+DELIVERY_STAGES = ("Pre-Production", "Deployment", "Development", "Pre-Development")
+BACKLOG_STAGES = ("Wishlist", "Pipeline")
+
+
+def text_on(hex_color: str) -> str:
+    h = hex_color.lstrip("#")
+    r, g, b = (int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    lin = lambda c: c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    L = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+    # pick whichever of black / white contrasts better
+    return "#111111" if (L + 0.05) / 0.05 >= 1.05 / (L + 0.05) else "#ffffff"
+
+
+def cell_fill_hex(cell) -> str | None:
+    try:
+        f = cell.fill
+        if f is None or f.fill_type != "solid":
+            return None
+        rgb = f.fgColor.rgb
+        if isinstance(rgb, str) and len(rgb) in (6, 8) and rgb.upper() not in ("00000000", "FFFFFFFF"):
+            return "#" + rgb[-6:].upper()
+    except Exception:
+        pass
+    return None
+
+
+def finalize_stages(products: list[dict]) -> None:
+    global STAGES
+    present = []
+    for p in products:
+        if p["stage"] and p["stage"] not in present:
+            present.append(p["stage"])
+    STAGES = [s for s in STAGE_ORDER if s in present] + sorted(s for s in present if s not in STAGE_ORDER)
+    used = {c.upper() for c in STAGE_COLORS.values()}
+    pool = [c for c in FALLBACK_COLORS if c.upper() not in used]
+    for s in STAGES:
+        if s not in STAGE_COLORS:
+            STAGE_COLORS[s] = pool.pop(0) if pool else "#9CA3AF"
+
+
+def stage_css() -> str:
+    out = ["/* stage colours derived from the Excel Stage column fills */"]
+    for s, c in STAGE_COLORS.items():
+        out.append(f".{badge_class(s)} {{ background: {c}; color: {text_on(c)}; border: 1px solid rgba(0,0,0,.08); }}")
+    return "\n".join(out) + "\n"
 PLATFORM_COLS = [
     "Universal Cloud",
     "Public Cloud",
@@ -61,9 +112,11 @@ GLOSSARY = [
     ("Pre-Production", "Final preparation before production."),
     ("Development", "Actively being built."),
     ("Pre-Development", "Concept, discovery or preparation before development."),
+    ("Deployment", "Being rolled out / deployed towards production."),
+    ("Wishlist", "Wanted or planned product, not yet in delivery."),
     ("Pipeline", "Planned product / backlog item."),
     ("Terminated", "No longer active in the portfolio."),
-    ("In Delivery", "Executive roll-up of Pre-Production plus Development."),
+    ("In Delivery", "Executive roll-up of Pre-Production, Deployment and Development."),
     ("Due Date", "Target year and quarter from the register, for example 2026 Q4. Unscheduled means the team has not set one yet."),
 ]
 
@@ -156,6 +209,11 @@ def load_products(path: Path) -> list[dict]:
             continue
         stage_raw = clean_text(row.get("Stage"))
         stage = STAGE_FIX.get(stage_raw, stage_raw)
+        if stage and stage not in STAGE_COLORS and "Stage" in headers:
+            col = headers.index("Stage") + 1
+            hx = cell_fill_hex(ws.cell(r, col))
+            if hx:
+                STAGE_COLORS[stage] = hx
         heads = split_heads(row.get("Head Product"))
         if not heads:
             heads = ["Unplaced"]
@@ -341,7 +399,18 @@ def esc(s) -> str:
 
 
 def badge_class(stage: str) -> str:
-    return "badge-" + stage.lower().replace(" ", "-")
+    return "badge-" + re.sub(r"[^a-z0-9]+", "-", (stage or "").lower()).strip("-")
+
+
+def fattrs(p: dict) -> str:
+    """data-* attributes consumed by assets/filter.js"""
+    text = " ".join(str(x) for x in [p["product"], p.get("category") or "", p["stage"], p.get("due") or "",
+                    p.get("technology") or "", p.get("cpo") or "", p.get("tpo") or "", p.get("description") or "",
+                    p.get("portalName") or "", " ".join(p["headProducts"])]).lower()
+    return (f' data-fitem data-n="{p["n"]}" data-f-stage="{esc(p["stage"])}" data-f-due="{esc(p.get("due") or "Unscheduled")}"'
+            f' data-f-head="{esc("|".join(p["headProducts"]))}" data-f-category="{esc(p.get("category") or "")}"'
+            f' data-f-cpo="{esc(p.get("cpo") or "Unassigned")}" data-f-tpo="{esc(p.get("tpo") or "Unassigned")}"'
+            f' data-ftext="{esc(text)}"')
 
 
 def owner_chip_html(code: str | None, role: str, base: str = ".") -> str:
@@ -371,7 +440,7 @@ def product_card_html(p: dict, base: str = ".") -> str:
         desc = f'<p class="card-desc ka" title="{esc(p["description"])}">{esc(p["description"])}</p>'
     portal = f'<div class="card-portal" title="Product name in portal">🏷 {esc(p["portalName"])}</div>' if p.get("portalName") else ""
     return f"""
-    <article class="card">
+    <article class="card"{fattrs(p)}>
       <a class="card-stretch" href="{base}/product-{p['n']}.html" aria-label="{esc(p['product'])}"></a>
       <div class="card-top">
         <div><div class="card-title">{esc(p['product'])}</div>{portal}</div>
@@ -398,7 +467,7 @@ def product_table_rows(products: list[dict], base: str = ".", include_notes: boo
                 bits.append(f'<span class="muted">{esc(p["whereUsed"])}</span>')
             note_cell = f"<td>{'<br/>'.join(bits) if bits else '—'}</td>"
         rows.append(
-            f"<tr>"
+            f"<tr{fattrs(p)}>"
             f'<td><a href="{base}/product-{p["n"]}.html"><strong>{esc(p["product"])}</strong></a></td>'
             f"<td>{esc(p['category'] or '—')}</td>"
             f"<td>{esc(', '.join(p['headProducts']))}</td>"
@@ -560,12 +629,6 @@ td.desc-cell .desc-trunc {
   display: inline-flex; align-items: center; border-radius: 999px;
   padding: .2rem .55rem; font-size: .7rem; font-weight: 600; white-space: nowrap;
 }
-.badge-production { color: #166534; background: #dcfce7; }
-.badge-pre-production { color: #9a3412; background: #ffedd5; }
-.badge-development { color: #1e40af; background: #dbeafe; }
-.badge-pre-development { color: #6b21a8; background: #f3e8ff; }
-.badge-pipeline { color: #3f3f46; background: #f4f4f5; }
-.badge-terminated { color: #991b1b; background: #fee2e2; }
 .meta { font-size: .8rem; color: var(--muted); }
 .heads { display: flex; flex-wrap: wrap; gap: .35rem; }
 .pill { background: var(--secondary); color: var(--fg); border-radius: 6px; padding: .15rem .45rem; font-size: .72rem; }
@@ -858,6 +921,111 @@ VIEW_JS = r"""
 """
 
 
+FILTER_CSS = r"""
+.ffilters { margin-top: 1.5rem; }
+.ffilters .ftop { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; }
+.fcount { font-size:.85rem; color: var(--muted); }
+[data-fitem].fhide, [data-fsection].fhide { display: none !important; }
+"""
+
+FILTER_JS = r"""
+(function () {
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function init(box) {
+    var state = {}, q = "";
+    var items = Array.prototype.slice.call(document.querySelectorAll("[data-fitem]"));
+    var rows = Array.prototype.slice.call(box.querySelectorAll(".filter-row[data-fkey]"));
+    var params = new URLSearchParams(location.search);
+    function vals(el, key) { var v = el.getAttribute("data-f-" + key); return v ? v.split("|") : []; }
+    rows.forEach(function (row) {
+      var key = row.getAttribute("data-fkey");
+      var order = JSON.parse(row.getAttribute("data-forder") || "[]");
+      var tail = JSON.parse(row.getAttribute("data-ftail") || "[]");
+      var labels = JSON.parse(row.getAttribute("data-flabels") || "{}");
+      var set = {};
+      items.forEach(function (it) { vals(it, key).forEach(function (v) { if (v) set[v] = 1; }); });
+      var all = Object.keys(set);
+      var list = order.filter(function (v) { return set[v]; })
+        .concat(all.filter(function (v) { return order.indexOf(v) < 0 && tail.indexOf(v) < 0; }).sort(function (a, b) { return a.localeCompare(b); }))
+        .concat(tail.filter(function (v) { return set[v]; }));
+      state[key] = params.get(key) && set[params.get(key)] ? params.get(key) : "";
+      var html = '<button type="button" class="chip" data-v="">All</button>';
+      list.forEach(function (v) { html += '<button type="button" class="chip" data-v="' + esc(v) + '">' + esc(labels[v] || v) + '</button>'; });
+      row.insertAdjacentHTML("beforeend", html);
+      row.addEventListener("click", function (e) {
+        var b = e.target.closest(".chip[data-v]"); if (!b) return;
+        var v = b.getAttribute("data-v");
+        state[key] = (state[key] === v && v !== "") ? "" : v;
+        apply();
+      });
+    });
+    var input = box.querySelector("input[data-fsearch]");
+    if (input) input.addEventListener("input", function () { q = input.value.trim().toLowerCase(); apply(); });
+    function apply() {
+      rows.forEach(function (row) {
+        var key = row.getAttribute("data-fkey");
+        row.querySelectorAll(".chip[data-v]").forEach(function (b) {
+          var on = b.getAttribute("data-v") === state[key];
+          b.classList.toggle("active", on); b.setAttribute("aria-pressed", on);
+        });
+      });
+      var seen = {};
+      items.forEach(function (it) {
+        var ok = true;
+        for (var k in state) { if (state[k] && vals(it, k).indexOf(state[k]) < 0) { ok = false; break; } }
+        if (ok && q && (it.getAttribute("data-ftext") || "").indexOf(q) < 0) ok = false;
+        it.classList.toggle("fhide", !ok);
+        if (ok) seen[it.getAttribute("data-n") || Math.random()] = 1;
+      });
+      document.querySelectorAll("[data-fsection]").forEach(function (sec) {
+        sec.classList.toggle("fhide", !sec.querySelector("[data-fitem]:not(.fhide)"));
+      });
+      var n = Object.keys(seen).length, c = box.querySelector(".fcount");
+      if (c) c.textContent = n + " " + (box.getAttribute("data-fnoun") || "item") + (n === 1 ? "" : "s") + " in view.";
+      var empty = document.getElementById("fempty"); if (empty) empty.hidden = n > 0;
+      var u = new URL(location.href);
+      for (var k2 in state) { if (state[k2]) u.searchParams.set(k2, state[k2]); else u.searchParams.delete(k2); }
+      history.replaceState(history.state, "", u);
+    }
+    apply();
+  }
+  function boot() { document.querySelectorAll(".ffilters").forEach(init); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
+})();
+"""
+
+HEAD_ORDER = ["Universal Cloud", "Public Cloud", "Private Cloud", "Bare Metal", "SMB", "Standalone", "Cross-portfolio"]
+
+
+def filter_bar(groups: list[tuple], noun: str = "product", placeholder: str = "Search") -> str:
+    """groups: (key, label, order list, tail list, labels dict)"""
+    rows = []
+    for g in groups:
+        key, label, order = g[0], g[1], g[2]
+        tail = g[3] if len(g) > 3 else []
+        labels = g[4] if len(g) > 4 else {}
+        rows.append(
+            f'<div class="filter-row" data-fkey="{key}" data-forder=\'{esc(json.dumps(order, ensure_ascii=False))}\' '
+            f'data-ftail=\'{esc(json.dumps(tail, ensure_ascii=False))}\' data-flabels=\'{esc(json.dumps(labels, ensure_ascii=False))}\' '
+            f'role="group" aria-label="{esc(label)}"><span class="filter-label">{esc(label)}</span></div>'
+        )
+    return (
+        f'<div class="ffilters filters" data-fnoun="{noun}">'
+        f'<div class="ftop"><span class="fcount"></span><label class="search-box"><span aria-hidden="true">⌕</span>'
+        f'<input data-fsearch type="search" placeholder="{esc(placeholder)}" autocomplete="off"/></label></div>'
+        + "".join(rows) + "</div>"
+    )
+
+
+def product_filter_groups(include_due: bool = True) -> list[tuple]:
+    g = [("stage", "Stage", STAGES)]
+    if include_due:
+        g.append(("due", "Due date", [], ["Unscheduled"]))
+    g += [("head", "Head product", HEAD_ORDER, ["Unplaced"]), ("category", "Category", []),
+          ("cpo", "Commercial owner", [], ["Unassigned"]), ("tpo", "Technical owner", [], ["Unassigned"])]
+    return g
+
+
 def view_toggle_bar(count_html: str = "", count_id: str = "view-count") -> str:
     return f"""
 <div class="count-row">
@@ -873,8 +1041,8 @@ def view_toggle_bar(count_html: str = "", count_id: str = "view-count") -> str:
 
 def shell(page: str, title: str, body: str, products: list[dict], updated: str, extra_head: str = "", extra_js: str = "") -> str:
     live = sum(1 for p in products if p["stage"] == "Production")
-    delivery = sum(1 for p in products if p["stage"] in ("Pre-Production", "Development"))
-    pipe = sum(1 for p in products if p["stage"] == "Pipeline")
+    delivery = sum(1 for p in products if p["stage"] in DELIVERY_STAGES)
+    pipe = sum(1 for p in products if p["stage"] in BACKLOG_STAGES)
     nav = [
         ("index.html", "Overview", "overview"),
         ("products.html", "Products", "products"),
@@ -925,7 +1093,7 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
   </aside>
   <div>
     <header class="top">
-      <div class="stats">{live} live · {delivery} in delivery · {pipe} pipeline</div>
+      <div class="stats">{live} live · {delivery} in delivery · {pipe} wishlist</div>
     </header>
     <div class="content">
 {body}
@@ -936,6 +1104,7 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
 <script src="assets/view.js"></script>
 {extra_js}
 <script src="assets/resize.js"></script>
+<script src="assets/filter.js"></script>
 </body>
 </html>
 """
@@ -975,7 +1144,7 @@ def build_overview(products: list[dict], updated: str) -> str:
     no_cpo = [p for p in products if not p["cpo"]]
     no_tpo = [p for p in products if not p["tpo"]]
     scheduled = sum(1 for p in products if p["due"])
-    delivery = by_stage.get("Pre-Production", 0) + by_stage.get("Development", 0)
+    delivery = sum(by_stage.get(s, 0) for s in DELIVERY_STAGES)
     owners_n = len(set(list(cpo_c) + list(tpo_c)))
 
     kpis = [
@@ -983,8 +1152,7 @@ def build_overview(products: list[dict], updated: str) -> str:
         ("Production", by_stage.get("Production", 0), "products.html?stage=Production"),
         ("In delivery", delivery, "roadmap.html"),
         ("Scheduled", scheduled, "roadmap.html"),
-        ("Pipeline", by_stage.get("Pipeline", 0), "products.html?stage=Pipeline"),
-        ("Pre-development", by_stage.get("Pre-Development", 0), "products.html?stage=Pre-Development"),
+        *[(s, by_stage.get(s, 0), f"products.html?stage={s}") for s in STAGES if s not in ("Production", "Terminated")],
         ("Terminated", by_stage.get("Terminated", 0), "products.html?stage=Terminated"),
     ]
     kpi_html = "".join(
@@ -1093,7 +1261,7 @@ const STAGES = __STAGES__;
 const state = { stage: "", due: "", head: "", category: "", cpo: "", tpo: "", q: "" };
 
 function badgeClass(stage) {
-  return "badge-" + String(stage || "").toLowerCase().replace(/\s+/g, "-");
+  return "badge-" + String(stage || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 function esc(s) {
   return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -1273,17 +1441,13 @@ def build_platforms(products: list[dict], updated: str) -> str:
         for h in p["headProducts"]:
             if h in PLATFORM_COLS:
                 counts[h] += 1
-    chips = ['<a class="chip" href="products.html">All</a>'] + [
-        f'<a class="chip" href="products.html?platform={h.replace(" ", "+")}">{esc(h)} · {counts.get(h, 0)}</a>'
-        for h in PLATFORM_COLS
-    ]
     rows = []
     for p in products:
         marks = "".join(
             f'<td class="mark">{"●" if h in p["headProducts"] else ""}</td>' for h in PLATFORM_COLS
         )
         rows.append(
-            f'<tr><td><a href="product-{p["n"]}.html">{esc(p["product"])}</a> '
+            f'<tr{fattrs(p)}><td><a href="product-{p["n"]}.html">{esc(p["product"])}</a> '
             f'<span class="muted">{esc(p["category"])}</span></td>{marks}'
             f'<td><span class="badge {badge_class(p["stage"])}">{esc(p["stage"])}</span></td></tr>'
         )
@@ -1297,7 +1461,7 @@ def build_platforms(products: list[dict], updated: str) -> str:
       <p class="eyebrow">2026 register</p>
       <h1>Product × platform</h1>
       <p class="lede">Which offers sit on each head product. A filled mark means the line is associated with that platform.</p>
-      <div class="filter-row" style="margin-top:1.25rem"><span class="filter-label">Head product</span>{''.join(chips)}</div>
+      {filter_bar(product_filter_groups(include_due=False), "product", "Search products on platforms")}
       <div class="panel mt">
         <ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:1rem">
           {''.join(f'<li><strong>{counts.get(h,0)}</strong> <span class="muted">{esc(h)}</span></li>' for h in PLATFORM_COLS)}
@@ -1307,6 +1471,7 @@ def build_platforms(products: list[dict], updated: str) -> str:
         <thead><tr><th>Product</th>{head_cells}<th>Stage</th></tr></thead>
         <tbody>{''.join(rows)}</tbody>
       </table></div>
+      <div class="empty" id="fempty" hidden>No products match these filters.</div>
 """
     return shell("platforms", "Platforms", body, products, updated)
 
@@ -1317,7 +1482,7 @@ def build_roadmap(products: list[dict], updated: str) -> str:
     for due in dues:
         group = [p for p in products if p["due"] == due]
         sections.append(
-            f'<section class="section" data-collapsible id="due-{esc(due).replace(" ","-")}">'
+            f'<section class="section" data-fsection data-collapsible id="due-{esc(due).replace(" ","-")}">'
             f'<button type="button" class="section-head" aria-expanded="true"><h2>{esc(due)}</h2><span class="chev">▾</span></button>'
             f'<div class="section-body">'
             f'<p class="muted">Target from the register. <strong>{len(group)}</strong></p>'
@@ -1326,12 +1491,14 @@ def build_roadmap(products: list[dict], updated: str) -> str:
             f"<tbody>{product_table_rows(group)}</tbody></table></div></div></section>"
         )
     # delivery stages first then production/pipeline/terminated like Grok
-    stage_order = ["Pre-Production", "Development", "Pre-Development", "Pipeline", "Production", "Terminated"]
+    stage_order = [s for s in STAGES if s in DELIVERY_STAGES] + [s for s in STAGES if s not in DELIVERY_STAGES and s not in ("Production", "Terminated")] + [s for s in ("Production", "Terminated") if s in STAGES]
     blurbs = {
         "Pre-Production": "Final preparation before going live.",
         "Development": "Actively being built.",
         "Pre-Development": "Discovery and preparation before build.",
         "Pipeline": "Planned backlog — not yet in delivery.",
+        "Deployment": "Being rolled out towards production.",
+        "Wishlist": "Wanted, not yet in delivery.",
         "Production": "Live and operational.",
         "Terminated": "Removed from the active portfolio.",
     }
@@ -1340,7 +1507,7 @@ def build_roadmap(products: list[dict], updated: str) -> str:
         if not group:
             continue
         sections.append(
-            f'<section class="section" data-collapsible id="stage-{stage.lower().replace(" ","-")}">'
+            f'<section class="section" data-fsection data-collapsible id="stage-{stage.lower().replace(" ","-")}">'
             f'<button type="button" class="section-head" aria-expanded="true"><h2>{esc(stage)}</h2><span class="chev">▾</span></button>'
             f'<div class="section-body">'
             f'<p class="muted">{esc(blurbs.get(stage, ""))} <strong>{len(group)}</strong></p>'
@@ -1352,7 +1519,9 @@ def build_roadmap(products: list[dict], updated: str) -> str:
       <p class="eyebrow">2026 register</p>
       <h1>Roadmap</h1>
       <p class="lede">Year-quarter targets first, then the same register by lifecycle stage.</p>
+      {filter_bar(product_filter_groups(), "product", "Search the roadmap")}
 """ + view_toggle_bar(count_html="Cards / table layout") + f"""
+      <div class="empty" id="fempty" hidden>No products match these filters.</div>
       <p class="muted" style="margin-top:1rem">By quarter — click a heading to collapse</p>
       {''.join(sections)}
 """
@@ -1376,8 +1545,14 @@ def build_owners_index(products: list[dict], updated: str) -> str:
             stage_pills = " ".join(
                 f'<span class="badge {badge_class(s)}">{esc(s)}</span>' for s in STAGES if stages.get(s)
             )
+            heads_o = sorted({h for p in owned for h in p["headProducts"]})
+            cats_o = sorted({p["category"] for p in owned if p["category"]})
+            ftext = " ".join([code, title, blurb] + [p["product"] for p in owned]).lower()
             out.append(
-                f'<a class="owner-card" href="owner-{esc(code)}.html">'
+                f'<a class="owner-card" href="owner-{esc(code)}.html" data-fitem data-n="{kind}-{esc(code)}" '
+                f'data-f-role="{"Commercial (CPO)" if kind == "cpo" else "Technical (TPO)"}" '
+                f'data-f-stage="{esc("|".join(stages))}" data-f-head="{esc("|".join(heads_o))}" '
+                f'data-f-category="{esc("|".join(cats_o))}" data-ftext="{esc(ftext)}">'
                 f'<div style="display:flex;gap:.75rem;align-items:center">'
                 f'<span class="avatar" style="width:2.5rem;height:2.5rem;font-size:.75rem">{esc(code)}</span>'
                 f'<div><div class="big">{esc(code)}</div><div class="muted" style="font-size:.8rem">{esc(title)}</div></div></div>'
@@ -1393,10 +1568,12 @@ def build_owners_index(products: list[dict], updated: str) -> str:
       <p class="eyebrow">2026 register</p>
       <h1>Product owners</h1>
       <p class="lede">CPO — commercial product owner. TPO — technical product owner. Open anyone to see the lines they own.</p>
-      <h2 class="section">Commercial</h2>
-      <div class="cards" style="margin-top:1rem">{cards(cpos, "cpo")}</div>
-      <h2 class="section">Technical</h2>
-      <div class="cards" style="margin-top:1rem">{cards(tpos, "tpo")}</div>
+      {filter_bar([("role", "Role", ["Commercial (CPO)", "Technical (TPO)"]), ("stage", "Owns products in stage", STAGES), ("head", "Head product", HEAD_ORDER, ["Unplaced"]), ("category", "Category", [])], "owner", "Search owners or their products")}
+      <div data-fsection><h2 class="section">Commercial</h2>
+      <div class="cards" style="margin-top:1rem">{cards(cpos, "cpo")}</div></div>
+      <div data-fsection><h2 class="section">Technical</h2>
+      <div class="cards" style="margin-top:1rem">{cards(tpos, "tpo")}</div></div>
+      <div class="empty" id="fempty" hidden>No owners match these filters.</div>
       <div class="panel section">
         <h2>Unassigned</h2>
         <p class="muted">{no_cpo} lines without a CPO. {no_tpo} without a TPO.</p>
@@ -1584,7 +1761,7 @@ function esc(s) {{
   return String(s ?? "").replace(/[&<>"']/g, c => ({{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}}[c]));
 }}
 function badgeClass(stage) {{
-  return "badge-" + String(stage || "").toLowerCase().replace(/\\s+/g, "-");
+  return "badge-" + String(stage || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }}
 function matches(t) {{
   if (state.filter === "status" && !t.statusUpdate) return false;
@@ -1704,6 +1881,7 @@ def copy_brand_assets() -> None:
 
 def main() -> None:
     products = load_products(EXCEL)
+    finalize_stages(products)
     tga_rows = load_tga_nni(EXCEL)
     attach_tga_notes(products, tga_rows)
     updated = data_updated_label()
@@ -1711,7 +1889,8 @@ def main() -> None:
     OUT_TGA_JSON.write_text(json.dumps(tga_rows, ensure_ascii=False, indent=2) + "\n")
     SITE.mkdir(parents=True, exist_ok=True)
     (SITE / "assets").mkdir(exist_ok=True)
-    (SITE / "assets" / "site.css").write_text(SHARED_CSS)
+    (SITE / "assets" / "site.css").write_text(SHARED_CSS + stage_css() + FILTER_CSS)
+    (SITE / "assets" / "filter.js").write_text(FILTER_JS)
     (SITE / "assets" / "view.js").write_text(VIEW_JS)
     copy_brand_assets()
     (SITE / "assets" / "resize.js").write_text(RESIZE_JS)

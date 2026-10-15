@@ -35,7 +35,7 @@
   </aside>
   <div>
     <header class="top">
-      <div class="stats">25 live · 17 in delivery · 0 pipeline</div>
+      <div class="stats">25 live · 25 in delivery · 16 wishlist</div>
     </header>
     <div class="content">
 
@@ -84,7 +84,7 @@ function esc(s) {
   return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 function badgeClass(stage) {
-  return "badge-" + String(stage || "").toLowerCase().replace(/\s+/g, "-");
+  return "badge-" + String(stage || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 function matches(t) {
   if (state.filter === "status" && !t.statusUpdate) return false;
@@ -141,7 +141,7 @@ function paint(id, key, values, extra) {
   el.insertAdjacentHTML("beforeend", chipsHtml(key, values, extra));
 }
 function bind() {
-  const STAGE_ORDER = ["Production", "Pre-Production", "Development", "Pre-Development", "Pipeline", "Terminated"];
+  const STAGE_ORDER = ["Production", "Pre-Production", "Deployment", "Development", "Wishlist", "Terminated"];
   const HEAD_ORDER = ["Universal Cloud", "Public Cloud", "Private Cloud", "Bare Metal", "SMB", "Standalone", "Cross-portfolio"];
   const stageSet = new Set(ROWS.map(r => r.stage).filter(Boolean));
   const stages = STAGE_ORDER.filter(s => stageSet.has(s)).concat([...stageSet].filter(s => !STAGE_ORDER.includes(s)).sort());
@@ -172,5 +172,6 @@ bind();
 </script>
 
 <script src="assets/resize.js"></script>
+<script src="assets/filter.js"></script>
 </body>
 </html>
