@@ -456,6 +456,7 @@ def fattrs(p: dict) -> str:
                     p.get("portalName") or "", p.get("pddf") or "", " ".join(p["headProducts"])]).lower()
     return (f' data-fitem data-n="{p["n"]}" data-f-stage="{esc(p["stage"])}" data-f-due="{esc(p.get("due") or "Unscheduled")}"'
             f' data-f-head="{esc("|".join(p["headProducts"]))}" data-f-category="{esc(p.get("category") or "")}"'
+            f' data-f-pddf="{esc(p.get("pddf") or "Not set")}"'
             f' data-f-cpo="{esc(p.get("cpo") or "Unassigned")}" data-f-tpo="{esc(p.get("tpo") or "Unassigned")}"'
             f' data-ftext="{esc(text)}"')
 
@@ -1137,7 +1138,8 @@ def product_filter_groups(include_due: bool = True) -> list[tuple]:
     if include_due:
         g.append(("due", "Due date", [], ["Unscheduled"]))
     g += [("head", "Head product", HEAD_ORDER, ["Unplaced"]), ("category", "Category", []),
-          ("cpo", "Commercial owner", [], ["Unassigned"]), ("tpo", "Technical owner", [], ["Unassigned"])]
+          ("cpo", "Commercial owner", [], ["Unassigned"]), ("tpo", "Technical owner", [], ["Unassigned"]),
+          ("pddf", "PDDF phase", [], ["Not set"])]
     return g
 
 
@@ -1374,7 +1376,7 @@ PRODUCTS_JS = r"""
 <script>
 const PRODUCTS = __PRODUCTS__;
 const STAGES = __STAGES__;
-const state = { stage: "", due: "", head: "", category: "", cpo: "", tpo: "", q: "" };
+const state = { stage: "", due: "", head: "", category: "", cpo: "", tpo: "", pddf: "", q: "" };
 
 function badgeClass(stage) {
   return "badge-" + String(stage || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -1396,6 +1398,8 @@ function matches(p) {
   else if (state.cpo && p.cpo !== state.cpo) return false;
   if (state.tpo === "__unassigned__") { if (p.tpo) return false; }
   else if (state.tpo && p.tpo !== state.tpo) return false;
+  if (state.pddf === "__notset__") { if (p.pddf) return false; }
+  else if (state.pddf && p.pddf !== state.pddf) return false;
   if (state.q) {
     const hay = [p.product, p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.statusUpdate || "", p.whereUsed || "", p.description || "", p.portalName || "", p.pddf || "", ...(p.headProducts || [])].join(" ").toLowerCase();
     if (!hay.includes(state.q)) return false;
@@ -1416,7 +1420,7 @@ function renderChips(id, values, key, allLabel, extra) {
 }
 function syncUrl() {
   const u = new URL(location.href);
-  const map = { due: state.due, stage: state.stage, platform: state.head, category: state.category, cpo: state.cpo, tpo: state.tpo };
+  const map = { due: state.due, stage: state.stage, platform: state.head, category: state.category, cpo: state.cpo, tpo: state.tpo, pddf: state.pddf };
   for (const [k, v] of Object.entries(map)) {
     if (v) u.searchParams.set(k, v);
     else u.searchParams.delete(k);
@@ -1493,6 +1497,7 @@ function bind() {
     category: () => renderChips("cat-filters", cats, "category", "All"),
     cpo:      () => renderChips("cpo-filters", cpos, "cpo", "All", unCpo ? [["Unassigned","__unassigned__"]] : null),
     tpo:      () => renderChips("tpo-filters", tpos, "tpo", "All", unTpo ? [["Unassigned","__unassigned__"]] : null),
+    pddf:     () => renderChips("pddf-filters", [...new Set(PRODUCTS.map(p => p.pddf).filter(Boolean))].sort((a,b)=>a.localeCompare(b)), "pddf", "All", [["Not set","__notset__"]]),
   };
   const params = new URLSearchParams(location.search);
   if (params.get("due")) state.due = params.get("due");
@@ -1501,6 +1506,7 @@ function bind() {
   if (params.get("category")) state.category = params.get("category");
   if (params.get("cpo")) state.cpo = params.get("cpo");
   if (params.get("tpo")) state.tpo = params.get("tpo");
+  if (params.get("pddf")) state.pddf = params.get("pddf");
   Object.values(GROUPS).forEach(fn => fn());
   document.getElementById("filters").addEventListener("click", e => {
     const btn = e.target.closest(".chip[data-key]"); if (!btn) return;
@@ -1537,6 +1543,7 @@ def build_products(products: list[dict], updated: str) -> str:
         <div class="filter-row" id="cat-filters" role="group" aria-label="Category"><span class="filter-label">Category</span></div>
         <div class="filter-row" id="cpo-filters" role="group" aria-label="Commercial owner"><span class="filter-label">Commercial owner</span></div>
         <div class="filter-row" id="tpo-filters" role="group" aria-label="Technical owner"><span class="filter-label">Technical owner</span></div>
+        <div class="filter-row" id="pddf-filters" role="group" aria-label="PDDF phase"><span class="filter-label">PDDF phase</span></div>
       </div>
 """ + view_toggle_bar() + """
       <div class="cards view-cards-target" id="cards"></div>
