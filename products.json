@@ -889,7 +889,7 @@
     "tgaId": null
   },
   {
-    "n": 44,
+    "n": 45,
     "product": "S3 Standard ( Multi Zone)",
     "headProducts": [
       "Standalone"
@@ -909,7 +909,7 @@
     "tgaId": "tga-51"
   },
   {
-    "n": 45,
+    "n": 46,
     "product": "S3 Active Archive",
     "headProducts": [
       "Standalone"
@@ -929,7 +929,7 @@
     "tgaId": "tga-52"
   },
   {
-    "n": 46,
+    "n": 47,
     "product": "S3 Premium",
     "headProducts": [
       "Standalone"
@@ -949,7 +949,7 @@
     "tgaId": "tga-53"
   },
   {
-    "n": 47,
+    "n": 48,
     "product": "S3 Cold Archive",
     "headProducts": [
       "Standalone"
@@ -969,7 +969,7 @@
     "tgaId": "tga-54"
   },
   {
-    "n": 48,
+    "n": 49,
     "product": "Shared Storage (One Drive Alternative)",
     "headProducts": [
       "Standalone"
@@ -989,7 +989,7 @@
     "tgaId": "tga-55"
   },
   {
-    "n": 49,
+    "n": 50,
     "product": "GPUaaS",
     "headProducts": [
       "Standalone"
@@ -1009,7 +1009,7 @@
     "tgaId": "tga-56"
   },
   {
-    "n": 50,
+    "n": 51,
     "product": "Co-Location",
     "headProducts": [
       "Standalone"
@@ -1029,7 +1029,7 @@
     "tgaId": "tga-57"
   },
   {
-    "n": 51,
+    "n": 52,
     "product": "Backup For Microsoft 365",
     "headProducts": [
       "Standalone"
@@ -1049,7 +1049,7 @@
     "tgaId": "tga-58"
   },
   {
-    "n": 52,
+    "n": 53,
     "product": "MarketPlace",
     "headProducts": [
       "Unplaced"
@@ -1069,7 +1069,7 @@
     "tgaId": null
   },
   {
-    "n": 53,
+    "n": 54,
     "product": "UGT Cloud Connect - 10 Gbps Customer-UGT",
     "headProducts": [
       "Standalone"
@@ -1089,7 +1089,7 @@
     "tgaId": "tga-59"
   },
   {
-    "n": 54,
+    "n": 55,
     "product": "UGT Cloud Connect - 10 Gbps POP-UGT",
     "headProducts": [
       "Standalone"
@@ -1109,7 +1109,7 @@
     "tgaId": "tga-63"
   },
   {
-    "n": 55,
+    "n": 56,
     "product": "UGT Port Connect",
     "headProducts": [
       "Standalone"
@@ -1129,7 +1129,7 @@
     "tgaId": "tga-67"
   },
   {
-    "n": 56,
+    "n": 57,
     "product": "UGT Cloud Inter-Link - 10 Gbps UGT TBS1 / TBS2",
     "headProducts": [
       "Standalone"
@@ -1149,7 +1149,7 @@
     "tgaId": "tga-71"
   },
   {
-    "n": 57,
+    "n": 58,
     "product": "RDA",
     "headProducts": [
       "Standalone"
@@ -1169,7 +1169,7 @@
     "tgaId": "tga-75"
   },
   {
-    "n": 58,
+    "n": 59,
     "product": "Firewalls",
     "headProducts": [
       "Standalone"
@@ -1189,7 +1189,7 @@
     "tgaId": "tga-79"
   },
   {
-    "n": 59,
+    "n": 60,
     "product": "Global Internet - Dedicated Connection",
     "headProducts": [
       "Standalone"
@@ -1209,7 +1209,7 @@
     "tgaId": "tga-83"
   },
   {
-    "n": 60,
+    "n": 61,
     "product": "Local Internet - Dedicated Connection",
     "headProducts": [
       "Standalone"
@@ -1229,7 +1229,7 @@
     "tgaId": "tga-87"
   },
   {
-    "n": 61,
+    "n": 62,
     "product": "Public IPv4 Adresses",
     "headProducts": [
       "Standalone"
@@ -1249,7 +1249,7 @@
     "tgaId": "tga-91"
   },
   {
-    "n": 62,
+    "n": 63,
     "product": "USB Device Over IP",
     "headProducts": [
       "Standalone"
@@ -1269,7 +1269,7 @@
     "tgaId": "tga-95"
   },
   {
-    "n": 63,
+    "n": 64,
     "product": "Managed Site-to-Site VPN",
     "headProducts": [
       "Standalone"
@@ -1289,7 +1289,7 @@
     "tgaId": "tga-97"
   },
   {
-    "n": 64,
+    "n": 65,
     "product": "Managed VPN Clients",
     "headProducts": [
       "Standalone"
@@ -1309,7 +1309,7 @@
     "tgaId": "tga-100"
   },
   {
-    "n": 65,
+    "n": 66,
     "product": "Professional Services",
     "headProducts": [
       "Cross-portfolio"
@@ -1329,7 +1329,7 @@
     "tgaId": "tga-103"
   },
   {
-    "n": 66,
+    "n": 67,
     "product": "Support Services",
     "headProducts": [
       "Cross-portfolio"
@@ -1347,5 +1347,28 @@
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-104"
+  },
+  {
+    "n": 68,
+    "product": "File Storages",
+    "headProducts": [
+      "Private Cloud",
+      "Universal Cloud",
+      "Public Cloud",
+      "Standalone"
+    ],
+    "category": "Backup",
+    "technology": "AIC JBODs (Toshiba Drives)",
+    "stage": "Deployment",
+    "due": "2026 Q4",
+    "cpo": "TGA",
+    "tpo": "SME",
+    "description": "ტევადი ფაილური/ბექაპ საცავი ორ ზონაში შენახვით AIC JBOD-ზე (Toshiba დისკები). ნელი ჰდდებით",
+    "portalName": "FS2 Basic MZ",
+    "pddf": "Pilot",
+    "pddfUrl": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
   }
 ]
