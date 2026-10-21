@@ -193,11 +193,16 @@ def clean_multiline(v) -> str:
 # Header aliases (matched case-insensitively, by name — never by column position)
 HEADER_ALIASES = {
     "Description": ("description", "descriptions", "product description", "აღწერა", "აღწერილობა"),
+    "Product": ("product", "name", "product name"),
+    "Head Product": ("head product", "head products", "head category"),
+    "Category": ("class",),
+    "Group": ("category",),
+    "Type": ("type",),
     "PortalName": ("product name in portal", "product name in the portal", "portal name", "portal product name", "name in portal"),
 }
 
 
-def find_header_row(ws, must_have=("product",), scan_rows: int = 15) -> int:
+def find_header_row(ws, must_have=("n",), scan_rows: int = 15) -> int:
     for r in range(1, min(scan_rows, ws.max_row) + 1):
         vals = {clean_text(ws.cell(r, c).value).lower() for c in range(1, ws.max_column + 1)}
         if all(m in vals for m in must_have):
