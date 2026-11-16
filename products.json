@@ -17,11 +17,11 @@
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": null
+    "tgaId": "tga-2"
   },
   {
     "n": 2,
-    "product": "Virtual Machine Instances",
+    "product": "Cloud Instances",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -33,11 +33,11 @@
     "tpo": "AJA",
     "description": "გამოთვლითი ინსტანცია vCPU-ით, ოპერატიული მეხსიერებით და დისკით, Linux ან Windows ოპერაციული სისტემით.",
     "portalName": null,
-    "pddf": null,
+    "pddf": "Pilot",
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-2"
+    "tgaId": null
   },
   {
     "n": 3,
@@ -81,7 +81,7 @@
   },
   {
     "n": 5,
-    "product": "VPC",
+    "product": "VPC (Virtual Private Cloud)",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -93,7 +93,7 @@
     "tpo": "AJA",
     "description": "VPC (ვირტუალური კერძო ქსელი) — იზოლირებული ქსელური გარემო საკუთარი ქვექსელებითა და მარშრუტიზაციით, CloudStack-ზე.",
     "portalName": null,
-    "pddf": null,
+    "pddf": "Pilot",
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
@@ -101,7 +101,7 @@
   },
   {
     "n": 6,
-    "product": "VPC",
+    "product": "VPC (Virtual Private Cloud)",
     "headProducts": [
       "Public Cloud"
     ],
@@ -120,7 +120,7 @@
     "tgaId": null
   },
   {
-    "n": 6,
+    "n": 7,
     "product": "Virtual Network Firewall",
     "headProducts": [
       "Public Cloud"
@@ -140,8 +140,8 @@
     "tgaId": null
   },
   {
-    "n": 7,
-    "product": "VNF Appliance",
+    "n": 8,
+    "product": "VNF Appliances",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -153,15 +153,15 @@
     "tpo": "AJA",
     "description": "ვირტუალური ქსელური ფუნქციები (ფაირვოლი/როუტერი) pfSense, Fortinet ან MikroTik-ზე, Universal Cloud-ში.",
     "portalName": null,
-    "pddf": null,
+    "pddf": "Pilot",
     "pddfUrl": null,
     "statusUpdate": "მიკროტიკზე აკომფიგებს სერგი",
     "whereUsed": null,
     "tgaId": "tga-5"
   },
   {
-    "n": 8,
-    "product": "Instance Backup",
+    "n": 9,
+    "product": "Cloud Instance Backup",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -173,14 +173,14 @@
     "tpo": "GBU",
     "description": "ინსტანციის სარეზერვო ასლი — ვირტუალური მანქანის მთლიანი ასლი შენახული ქსელურ ,ნელ საცავზე NAS მეორე დატაცენტრში",
     "portalName": null,
-    "pddf": null,
+    "pddf": "Pilot",
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-6"
   },
   {
-    "n": 9,
+    "n": 10,
     "product": "Cloud Metal",
     "headProducts": [
       "Universal Cloud"
@@ -200,7 +200,7 @@
     "tgaId": "tga-7"
   },
   {
-    "n": 10,
+    "n": 11,
     "product": "Cloud GPU",
     "headProducts": [
       "Universal Cloud"
@@ -220,8 +220,8 @@
     "tgaId": "tga-9"
   },
   {
-    "n": 11,
-    "product": "Client VPN Instance",
+    "n": 12,
+    "product": "Cloud Client VPN",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -235,13 +235,13 @@
     "portalName": null,
     "pddf": "HD",
     "pddfUrl": null,
-    "statusUpdate": "შეხვედრაა ჩანიშნული და გავივლით რესერჩის შედეგებს",
+    "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-10"
+    "tgaId": null
   },
   {
-    "n": 12,
-    "product": "Disaster Recovery For UC",
+    "n": 13,
+    "product": "DR (Disaster Recovery) Cloud",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -255,13 +255,13 @@
     "portalName": null,
     "pddf": "Solution",
     "pddfUrl": null,
-    "statusUpdate": null,
+    "statusUpdate": "აფდეითი დაყენდა და 9-მდე მორჩება კომფიგურაცია",
     "whereUsed": null,
-    "tgaId": null
+    "tgaId": "tga-11"
   },
   {
-    "n": 13,
-    "product": "Kubernetes",
+    "n": 14,
+    "product": "Cloud K8s",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -277,10 +277,10 @@
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-12"
+    "tgaId": null
   },
   {
-    "n": 14,
+    "n": 15,
     "product": "Kubernetes",
     "headProducts": [
       "Public Cloud"
@@ -297,11 +297,11 @@
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": null
+    "tgaId": "tga-12"
   },
   {
-    "n": 15,
-    "product": "Kubernetes",
+    "n": 16,
+    "product": "KaaS (Kubernetes as a Service)",
     "headProducts": [
       "Standalone"
     ],
@@ -320,8 +320,8 @@
     "tgaId": "tga-13"
   },
   {
-    "n": 16,
-    "product": "DBaaS",
+    "n": 17,
+    "product": "Cloud Data Base Service",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -337,10 +337,10 @@
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-14"
+    "tgaId": null
   },
   {
-    "n": 17,
+    "n": 18,
     "product": "DBaaS",
     "headProducts": [
       "Standalone"
@@ -360,7 +360,7 @@
     "tgaId": "tga-15"
   },
   {
-    "n": 18,
+    "n": 19,
     "product": "AI Assistant",
     "headProducts": [
       "Universal Cloud"
@@ -380,8 +380,8 @@
     "tgaId": "tga-16"
   },
   {
-    "n": 19,
-    "product": "Comprehensive Backup",
+    "n": 20,
+    "product": "Corporate Backup",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -400,8 +400,8 @@
     "tgaId": null
   },
   {
-    "n": 20,
-    "product": "Shared FileSystems",
+    "n": 21,
+    "product": "Shared File System",
     "headProducts": [
       "Universal Cloud"
     ],
@@ -415,12 +415,12 @@
     "portalName": null,
     "pddf": "Discovery",
     "pddfUrl": null,
-    "statusUpdate": "გიას აქვს ეს ამოცანა და 12-მდე აქვს დედლაინი, მანამდეც დავსინქონდებით",
+    "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-18"
+    "tgaId": null
   },
   {
-    "n": 21,
+    "n": 22,
     "product": "Dedicated Private Cloud on VMware",
     "headProducts": [
       "Private Cloud"
@@ -440,7 +440,7 @@
     "tgaId": "tga-19"
   },
   {
-    "n": 22,
+    "n": 23,
     "product": "Dedicated Private Cloud on Hyper V",
     "headProducts": [
       "Private Cloud"
@@ -453,14 +453,14 @@
     "tpo": "SME",
     "description": "Microsoft Hyper-V ჰიპერვიზორზე აგებული კერძო კლასტერი.",
     "portalName": null,
-    "pddf": null,
+    "pddf": "Pilot",
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-20"
   },
   {
-    "n": 23,
+    "n": 24,
     "product": "Dedicated Private Cloud on Cloudstack",
     "headProducts": [
       "Private Cloud"
@@ -480,7 +480,7 @@
     "tgaId": "tga-21"
   },
   {
-    "n": 24,
+    "n": 25,
     "product": "Dedicated Private Cloud on HPE morpheus",
     "headProducts": [
       "Private Cloud"
@@ -500,7 +500,7 @@
     "tgaId": "tga-22"
   },
   {
-    "n": 25,
+    "n": 26,
     "product": "Dedicated Private Cloud on Nutanix",
     "headProducts": [
       "Private Cloud"
@@ -520,7 +520,7 @@
     "tgaId": "tga-23"
   },
   {
-    "n": 26,
+    "n": 27,
     "product": "Dedicated Private Cloud on Proxmox",
     "headProducts": [
       "Private Cloud"
@@ -540,8 +540,8 @@
     "tgaId": "tga-24"
   },
   {
-    "n": 27,
-    "product": "Agentless Backup",
+    "n": 28,
+    "product": "Private Cloud Backup",
     "headProducts": [
       "Standalone"
     ],
@@ -557,10 +557,10 @@
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-25"
+    "tgaId": null
   },
   {
-    "n": 28,
+    "n": 29,
     "product": "DR (disaster recovery)",
     "headProducts": [
       "Private Cloud"
@@ -573,14 +573,14 @@
     "tpo": "SME",
     "description": "კატასტროფების აღდგენა (DR) — კერძო ღრუბლის აღდგენის სერვისი ავარიის შემთხვევაში (Nakivo/Veeam).",
     "portalName": null,
-    "pddf": null,
+    "pddf": "Pilot",
     "pddfUrl": null,
-    "statusUpdate": "აფდეითი დაყენდა და 9-მდე მორჩება კომფიგურაცია",
+    "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-26"
   },
   {
-    "n": 29,
+    "n": 30,
     "product": "Dedicated Servers",
     "headProducts": [
       "Bare Metal"
@@ -600,7 +600,7 @@
     "tgaId": "tga-27"
   },
   {
-    "n": 30,
+    "n": 31,
     "product": "Dedicated GPU Servers",
     "headProducts": [
       "Bare Metal"
@@ -620,12 +620,10 @@
     "tgaId": "tga-28"
   },
   {
-    "n": 31,
+    "n": 32,
     "product": "Physical Firewalls",
     "headProducts": [
-      "Private Cloud",
-      "Bare Metal",
-      "Colocation"
+      "Bare Metal"
     ],
     "category": "Security",
     "technology": "",
@@ -642,12 +640,10 @@
     "tgaId": "tga-29"
   },
   {
-    "n": 32,
+    "n": 33,
     "product": "Switches",
     "headProducts": [
-      "Private Cloud",
-      "Bare Metal",
-      "Colocation"
+      "Bare Metal"
     ],
     "category": "Network",
     "technology": "",
@@ -657,17 +653,17 @@
     "tpo": "SME",
     "description": "კომუტატორები (Switches) — ფიზიკური ქსელური კომუტატორები Bare Metal ინფრასტრუქტურაში.",
     "portalName": null,
-    "pddf": null,
+    "pddf": "Pilot",
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": "Private Cloud",
     "tgaId": "tga-32"
   },
   {
-    "n": 33,
+    "n": 34,
     "product": "NAS Aplliance",
     "headProducts": [
-      "Standalone"
+      "Bare Metal"
     ],
     "category": "Backup",
     "technology": "",
@@ -684,8 +680,8 @@
     "tgaId": "tga-35"
   },
   {
-    "n": 34,
-    "product": "Standard VPS",
+    "n": 35,
+    "product": "Standart VPS",
     "headProducts": [
       "SMB"
     ],
@@ -699,12 +695,12 @@
     "portalName": null,
     "pddf": null,
     "pddfUrl": null,
-    "statusUpdate": "მონიკას და გუგას კომენტარები",
+    "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-36"
+    "tgaId": null
   },
   {
-    "n": 35,
+    "n": 36,
     "product": "Managed VPS",
     "headProducts": [
       "SMB"
@@ -724,14 +720,14 @@
     "tgaId": "tga-37"
   },
   {
-    "n": 36,
+    "n": 37,
     "product": "AI VPS",
     "headProducts": [
       "SMB"
     ],
     "category": "AI",
     "technology": "AI Agent / openclaw / Hermes",
-    "stage": "Deployment",
+    "stage": "Pre-Production",
     "due": "2026 Q4",
     "cpo": "GNA",
     "tpo": "GBU",
@@ -744,27 +740,27 @@
     "tgaId": null
   },
   {
-    "n": 37,
-    "product": "Business App VPS",
+    "n": 38,
+    "product": "n8n VPS",
     "headProducts": [
       "SMB"
     ],
     "category": "Compute",
-    "technology": "Templated Business Apps",
-    "stage": "Development",
+    "technology": "n8n",
+    "stage": "Pre-Production",
     "due": "2026 Q4",
     "cpo": "GNA",
     "tpo": "GBU",
     "description": "დაშაბლონებული ბიზნეს აპლიკაციებით გამზადებული ვირტუალური სერვერი.",
     "portalName": null,
-    "pddf": "Discovery",
+    "pddf": "Pilot",
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-39"
+    "tgaId": null
   },
   {
-    "n": 38,
+    "n": 39,
     "product": "S3 Standart One Zone (For SMB) Packages",
     "headProducts": [
       "SMB"
@@ -784,7 +780,7 @@
     "tgaId": "tga-40"
   },
   {
-    "n": 39,
+    "n": 40,
     "product": "Easy Backup",
     "headProducts": [
       "SMB"
@@ -804,7 +800,7 @@
     "tgaId": "tga-41"
   },
   {
-    "n": 40,
+    "n": 41,
     "product": "Fast Block Storage (FBS)",
     "headProducts": [
       "Standalone"
@@ -824,7 +820,7 @@
     "tgaId": null
   },
   {
-    "n": 41,
+    "n": 42,
     "product": "Hybrid Block Storage (HBS)",
     "headProducts": [
       "Standalone"
@@ -844,28 +840,28 @@
     "tgaId": null
   },
   {
-    "n": 42,
+    "n": 43,
     "product": "Capacity Block Storage (CBS)",
     "headProducts": [
       "Standalone"
     ],
     "category": "Storage",
     "technology": "Hybrid HPE Nimble",
-    "stage": "",
+    "stage": "Pre-Production",
     "due": null,
     "cpo": "TGA",
     "tpo": "SME",
     "description": "ჰიბრიდული ბლოკური მეხსიერება HPE Nimble-ზე, კერძო ღრუბლისთვის. სსდ+ჰდდ (7200 hdd)",
     "portalName": null,
-    "pddf": null,
+    "pddf": "Solution",
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
   },
   {
-    "n": 43,
-    "product": "FS2 Flash",
+    "n": 44,
+    "product": "File Storage Service Basic FS2B",
     "headProducts": [
       "Standalone"
     ],
@@ -884,8 +880,8 @@
     "tgaId": null
   },
   {
-    "n": 44,
-    "product": "FS2 Basic",
+    "n": 45,
+    "product": "File Storage Service Flash FS2F",
     "headProducts": [
       "Standalone"
     ],
@@ -904,8 +900,8 @@
     "tgaId": null
   },
   {
-    "n": 45,
-    "product": "FS2 Basic MZ",
+    "n": 46,
+    "product": "File Storage Service Basic Multi Zone",
     "headProducts": [
       "Standalone"
     ],
@@ -924,10 +920,9 @@
     "tgaId": null
   },
   {
-    "n": 46,
-    "product": "S3 Standard (One Zone)",
+    "n": 47,
+    "product": "S3 Standart (One Zone)",
     "headProducts": [
-      "Standalone",
       "Universal Cloud"
     ],
     "category": "Storage",
@@ -937,15 +932,35 @@
     "cpo": "TGA",
     "tpo": "SME",
     "description": "S3 Standard (ერთი ზონა) — ობიექტური საცავი S3 API-ით, ერთ ზონაში (Ceph). ჰდდებით",
+    "portalName": null,
+    "pddf": null,
+    "pddfUrl": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
+  },
+  {
+    "n": 48,
+    "product": "S3 Standart (One Zone)",
+    "headProducts": [
+      "Standalone"
+    ],
+    "category": "Storage",
+    "technology": "Ceph Cluster 4+2",
+    "stage": "Production",
+    "due": null,
+    "cpo": null,
+    "tpo": null,
+    "description": "S3 Standard (ერთი ზონა) — ობიექტური საცავი S3 API-ით, ერთ ზონაში (Ceph). ჰდდებით",
     "portalName": "PAYG/ Reserved",
     "pddf": null,
     "pddfUrl": null,
-    "statusUpdate": "ლოკის და ელასტიკის გატესტვა",
-    "whereUsed": "Everywhere, in every platform",
-    "tgaId": "tga-49"
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
   },
   {
-    "n": 47,
+    "n": 49,
     "product": "S3 Standard ( Multi Zone)",
     "headProducts": [
       "Standalone"
@@ -965,7 +980,7 @@
     "tgaId": "tga-51"
   },
   {
-    "n": 48,
+    "n": 50,
     "product": "S3 Active Archive",
     "headProducts": [
       "Standalone"
@@ -985,7 +1000,7 @@
     "tgaId": "tga-52"
   },
   {
-    "n": 49,
+    "n": 51,
     "product": "S3 Premium",
     "headProducts": [
       "Standalone"
@@ -1005,7 +1020,7 @@
     "tgaId": "tga-53"
   },
   {
-    "n": 50,
+    "n": 52,
     "product": "S3 Cold Archive",
     "headProducts": [
       "Standalone"
@@ -1025,7 +1040,7 @@
     "tgaId": "tga-54"
   },
   {
-    "n": 51,
+    "n": 53,
     "product": "Shared Storage (One Drive Alternative)",
     "headProducts": [
       "Standalone"
@@ -1045,7 +1060,7 @@
     "tgaId": "tga-55"
   },
   {
-    "n": 52,
+    "n": 54,
     "product": "Dynamic GPU",
     "headProducts": [
       "Standalone"
@@ -1058,15 +1073,15 @@
     "tpo": "SME",
     "description": "1 ჯიპიუს რამოდენიმე კლიენტზე გაზიარება,",
     "portalName": "Dynamic GPU",
-    "pddf": null,
+    "pddf": "Pilot",
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": null
   },
   {
-    "n": 53,
-    "product": "42U Rack",
+    "n": 55,
+    "product": "42U Server Rack",
     "headProducts": [
       "Standalone"
     ],
@@ -1085,7 +1100,7 @@
     "tgaId": null
   },
   {
-    "n": 54,
+    "n": 56,
     "product": "Backup For Microsoft 365",
     "headProducts": [
       "Standalone"
@@ -1105,7 +1120,7 @@
     "tgaId": "tga-58"
   },
   {
-    "n": 55,
+    "n": 57,
     "product": "MarketPlace",
     "headProducts": [
       "Standalone"
@@ -1125,7 +1140,7 @@
     "tgaId": null
   },
   {
-    "n": 56,
+    "n": 58,
     "product": "UGT Cloud Connect - Customer-UGT",
     "headProducts": [
       "Standalone"
@@ -1145,7 +1160,7 @@
     "tgaId": null
   },
   {
-    "n": 57,
+    "n": 59,
     "product": "UGT Cloud Connect - POP-UGT",
     "headProducts": [
       "Standalone"
@@ -1165,7 +1180,7 @@
     "tgaId": null
   },
   {
-    "n": 58,
+    "n": 60,
     "product": "UGT Port Connect",
     "headProducts": [
       "Standalone"
@@ -1185,7 +1200,7 @@
     "tgaId": "tga-67"
   },
   {
-    "n": 59,
+    "n": 61,
     "product": "UGT Cloud Inter-Link UGT DC's",
     "headProducts": [
       "Standalone"
@@ -1205,8 +1220,8 @@
     "tgaId": null
   },
   {
-    "n": 60,
-    "product": "RDA",
+    "n": 62,
+    "product": "Remote Desktop Access (RDA)",
     "headProducts": [
       "Standalone"
     ],
@@ -1225,8 +1240,8 @@
     "tgaId": "tga-75"
   },
   {
-    "n": 61,
-    "product": "Firewalls",
+    "n": 63,
+    "product": "Virtual Firewalls",
     "headProducts": [
       "Standalone"
     ],
@@ -1245,7 +1260,7 @@
     "tgaId": "tga-79"
   },
   {
-    "n": 62,
+    "n": 64,
     "product": "Global Internet - Dedicated Connection",
     "headProducts": [
       "Standalone"
@@ -1265,7 +1280,7 @@
     "tgaId": "tga-83"
   },
   {
-    "n": 63,
+    "n": 65,
     "product": "Local Internet - Dedicated Connection",
     "headProducts": [
       "Standalone"
@@ -1285,7 +1300,7 @@
     "tgaId": "tga-87"
   },
   {
-    "n": 64,
+    "n": 66,
     "product": "Public IPv4 Adresses",
     "headProducts": [
       "Standalone"
@@ -1305,7 +1320,7 @@
     "tgaId": "tga-91"
   },
   {
-    "n": 65,
+    "n": 67,
     "product": "USB Device Over IP",
     "headProducts": [
       "Standalone"
@@ -1325,7 +1340,7 @@
     "tgaId": "tga-95"
   },
   {
-    "n": 66,
+    "n": 68,
     "product": "Managed Site-to-Site VPN",
     "headProducts": [
       "Standalone"
@@ -1345,7 +1360,7 @@
     "tgaId": "tga-97"
   },
   {
-    "n": 67,
+    "n": 69,
     "product": "Managed VPN Clients",
     "headProducts": [
       "Standalone"
@@ -1365,7 +1380,7 @@
     "tgaId": "tga-100"
   },
   {
-    "n": 68,
+    "n": 70,
     "product": "Professional Services",
     "headProducts": [
       "Cross-portfolio"
@@ -1385,7 +1400,7 @@
     "tgaId": "tga-103"
   },
   {
-    "n": 69,
+    "n": 71,
     "product": "Support Services",
     "headProducts": [
       "Cross-portfolio"
@@ -1403,5 +1418,65 @@
     "statusUpdate": null,
     "whereUsed": null,
     "tgaId": "tga-104"
+  },
+  {
+    "n": 72,
+    "product": "GPU VPS",
+    "headProducts": [
+      "SMB"
+    ],
+    "category": "",
+    "technology": "VPS+RTX2000",
+    "stage": "Pre-Production",
+    "due": null,
+    "cpo": null,
+    "tpo": null,
+    "description": null,
+    "portalName": null,
+    "pddf": "Pilot",
+    "pddfUrl": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
+  },
+  {
+    "n": 73,
+    "product": "AI Router",
+    "headProducts": [
+      "Standalone"
+    ],
+    "category": "",
+    "technology": "",
+    "stage": "Development",
+    "due": null,
+    "cpo": null,
+    "tpo": null,
+    "description": null,
+    "portalName": null,
+    "pddf": "Discovery",
+    "pddfUrl": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
+  },
+  {
+    "n": 74,
+    "product": "AI Factory",
+    "headProducts": [
+      "Standalone"
+    ],
+    "category": "",
+    "technology": "",
+    "stage": "Development",
+    "due": null,
+    "cpo": null,
+    "tpo": null,
+    "description": null,
+    "portalName": null,
+    "pddf": "Discovery",
+    "pddfUrl": null,
+    "statusUpdate": null,
+    "whereUsed": null,
+    "tgaId": null
   }
 ]
