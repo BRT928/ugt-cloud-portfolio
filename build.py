@@ -194,7 +194,7 @@ def clean_multiline(v) -> str:
 HEADER_ALIASES = {
     "Description": ("description", "descriptions", "product description", "აღწერა", "აღწერილობა"),
     "Product": ("product", "name", "product name"),
-    "Head Product": ("head product", "head products", "head category"),
+    "Head Product": ("head product", "head products", "head category", "platform", "platforms"),
     "Category": ("class",),
     "Group": ("category",),
     "Type": ("type",),
