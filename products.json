@@ -661,7 +661,7 @@
   },
   {
     "n": 34,
-    "product": "NAS Aplliance",
+    "product": "NAS Appliance",
     "headProducts": [
       "Bare Metal"
     ],
@@ -677,7 +677,7 @@
     "pddfUrl": null,
     "statusUpdate": null,
     "whereUsed": null,
-    "tgaId": "tga-35"
+    "tgaId": null
   },
   {
     "n": 35,
@@ -861,7 +861,7 @@
   },
   {
     "n": 44,
-    "product": "File Storage Service Basic FS2B",
+    "product": "File Storage Service Flash FS2F",
     "headProducts": [
       "Standalone"
     ],
@@ -881,7 +881,7 @@
   },
   {
     "n": 45,
-    "product": "File Storage Service Flash FS2F",
+    "product": "File Storage Service Basic FS2B",
     "headProducts": [
       "Standalone"
     ],
@@ -1301,7 +1301,7 @@
   },
   {
     "n": 66,
-    "product": "Public IPv4 Adresses",
+    "product": "Public IPv4 Addresses",
     "headProducts": [
       "Standalone"
     ],
@@ -1316,8 +1316,8 @@
     "pddf": null,
     "pddfUrl": null,
     "statusUpdate": null,
-    "whereUsed": "Private Cloud",
-    "tgaId": "tga-91"
+    "whereUsed": null,
+    "tgaId": null
   },
   {
     "n": 67,
