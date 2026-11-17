@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Public Cloud · UGT Cloud Portfolio</title>
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48"/>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png"/>
+<meta name="theme-color" content="#153bb6"/>
+<meta name="description" content="UGT Cloud product portfolio — products, platforms, lifecycle stages, and CPO / TPO ownership."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/site.css"/>
+
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <a class="brand" href="index.html" aria-label="UGT Cloud Portfolio — overview">
+      <picture>
+        <source type="image/webp" srcset="assets/logo-344.webp 2x, assets/logo-516.webp 3x"/>
+        <img class="brand-logo" src="assets/logo-344.png" srcset="assets/logo-344.png 2x, assets/logo-516.png 3x" width="172" height="70" alt="UGT Cloud"/>
+      </picture>
+      <span class="sub">Portfolio</span>
+    </a>
+    <nav class="side"><a class="" href="index.html">Overview</a><a class="" href="products.html">Products</a><details class="nav-drop"><summary>Platforms</summary><div class="nav-drop-list"><a class="" href="platforms.html">All platforms</a><a class="" href="platform-universal-cloud.html">Universal Cloud</a><a class="active" href="platform-public-cloud.html">Public Cloud</a><a class="" href="platform-private-cloud.html">Private Cloud</a><a class="" href="platform-colocation.html">Colocation</a><a class="" href="platform-smb.html">SMB</a><a class="" href="platform-bare-metal.html">Bare Metal</a><a class="" href="platform-standalone.html">Standalone</a><a class="" href="platform-cross-portfolio.html">Cross-portfolio</a></div></details><a class="" href="roadmap.html">Roadmap</a><a class="" href="owners.html">Owners</a><a class="" href="status.html">Status</a><a class="" href="glossary.html">Legend</a></nav>
+    <div class="snap">
+      <div class="label">Snapshot</div>
+      <div class="num">74</div>
+      <div class="hint">products in the 2026 register</div>
+      <div class="updated">Data last updated<br/>17 Nov 2026, 15:12 GET</div>
+    </div>
+  </aside>
+  <div>
+    <header class="top">
+      <button type="button" class="menu-btn" data-menu aria-expanded="false" aria-controls="mobile-nav">Menu</button>
+      <div class="stats">26 live · 32 in delivery · 15 wishlist</div>
+      <nav id="mobile-nav" class="side" hidden><a class="" href="index.html">Overview</a><a class="" href="products.html">Products</a><details class="nav-drop active" open><summary>Platforms</summary><div class="nav-drop-list"><a class="" href="platforms.html">All platforms</a><a class="" href="platform-universal-cloud.html">Universal Cloud</a><a class="active" href="platform-public-cloud.html">Public Cloud</a><a class="" href="platform-private-cloud.html">Private Cloud</a><a class="" href="platform-colocation.html">Colocation</a><a class="" href="platform-smb.html">SMB</a><a class="" href="platform-bare-metal.html">Bare Metal</a><a class="" href="platform-standalone.html">Standalone</a><a class="" href="platform-cross-portfolio.html">Cross-portfolio</a></div></details><a class="" href="roadmap.html">Roadmap</a><a class="" href="owners.html">Owners</a><a class="" href="status.html">Status</a><a class="" href="glossary.html">Legend</a></nav>
+    </header>
+    <div class="content">
+
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end;justify-content:space-between">
+        <div>
+          <p class="eyebrow">Platform</p>
+          <h1>Public Cloud</h1>
+          <p class="lede">Offers that belong to Public Cloud, plus standalone products that can be used here. 5 belong to this platform; 13 are also available here. Sub-products are marked as belonging to this platform.</p>
+        </div>
+        <label class="search-box"><span aria-hidden="true">⌕</span>
+          <input id="q" type="search" placeholder="Search products, descriptions, owners, platforms" autocomplete="off"/>
+        </label>
+      </div>
+      <div class="filters" id="filters">
+        <div class="filter-row" id="stage-filters" role="group" aria-label="Stage"><span class="filter-label">Stage</span></div>
+        <div class="filter-row" id="type-filters" role="group" aria-label="Type"><span class="filter-label">Type</span></div>
+        <div class="filter-row" id="due-filters" role="group" aria-label="Due date"><span class="filter-label">Due date</span></div>
+        <div class="filter-row" id="head-filters" role="group" aria-label="Platform"><span class="filter-label">Platform</span></div>
+        <div class="filter-row" id="group-filters" role="group" aria-label="Category"><span class="filter-label">Category</span></div>
+        <div class="filter-row" id="cls-filters" role="group" aria-label="Class"><span class="filter-label">Class</span></div>
+        <div class="filter-row" id="cpo-filters" role="group" aria-label="Commercial owner"><span class="filter-label">Commercial owner</span></div>
+        <div class="filter-row" id="tpo-filters" role="group" aria-label="Technical owner"><span class="filter-label">Technical owner</span></div>
+        <div class="filter-row" id="pddf-filters" role="group" aria-label="PDDF phase"><span class="filter-label">PDDF phase</span></div>
+      </div>
+
+<div class="count-row">
+  <p class="count" id="view-count"></p>
+  <div class="view-toggle" data-view-toggle role="group" aria-label="Layout">
+    <button type="button" data-view="cards">Cards</button>
+    <button type="button" data-view="table">Table</button>
+    <button type="button" data-view="both">Both</button>
+  </div>
+</div>
+
+      <div class="cards view-cards-target" id="cards"></div>
+      <div class="table-wrap view-table-target"><table>
+        <thead><tr><th>Product</th><th>Type</th><th>Description</th><th>Category</th><th>Class</th><th>Platform</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Features</th><th>Portal name</th><th>PDDF phase</th><th>Notes</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table></div>
+      <div class="empty" id="empty" hidden>No products match these filters.</div>
+
+      <p class="footer">Built from UGT_Product_Portfolio_2026.xlsx · sheet “UGT Product Portfolio ALL”.</p>
+    </div>
+  </div>
+</div>
+<script src="assets/view.js"></script>
+
+<script>
+const PRODUCTS = [{"n": 3, "product": "Block Volumes/ Primary Storage", "headProducts": ["Public Cloud"], "type": "Sub-Prod", "group": "Cloud Platform", "category": "Storage", "cls": "Storage", "technology": "Storpool / Netapp", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA", "description": "ძირითადი მეხსიერება — ვირტუალურ მანქანაზე მიერთებული მუდმივი დისკი (Storpool/NetApp), Public Cloud-ში.", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Public Cloud", "wherePlatforms": ["Public Cloud"], "whereEverywhere": false}, {"n": 15, "product": "Kubernetes", "headProducts": ["Public Cloud"], "type": "Sub-Prod", "group": "Cloud Platform", "category": "Compute", "cls": "Compute", "technology": "Cloudstack", "stage": "Wishlist", "due": null, "cpo": null, "tpo": null, "description": "კონტეინერების ორკესტრაციის პლატფორმა Public Cloud-ზე (CloudStack).", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Public Cloud", "wherePlatforms": ["Public Cloud"], "whereEverywhere": false}, {"n": 6, "product": "VPC (Virtual Private Cloud)", "headProducts": ["Public Cloud"], "type": "Sub-Prod", "group": "Cloud Platform", "category": "Network", "cls": "Network", "technology": "Cloudstack", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA", "description": "VPC (ვირტუალური კერძო ქსელი) — იზოლირებული ქსელური გარემო საკუთარი ქვექსელებითა და მარშრუტიზაციით, CloudStack-ზე.", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Public Cloud", "wherePlatforms": ["Public Cloud"], "whereEverywhere": false}, {"n": 1, "product": "Virtual Machine Instances", "headProducts": ["Public Cloud"], "type": "Sub-Prod", "group": "Cloud Platform", "category": "Compute", "cls": "Compute", "technology": "Linux/ Windows", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA", "description": "გამოთვლითი ინსტანცია vCPU-ით, ოპერატიული მეხსიერებით და დისკით, Linux ან Windows ოპერაციული სისტემით.", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Public Cloud", "wherePlatforms": ["Public Cloud"], "whereEverywhere": false}, {"n": 7, "product": "Virtual Network Firewall", "headProducts": ["Public Cloud"], "type": "Sub-Prod", "group": "Cloud Platform", "category": "Network", "cls": "Network", "technology": "Pfsense/Fortinet", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "AJA", "description": "ვირტუალური ქსელური ფაირვოლი — Public Cloud-ში ტრაფიკის ფილტრაცია და დაცვა (pfSense/Fortinet).", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Public Cloud", "wherePlatforms": ["Public Cloud"], "whereEverywhere": false}, {"n": 70, "product": "Professional Services", "headProducts": ["Cross-portfolio"], "type": null, "group": null, "category": "Service", "cls": "Service", "technology": "", "stage": "Wishlist", "due": null, "cpo": "GMA", "tpo": "AJA", "description": "პროფესიული სერვისები — დანერგვა, მიგრაცია, არქიტექტურა და კონსულტაცია ყველა პროდუქტზე.", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}, {"n": 71, "product": "Support Services", "headProducts": ["Cross-portfolio"], "type": null, "group": null, "category": "Service", "cls": "Service", "technology": "", "stage": "Wishlist", "due": null, "cpo": "GMA", "tpo": "AJA", "description": "მხარდაჭერის სერვისები — ტექნიკური მხარდაჭერა და ინციდენტებზე რეაგირება ყველა პროდუქტზე.", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}, {"n": 74, "product": "AI Factory", "headProducts": ["Standalone"], "type": "Product", "group": "AI Tools", "category": "AI", "cls": "AI", "technology": "", "stage": "Development", "due": null, "cpo": "GMA", "tpo": "AJA", "description": "AI Factory — UGT Cloud-ის საკუთარი მოდელი ჩვენს GPU-ებზე; კლიენტებს შეუძლიათ მისი API-ს მიბმა და ჩვენი ტოკენების გამოყენება.", "portalName": null, "features": [], "pddf": "Discovery", "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}, {"n": 73, "product": "AI Router", "headProducts": ["Standalone"], "type": "Product", "group": "AI Tools", "category": "AI", "cls": "AI", "technology": "", "stage": "Development", "due": null, "cpo": "GMA", "tpo": "AJA", "description": "AI Router — UGT Cloud-ის როუტერი, სადაც კლიენტებს შეუძლიათ სხვადასხვა AI მოდელის მიბმა და გამოყენება ლარში გადახდით, მათ შორის UGT Cloud-ის საკუთარი მოდელის ტოკენების გამოყენებაც.", "portalName": null, "features": [], "pddf": "Discovery", "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}, {"n": 56, "product": "Backup For Microsoft 365", "headProducts": ["Standalone"], "type": "Product", "group": "Backup", "category": "Backup", "cls": "Backup", "technology": "Nakivo", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "ZAN", "description": "Microsoft 365-ის ბექაპი — Exchange, SharePoint, OneDrive და Teams მონაცემების სარეზერვო ასლი (Nakivo).", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}, {"n": 45, "product": "File Storage Service Basic FS2B", "headProducts": ["Standalone"], "type": "Product", "group": "File Storages", "category": "Backup", "cls": "Backup", "technology": "AIC JBODs (Toshiba Drives)", "stage": "Deployment", "due": "2026 Q4", "cpo": "TGA", "tpo": "SME", "description": "ტევადი ფაილური/ბექაპ საცავი AIC JBOD-ზე (Toshiba დისკები). ნელი ჰდდებით", "portalName": null, "features": [], "pddf": "Pilot", "pddfUrl": null, "statusUpdate": null, "whereUsed": "Private Cloud Universal Cloud Public Cloud Bare Metal", "wherePlatforms": ["Universal Cloud", "Public Cloud", "Private Cloud", "Bare Metal"], "whereEverywhere": false}, {"n": 46, "product": "File Storage Service Basic Multi Zone", "headProducts": ["Standalone"], "type": "Product", "group": "File Storages", "category": "Backup", "cls": "Backup", "technology": "AIC JBODs (Toshiba Drives)", "stage": "Deployment", "due": "2026 Q4", "cpo": "TGA", "tpo": "SME", "description": "ტევადი ფაილური/ბექაპ საცავი ორ ზონაში შენახვით AIC JBOD-ზე (Toshiba დისკები). ნელი ჰდდებით", "portalName": null, "features": [], "pddf": "Pilot", "pddfUrl": null, "statusUpdate": null, "whereUsed": "Private Cloud Universal Cloud Public Cloud Bare Metal", "wherePlatforms": ["Universal Cloud", "Public Cloud", "Private Cloud", "Bare Metal"], "whereEverywhere": false}, {"n": 44, "product": "File Storage Service Flash FS2F", "headProducts": ["Standalone"], "type": "Product", "group": "File Storages", "category": "Storage", "cls": "Storage", "technology": "Netapp AFF QLC", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME", "description": "NetApp AFF (QLC) ფაილური საცავი Private, Universal და Public Cloud-ისთვის. სსდ ებით ნვმე", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Private Cloud Universal Cloud Public Cloud Bare Metal", "wherePlatforms": ["Universal Cloud", "Public Cloud", "Private Cloud", "Bare Metal"], "whereEverywhere": false}, {"n": 50, "product": "S3 Active Archive", "headProducts": ["Standalone"], "type": "Product", "group": "Object Storages", "category": "Backup", "cls": "Backup", "technology": "Ceph Cluster 4+2", "stage": "Development", "due": "2026 Q4", "cpo": "TGA", "tpo": "SME", "description": "იშვიათი გამოყენებისთვის ობიექტური სანახი, წარმადობა იგივე რაც სტანდარტს , უბრალოდ შეინახე და დაივიწყე მიდგომით", "portalName": null, "features": [], "pddf": "Solution", "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}, {"n": 52, "product": "S3 Cold Archive", "headProducts": ["Standalone"], "type": "Product", "group": "Object Storages", "category": "Backup", "cls": "Backup", "technology": "PoINT Archival Gateway", "stage": "Wishlist", "due": null, "cpo": "TGA", "tpo": "SME", "description": "ცივი არქივი გრძელვადიანი შენახვისთვის (PoINT Archival Gateway), დაბალი ღირებულებით. ლენტური ბიბლიოთეკა,", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}, {"n": 51, "product": "S3 Premium", "headProducts": ["Standalone"], "type": "Product", "group": "Object Storages", "category": "Storage", "cls": "Storage", "technology": "CEPH", "stage": "Wishlist", "due": null, "cpo": "TGA", "tpo": "SME", "description": "S3 Premium — პრემიუმ ობიექტური მეხსიერება უფრო მაღალი წარმადობით (Ceph).", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}, {"n": 49, "product": "S3 Standard ( Multi Zone)", "headProducts": ["Standalone"], "type": "Product", "group": "Object Storages", "category": "Storage", "cls": "Storage", "technology": "CEPH 3 Replication", "stage": "Wishlist", "due": null, "cpo": "TGA", "tpo": "SME", "description": "S3 Standard (რამდენიმე ზონა) — ობიექტური საცავი რამდენიმე ზონაში, მაღალი ხელმისაწვდომობით.", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}, {"n": 47, "product": "S3 Standard (One Zone)", "headProducts": ["Universal Cloud"], "type": "Product", "group": "Object Storages", "category": "Storage", "cls": "Storage", "technology": "Ceph Cluster 4+2", "stage": "Production", "due": null, "cpo": "TGA", "tpo": "SME", "description": "S3 Standard (ერთი ზონა) — ობიექტური საცავი S3 API-ით, ერთ ზონაში (Ceph). ჰდდებით", "portalName": null, "features": [], "pddf": null, "pddfUrl": null, "statusUpdate": null, "whereUsed": "Everywhere, in every platform", "wherePlatforms": [], "whereEverywhere": true}];
+const STAGES = ["Production", "Pre-Production", "Deployment", "Development", "Wishlist", "Terminated"];
+const state = { stage: "", due: "", head: "", type: "", group: "", cls: "", cpo: "", tpo: "", pddf: "", q: "" };
+const PLATFORM_CONTEXT = "Public Cloud";
+const PDDF_LABELS = {"HD": "High Level Design", "Discovery": "Discovery", "Solution": "Solution", "Pilot": "Pilot"};
+function pddfLabel(code) { return (code && PDDF_LABELS[code] && PDDF_LABELS[code] !== code) ? (code + " — " + PDDF_LABELS[code]) : (PDDF_LABELS[code] || code || "—"); }
+function typeBadge(p) {
+  if (!p.type) return "";
+  const cls = "type-badge type-" + String(p.type).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const title = p.type === "Sub-Prod" ? ("Sub-product of " + (p.headProducts || []).join(", ")) : "Product";
+  return `<span class="${cls}" title="${esc(title)}">${esc(p.type)}</span>`;
+}
+function featTags(p) {
+  const feats = p.features || [];
+  if (!feats.length) return "";
+  return `<div class="feat-tags">${feats.map(f => `<span class="feat-tag">${esc(f)}</span>`).join("")}</div>`;
+}
+
+function badgeClass(stage) {
+  return "badge-" + String(stage || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function ownerChip(code, role) {
+  if (!code) return `<span class="owner"><span class="avatar muted">—</span><span><div>Unassigned</div><div class="role">${role}</div></span></span>`;
+  return `<a class="owner" href="owner-${esc(code)}.html"><span class="avatar">${esc(code)}</span><span><div>${esc(code)}</div><div class="role">${role}</div></span></a>`;
+}
+function matches(p) {
+  if (state.stage && p.stage !== state.stage) return false;
+  if (state.due === "Unscheduled") { if (p.due) return false; }
+  else if (state.due && p.due !== state.due) return false;
+  if (state.head && !(p.headProducts || []).includes(state.head)) return false;
+  if (state.type === "Unspecified") { if (p.type) return false; }
+  else if (state.type && p.type !== state.type) return false;
+  if (state.group && p.group !== state.group) return false;
+  if (state.cls && (p.cls || p.category) !== state.cls) return false;
+  if (state.cpo === "__unassigned__") { if (p.cpo) return false; }
+  else if (state.cpo && p.cpo !== state.cpo) return false;
+  if (state.tpo === "__unassigned__") { if (p.tpo) return false; }
+  else if (state.tpo && p.tpo !== state.tpo) return false;
+  if (state.pddf === "__notset__") { if (p.pddf) return false; }
+  else if (state.pddf && p.pddf !== state.pddf) return false;
+  if (state.q) {
+    const hay = [p.product, p.type || "", p.group || "", p.cls || p.category, p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.statusUpdate || "", p.whereUsed || "", p.description || "", p.portalName || "", p.pddf || "", ...(p.features || []), ...(p.headProducts || [])].join(" ").toLowerCase();
+    if (!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+function renderChips(id, values, key, allLabel, extra) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const label = el.querySelector(".filter-label");
+  let html = "";
+  html += `<button type="button" class="chip ${state[key]===""?"active":""}" data-key="${key}" data-val="" aria-pressed="${state[key]===""}">${allLabel}</button>`;
+  for (const v of values) html += `<button type="button" class="chip ${state[key]===v?"active":""}" data-key="${key}" data-val="${esc(v)}" aria-pressed="${state[key]===v}">${esc(v)}</button>`;
+  if (extra) for (const [lab, val] of extra) html += `<button type="button" class="chip ${state[key]===val?"active":""}" data-key="${key}" data-val="${esc(val)}" aria-pressed="${state[key]===val}">${esc(lab)}</button>`;
+  el.innerHTML = "";
+  if (label) el.appendChild(label);
+  el.insertAdjacentHTML("beforeend", html);
+}
+function syncUrl() {
+  const u = new URL(location.href);
+  const map = { due: state.due, stage: state.stage, platform: state.head, type: state.type, category: state.group, class: state.cls, cpo: state.cpo, tpo: state.tpo, pddf: state.pddf };
+  for (const [k, v] of Object.entries(map)) {
+    if (v) u.searchParams.set(k, v);
+    else u.searchParams.delete(k);
+  }
+  const view = (window.ugtView && ugtView.read()) || "both";
+  if (view && view !== "both") u.searchParams.set("view", view);
+  else u.searchParams.delete("view");
+  history.replaceState({}, "", u);
+}
+function render() {
+  const rows = PRODUCTS.filter(matches);
+  document.getElementById("view-count").textContent = `${rows.length} line${rows.length===1?"":"s"} in view.`;
+  const cards = document.getElementById("cards");
+  const tbody = document.getElementById("tbody");
+  const empty = document.getElementById("empty");
+  if (!rows.length) { cards.innerHTML=""; tbody.innerHTML=""; empty.hidden=false; return; }
+  empty.hidden = true;
+  cards.innerHTML = rows.map(p => {
+    let note = "";
+    if (p.statusUpdate) note = `<div class="note-flag" title="${esc(p.statusUpdate)}">📝 Status note</div>`;
+    else if (p.whereUsed) note = `<div class="note-flag muted-flag" title="${esc(p.whereUsed)}">Where: ${esc(p.whereUsed)}</div>`;
+    let belong = "";
+    if (PLATFORM_CONTEXT && p.type === "Sub-Prod" && (p.headProducts || []).includes(PLATFORM_CONTEXT)) {
+      belong = `<div class="subprod-flag">Sub-product of ${esc(PLATFORM_CONTEXT)}</div>`;
+    } else if (PLATFORM_CONTEXT && !(p.headProducts || []).includes(PLATFORM_CONTEXT)) {
+      belong = `<div class="available-flag">Also available on ${esc(PLATFORM_CONTEXT)}</div>`;
+    }
+    const meta = [p.group, p.cls || p.category].filter(Boolean).join(" · ") || "—";
+    return `
+    <article class="card">
+      <a class="card-stretch" href="product-${p.n}.html" aria-label="${esc(p.product)}"></a>
+      <div class="card-top"><div><div class="card-title">${esc(p.product)}</div>${p.portalName ? `<div class="card-portal" title="Product name in portal">🏷 ${esc(p.portalName)}</div>` : ""}${belong}</div><span class="card-badges">${typeBadge(p)}<span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></span></div>
+      <div class="meta">${esc(meta)}</div>
+      <div class="heads">${(p.headProducts||[]).map(h=>`<span class="pill">${esc(h)}</span>`).join("")}</div>
+      <div class="meta">${esc(p.due || "Unscheduled")}${p.technology ? " · " + esc(p.technology) : ""}</div>
+      ${featTags(p)}
+      ${p.description ? `<p class="card-desc ka" title="${esc(p.description)}">${esc(p.description)}</p>` : ""}
+      ${note}
+      <div class="owners">${ownerChip(p.cpo,"CPO")}${ownerChip(p.tpo,"TPO")}</div>
+    </article>`;
+  }).join("");
+  tbody.innerHTML = rows.map(p => {
+    const bits = [];
+    if (p.statusUpdate) bits.push(`<span class="ka">${esc(p.statusUpdate)}</span>`);
+    if (p.whereUsed) bits.push(`<span class="muted">${esc(p.whereUsed)}</span>`);
+    return `
+    <tr>
+      <td><a href="product-${p.n}.html"><strong>${esc(p.product)}</strong></a></td>
+      <td>${typeBadge(p) || "—"}</td>
+      <td class="desc-cell">${p.description ? `<span class="ka desc-trunc" title="${esc(p.description)}">${esc(p.description)}</span>` : "—"}</td>
+      <td>${esc(p.group || "—")}</td>
+      <td>${esc(p.cls || p.category || "—")}</td>
+      <td>${esc((p.headProducts||[]).join(", "))}</td>
+      <td><span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></td>
+      <td>${esc(p.due || "Unscheduled")}</td>
+      <td>${esc(p.cpo || "Unassigned")}</td>
+      <td>${esc(p.tpo || "Unassigned")}</td>
+      <td>${esc(p.technology || "—")}</td>
+      <td>${esc((p.features || []).join(", ") || "—")}</td>
+      <td>${esc(p.portalName || "—")}</td>
+      <td>${p.pddfUrl ? `<a href="${esc(p.pddfUrl)}" target="_blank" rel="noopener">📄 ${esc(/^https?:/.test(p.pddf||"") ? "PDF" : pddfLabel(p.pddf))}</a>` : esc(pddfLabel(p.pddf))}</td>
+      <td>${bits.length ? bits.join("<br/>") : "—"}</td>
+    </tr>`;
+  }).join("");
+  syncUrl();
+}
+function bind() {
+  const HEAD_ORDER = ["Universal Cloud", "Public Cloud", "Private Cloud", "Colocation", "SMB", "Bare Metal", "Standalone", "Cross-portfolio"];
+  const dues = [...new Set(PRODUCTS.map(p => p.due).filter(Boolean))].sort();
+  const headSet = new Set(PRODUCTS.flatMap(p => p.headProducts || []).filter(Boolean));
+  const heads = HEAD_ORDER.filter(h => headSet.has(h))
+    .concat([...headSet].filter(h => !HEAD_ORDER.includes(h) && h !== "Unplaced").sort((a,b)=>a.localeCompare(b)))
+    .concat(headSet.has("Unplaced") ? ["Unplaced"] : []);
+  const groups = [...new Set(PRODUCTS.map(p => p.group).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const classes = [...new Set(PRODUCTS.map(p => p.cls || p.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const types = ["Product", "Sub-Prod"].filter(t => PRODUCTS.some(p => p.type === t));
+  const unType = PRODUCTS.some(p => !p.type);
+  function countBy(key) { const m = {}; PRODUCTS.forEach(p => { if (p[key]) m[p[key]] = (m[p[key]] || 0) + 1; }); return m; }
+  const cpoCount = countBy("cpo");
+  const cpos = Object.keys(cpoCount).sort((a,b) => (cpoCount[b]-cpoCount[a]) || a.localeCompare(b));   // biggest commercial owner first
+  const tpos = Object.keys(countBy("tpo")).sort((a,b)=>a.localeCompare(b));
+  const unCpo = PRODUCTS.some(p => !p.cpo) || state.cpo === "__unassigned__";
+  const unTpo = PRODUCTS.some(p => !p.tpo) || state.tpo === "__unassigned__";
+  const pddfCodes = [...new Set(PRODUCTS.map(p => p.pddf).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  function renderPddf() {
+    const el = document.getElementById("pddf-filters");
+    if (!el) return;
+    const label = el.querySelector(".filter-label");
+    let html = `<button type="button" class="chip ${state.pddf===""?"active":""}" data-key="pddf" data-val="" aria-pressed="${state.pddf===""}">All</button>`;
+    for (const v of pddfCodes) html += `<button type="button" class="chip ${state.pddf===v?"active":""}" data-key="pddf" data-val="${esc(v)}" aria-pressed="${state.pddf===v}">${esc(pddfLabel(v))}</button>`;
+    html += `<button type="button" class="chip ${state.pddf==="__notset__"?"active":""}" data-key="pddf" data-val="__notset__" aria-pressed="${state.pddf==="__notset__"}">Not set</button>`;
+    el.innerHTML = "";
+    if (label) el.appendChild(label);
+    el.insertAdjacentHTML("beforeend", html);
+  }
+  const GROUPS = {
+    stage:    () => renderChips("stage-filters", STAGES, "stage", "All"),
+    type:     () => renderChips("type-filters", types, "type", "All", unType ? [["Unspecified","Unspecified"]] : null),
+    due:      () => renderChips("due-filters", dues, "due", "All", [["Unscheduled","Unscheduled"]]),
+    head:     () => renderChips("head-filters", heads, "head", "All"),
+    group:    () => renderChips("group-filters", groups, "group", "All"),
+    cls:      () => renderChips("cls-filters", classes, "cls", "All"),
+    cpo:      () => renderChips("cpo-filters", cpos, "cpo", "All", unCpo ? [["Unassigned","__unassigned__"]] : null),
+    tpo:      () => renderChips("tpo-filters", tpos, "tpo", "All", unTpo ? [["Unassigned","__unassigned__"]] : null),
+    pddf:     renderPddf,
+  };
+  const params = new URLSearchParams(location.search);
+  if (params.get("due")) state.due = params.get("due");
+  if (params.get("stage")) state.stage = params.get("stage");
+  if (params.get("platform")) state.head = params.get("platform");
+  if (params.get("type")) state.type = params.get("type");
+  if (params.get("category")) state.group = params.get("category");
+  if (params.get("class")) state.cls = params.get("class");
+  if (params.get("cpo")) state.cpo = params.get("cpo");
+  if (params.get("tpo")) state.tpo = params.get("tpo");
+  if (params.get("pddf")) state.pddf = params.get("pddf");
+  Object.values(GROUPS).forEach(fn => fn());
+  document.getElementById("filters").addEventListener("click", e => {
+    const btn = e.target.closest(".chip[data-key]"); if (!btn) return;
+    const key = btn.dataset.key;
+    if (!(key in GROUPS)) return;
+    state[key] = btn.dataset.val;
+    GROUPS[key]();
+    render();
+  });
+  document.getElementById("q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+  render();
+}
+bind();
+</script>
+
+<script src="assets/resize.js"></script>
+<script src="assets/filter.js"></script>
+<script src="assets/sort.js"></script>
+
+<script>
+(function () {
+  var btn = document.querySelector("[data-menu]");
+  var nav = document.getElementById("mobile-nav");
+  if (!btn || !nav) return;
+  btn.addEventListener("click", function () {
+    var open = !nav.classList.contains("open");
+    nav.classList.toggle("open", open);
+    nav.hidden = !open;
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+})();
+</script>
+
+</body>
+</html>
