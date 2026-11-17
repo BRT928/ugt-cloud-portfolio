@@ -25,7 +25,7 @@
       </picture>
       <span class="sub">Portfolio</span>
     </a>
-    <nav class="side"><a class="active" href="index.html">Overview</a><a class="" href="products.html">Products</a><details class="nav-drop"><summary>Platforms</summary><div class="nav-drop-list"><a class="" href="platforms.html">All platforms</a><a class="" href="platform-universal-cloud.html">Universal Cloud</a><a class="" href="platform-public-cloud.html">Public Cloud</a><a class="" href="platform-private-cloud.html">Private Cloud</a><a class="" href="platform-colocation.html">Colocation</a><a class="" href="platform-smb.html">SMB</a><a class="" href="platform-bare-metal.html">Bare Metal</a><a class="" href="platform-standalone.html">Standalone</a><a class="" href="platform-cross-portfolio.html">Cross-portfolio</a></div></details><a class="" href="roadmap.html">Roadmap</a><a class="" href="owners.html">Owners</a><a class="" href="status.html">Status</a><a class="" href="glossary.html">Legend</a></nav>
+    <nav class="side"><a class="active" href="index.html">Overview</a><a class="" href="products.html">Products</a><details class="nav-drop"><summary>Platforms</summary><div class="nav-drop-list"><a class="" href="platforms.html">All platforms</a><a class="" href="platform-universal-cloud.html">Universal Cloud</a><a class="" href="platform-public-cloud.html">Public Cloud</a><a class="" href="platform-private-cloud.html">Private Cloud</a><a class="" href="platform-colocation.html">Colocation</a><a class="" href="platform-smb.html">SMB</a><a class="" href="platform-bare-metal.html">Bare Metal</a></div></details><a class="" href="roadmap.html">Roadmap</a><a class="" href="owners.html">Owners</a><a class="" href="status.html">Status</a><a class="" href="glossary.html">Legend</a></nav>
     <div class="snap">
       <div class="label">Snapshot</div>
       <div class="num">74</div>
@@ -37,7 +37,7 @@
     <header class="top">
       <button type="button" class="menu-btn" data-menu aria-expanded="false" aria-controls="mobile-nav">Menu</button>
       <div class="stats">26 live · 32 in delivery · 15 wishlist</div>
-      <nav id="mobile-nav" class="side" hidden><a class="active" href="index.html">Overview</a><a class="" href="products.html">Products</a><details class="nav-drop active" open><summary>Platforms</summary><div class="nav-drop-list"><a class="" href="platforms.html">All platforms</a><a class="" href="platform-universal-cloud.html">Universal Cloud</a><a class="" href="platform-public-cloud.html">Public Cloud</a><a class="" href="platform-private-cloud.html">Private Cloud</a><a class="" href="platform-colocation.html">Colocation</a><a class="" href="platform-smb.html">SMB</a><a class="" href="platform-bare-metal.html">Bare Metal</a><a class="" href="platform-standalone.html">Standalone</a><a class="" href="platform-cross-portfolio.html">Cross-portfolio</a></div></details><a class="" href="roadmap.html">Roadmap</a><a class="" href="owners.html">Owners</a><a class="" href="status.html">Status</a><a class="" href="glossary.html">Legend</a></nav>
+      <nav id="mobile-nav" class="side" hidden><a class="active" href="index.html">Overview</a><a class="" href="products.html">Products</a><details class="nav-drop active" open><summary>Platforms</summary><div class="nav-drop-list"><a class="" href="platforms.html">All platforms</a><a class="" href="platform-universal-cloud.html">Universal Cloud</a><a class="" href="platform-public-cloud.html">Public Cloud</a><a class="" href="platform-private-cloud.html">Private Cloud</a><a class="" href="platform-colocation.html">Colocation</a><a class="" href="platform-smb.html">SMB</a><a class="" href="platform-bare-metal.html">Bare Metal</a></div></details><a class="" href="roadmap.html">Roadmap</a><a class="" href="owners.html">Owners</a><a class="" href="status.html">Status</a><a class="" href="glossary.html">Legend</a></nav>
     </header>
     <div class="content">
 
@@ -129,11 +129,15 @@
   var btn = document.querySelector("[data-menu]");
   var nav = document.getElementById("mobile-nav");
   if (!btn || !nav) return;
-  btn.addEventListener("click", function () {
-    var open = !nav.classList.contains("open");
+  function setOpen(open) {
     nav.classList.toggle("open", open);
     nav.hidden = !open;
     btn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  setOpen(false);
+  btn.addEventListener("click", function () { setOpen(!nav.classList.contains("open")); });
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 960 && nav.classList.contains("open")) setOpen(false);
   });
 })();
 </script>

@@ -17,13 +17,16 @@ body {
 a { color: inherit; }
 .font-display { font-family: Fraunces, Georgia, serif; }
 .app { display: grid; grid-template-columns: 16.5rem 1fr; min-height: 100vh; }
+/* Mobile nav lives in the top header. Never show it on desktop — nav.side { display:flex }
+   would otherwise override the hidden attribute and overlay the page. */
+#mobile-nav { display: none !important; margin-top: 0; }
 @media (max-width: 960px) {
   .app { grid-template-columns: 1fr; }
   aside.rail { display: none !important; }
   .menu-btn { display: inline-flex !important; }
   header.top { flex-wrap: wrap; }
-  #mobile-nav { display: none; width: 100%; flex: 1 0 100%; padding: .5rem 0 0; }
-  #mobile-nav.open { display: flex; flex-direction: column; gap: .25rem; }
+  #mobile-nav { display: none !important; width: 100%; flex: 1 0 100%; padding: .5rem 0 0; }
+  #mobile-nav.open { display: flex !important; flex-direction: column; gap: .25rem; }
 }
 aside.rail {
   position: sticky; top: 0; height: 100vh; background: var(--rail);
@@ -75,6 +78,8 @@ nav.side .nav-drop-list a { min-height: 2.25rem; font-size: .85rem; padding-left
 }
 .subprod-flag { font-size: .75rem; color: #5B3A8C; margin-top: .2rem; font-weight: 600; }
 .available-flag { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
+.where-used { font-size: .8rem; color: var(--muted); margin-top: .35rem; position: relative; z-index: 1; line-height: 1.35; }
+.where-used .where-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; display: block; margin-bottom: .1rem; color: var(--muted); }
 .snap { background: var(--secondary); border-radius: 10px; padding: 1rem; }
 .snap .label { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .snap .num { font-family: Fraunces, serif; font-size: 1.85rem; margin-top: .25rem; }

@@ -100,7 +100,7 @@ def stage_css() -> str:
             bg, fg, dot = SOFT_FALLBACK[i % len(SOFT_FALLBACK)]; i += 1
         out.append(f".{badge_class(s)} {{ background:{bg}; color:{fg}; --dot:{dot}; border:1px solid {dot}33; }}")
     return "\n".join(out) + "\n"
-# Preferred nav / filter order. Extra Platform values from the Excel are appended.
+# All platform values used in filters, the matrix, and membership parsing.
 PLATFORM_COLS = [
     "Universal Cloud",
     "Public Cloud",
@@ -110,6 +110,15 @@ PLATFORM_COLS = [
     "Bare Metal",
     "Standalone",
     "Cross-portfolio",
+]
+# Sidebar dropdown + dedicated platform pages only (not Standalone or Cross-portfolio / ALL).
+NAV_PLATFORMS = [
+    "Universal Cloud",
+    "Public Cloud",
+    "Private Cloud",
+    "Colocation",
+    "SMB",
+    "Bare Metal",
 ]
 # Set True later to pull Status Update / where-used from the NNI sheet again.
 # When re-enabling, attach_tga_notes fills only blank ALL fields and does not overwrite them.
@@ -306,14 +315,15 @@ def platform_slug(name: str) -> str:
 
 
 def platform_nav_list(products: list[dict]) -> list[str]:
-    present = []
-    for p in products:
-        for h in p.get("headProducts") or []:
-            if h and h != "Unplaced" and h not in present:
-                present.append(h)
-    return [h for h in PLATFORM_COLS if h in present] + sorted(
-        h for h in present if h not in PLATFORM_COLS
-    )
+    """Platforms shown in the sidebar dropdown and as dedicated pages."""
+    present = {h for p in products for h in (p.get("headProducts") or []) if h and h != "Unplaced"}
+    return [h for h in NAV_PLATFORMS if h in present]
+
+
+def platform_matrix_list(products: list[dict]) -> list[str]:
+    """Columns on the All platforms matrix, including Standalone and Cross-portfolio."""
+    present = {h for p in products for h in (p.get("headProducts") or []) if h and h != "Unplaced"}
+    return [h for h in PLATFORM_COLS if h in present] + sorted(h for h in present if h not in PLATFORM_COLS)
 
 
 def parse_where_platforms(text: str) -> tuple[list[str], bool]:
@@ -335,11 +345,12 @@ def parse_where_platforms(text: str) -> tuple[list[str], bool]:
 
 
 def product_on_platform(p: dict, platform: str) -> str | None:
-    """'native' if the Platform column is this platform, 'available' if where-used includes it."""
+    """'native' if the Platform column is this platform, 'available' if where-used names it.
+
+    "Everywhere, in every platform" is display-only and does not add a product to a platform page.
+    """
     if platform in (p.get("headProducts") or []):
         return "native"
-    if p.get("whereEverywhere"):
-        return "available"
     if platform in (p.get("wherePlatforms") or []):
         return "available"
     return None
@@ -629,8 +640,10 @@ def product_card_html(p: dict, base: str = ".", platform: str | None = None) -> 
     note = ""
     if p.get("statusUpdate"):
         note = f'<div class="note-flag" title="{esc(p["statusUpdate"])}">📝 Status note</div>'
-    elif p.get("whereUsed"):
-        note = f'<div class="note-flag muted-flag" title="{esc(p["whereUsed"])}">Where: {esc(p["whereUsed"])}</div>'
+    where = ""
+    if p.get("whereUsed"):
+        where = (f'<div class="where-used"><span class="where-label">Where can it be used</span>'
+                 f'{esc(p["whereUsed"])}</div>')
     desc = ""
     if p.get("description"):
         desc = f'<p class="card-desc ka" title="{esc(p["description"])}">{esc(p["description"])}</p>'
@@ -655,6 +668,7 @@ def product_card_html(p: dict, base: str = ".", platform: str | None = None) -> 
       <div class="meta">{esc(due)}{tech}</div>
       {feature_tags_html(p)}
       {desc}
+      {where}
       {note}
       <div class="owners">{owner_chip_html(p['cpo'], 'CPO', base)}{owner_chip_html(p['tpo'], 'TPO', base)}</div>
     </article>"""
@@ -668,8 +682,6 @@ def product_table_rows(products: list[dict], base: str = ".", include_notes: boo
             bits = []
             if p.get("statusUpdate"):
                 bits.append(f'<span class="ka">{esc(p["statusUpdate"])}</span>')
-            if p.get("whereUsed"):
-                bits.append(f'<span class="muted">{esc(p["whereUsed"])}</span>')
             note_cell = f"<td>{'<br/>'.join(bits) if bits else '—'}</td>"
         typ = type_badge_html(p) or "—"
         feats = ", ".join(p.get("features") or []) or "—"
@@ -688,6 +700,7 @@ def product_table_rows(products: list[dict], base: str = ".", include_notes: boo
             f"<td>{esc(feats)}</td>"
             f"<td>{esc(p.get('portalName') or '—')}</td>"
             f"<td>{pddf_html(p)}</td>"
+            f"<td>{esc(p.get('whereUsed') or '—')}</td>"
             f"{note_cell}"
             f"</tr>"
         )
@@ -697,7 +710,8 @@ def product_table_rows(products: list[dict], base: str = ".", include_notes: boo
 PRODUCT_TABLE_HEAD = (
     "<th>Product</th><th>Type</th><th>Category</th><th>Class</th><th>Platform</th>"
     "<th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th>"
-    "<th>Features</th><th>Portal name</th><th>PDDF phase</th><th>Notes</th>"
+    "<th>Features</th><th>Portal name</th><th>PDDF phase</th>"
+    "<th>Where can it be used</th><th>Notes</th>"
 )
 
 
@@ -720,13 +734,16 @@ body {
 a { color: inherit; }
 .font-display { font-family: Fraunces, Georgia, serif; }
 .app { display: grid; grid-template-columns: 16.5rem 1fr; min-height: 100vh; }
+/* Mobile nav lives in the top header. Never show it on desktop — nav.side { display:flex }
+   would otherwise override the hidden attribute and overlay the page. */
+#mobile-nav { display: none !important; margin-top: 0; }
 @media (max-width: 960px) {
   .app { grid-template-columns: 1fr; }
   aside.rail { display: none !important; }
   .menu-btn { display: inline-flex !important; }
   header.top { flex-wrap: wrap; }
-  #mobile-nav { display: none; width: 100%; flex: 1 0 100%; padding: .5rem 0 0; }
-  #mobile-nav.open { display: flex; flex-direction: column; gap: .25rem; }
+  #mobile-nav { display: none !important; width: 100%; flex: 1 0 100%; padding: .5rem 0 0; }
+  #mobile-nav.open { display: flex !important; flex-direction: column; gap: .25rem; }
 }
 aside.rail {
   position: sticky; top: 0; height: 100vh; background: var(--rail);
@@ -778,6 +795,8 @@ nav.side .nav-drop-list a { min-height: 2.25rem; font-size: .85rem; padding-left
 }
 .subprod-flag { font-size: .75rem; color: #5B3A8C; margin-top: .2rem; font-weight: 600; }
 .available-flag { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
+.where-used { font-size: .8rem; color: var(--muted); margin-top: .35rem; position: relative; z-index: 1; line-height: 1.35; }
+.where-used .where-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; display: block; margin-bottom: .1rem; color: var(--muted); }
 .snap { background: var(--secondary); border-radius: 10px; padding: 1rem; }
 .snap .label { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .snap .num { font-family: Fraunces, serif; font-size: 1.85rem; margin-top: .25rem; }
@@ -1409,11 +1428,15 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
   var btn = document.querySelector("[data-menu]");
   var nav = document.getElementById("mobile-nav");
   if (!btn || !nav) return;
-  btn.addEventListener("click", function () {
-    var open = !nav.classList.contains("open");
+  function setOpen(open) {
     nav.classList.toggle("open", open);
     nav.hidden = !open;
     btn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  setOpen(false);
+  btn.addEventListener("click", function () { setOpen(!nav.classList.contains("open")); });
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 960 && nav.classList.contains("open")) setOpen(false);
   });
 })();
 </script>
@@ -1706,7 +1729,9 @@ function render() {
   cards.innerHTML = rows.map(p => {
     let note = "";
     if (p.statusUpdate) note = `<div class="note-flag" title="${esc(p.statusUpdate)}">📝 Status note</div>`;
-    else if (p.whereUsed) note = `<div class="note-flag muted-flag" title="${esc(p.whereUsed)}">Where: ${esc(p.whereUsed)}</div>`;
+    const where = p.whereUsed
+      ? `<div class="where-used"><span class="where-label">Where can it be used</span>${esc(p.whereUsed)}</div>`
+      : "";
     let belong = "";
     if (PLATFORM_CONTEXT && p.type === "Sub-Prod" && (p.headProducts || []).includes(PLATFORM_CONTEXT)) {
       belong = `<div class="subprod-flag">Sub-product of ${esc(PLATFORM_CONTEXT)}</div>`;
@@ -1723,6 +1748,7 @@ function render() {
       <div class="meta">${esc(p.due || "Unscheduled")}${p.technology ? " · " + esc(p.technology) : ""}</div>
       ${featTags(p)}
       ${p.description ? `<p class="card-desc ka" title="${esc(p.description)}">${esc(p.description)}</p>` : ""}
+      ${where}
       ${note}
       <div class="owners">${ownerChip(p.cpo,"CPO")}${ownerChip(p.tpo,"TPO")}</div>
     </article>`;
@@ -1730,7 +1756,6 @@ function render() {
   tbody.innerHTML = rows.map(p => {
     const bits = [];
     if (p.statusUpdate) bits.push(`<span class="ka">${esc(p.statusUpdate)}</span>`);
-    if (p.whereUsed) bits.push(`<span class="muted">${esc(p.whereUsed)}</span>`);
     return `
     <tr>
       <td><a href="product-${p.n}.html"><strong>${esc(p.product)}</strong></a></td>
@@ -1747,6 +1772,7 @@ function render() {
       <td>${esc((p.features || []).join(", ") || "—")}</td>
       <td>${esc(p.portalName || "—")}</td>
       <td>${p.pddfUrl ? `<a href="${esc(p.pddfUrl)}" target="_blank" rel="noopener">📄 ${esc(/^https?:/.test(p.pddf||"") ? "PDF" : pddfLabel(p.pddf))}</a>` : esc(pddfLabel(p.pddf))}</td>
+      <td>${esc(p.whereUsed || "—")}</td>
       <td>${bits.length ? bits.join("<br/>") : "—"}</td>
     </tr>`;
   }).join("");
@@ -1845,7 +1871,7 @@ def products_catalog_body(title: str, lede: str, eyebrow: str = "2026 register")
 """ + view_toggle_bar() + f"""
       <div class="cards view-cards-target" id="cards"></div>
       <div class="table-wrap view-table-target"><table>
-        <thead><tr><th>Product</th><th>Type</th><th>Description</th><th>Category</th><th>Class</th><th>Platform</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Features</th><th>Portal name</th><th>PDDF phase</th><th>Notes</th></tr></thead>
+        <thead><tr><th>Product</th><th>Type</th><th>Description</th><th>Category</th><th>Class</th><th>Platform</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Features</th><th>Portal name</th><th>PDDF phase</th><th>Where can it be used</th><th>Notes</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table></div>
       <div class="empty" id="empty" hidden>No products match these filters.</div>
@@ -1891,7 +1917,7 @@ def build_platform_page(platform: str, products: list[dict], updated: str) -> st
 
 
 def build_platforms(products: list[dict], updated: str) -> str:
-    plat_cols = platform_nav_list(products)
+    plat_cols = platform_matrix_list(products)
     counts = Counter()
     for p in products:
         for h in p["headProducts"]:
@@ -1918,6 +1944,8 @@ def build_platforms(products: list[dict], updated: str) -> str:
     }
     head_cells = "".join(
         f'<th><a href="{platform_slug(h)}.html">{esc(short.get(h, h))}</a></th>'
+        if h in NAV_PLATFORMS
+        else f'<th>{esc(short.get(h, h))}</th>'
         for h in plat_cols
     )
     body = f"""
@@ -1927,7 +1955,7 @@ def build_platforms(products: list[dict], updated: str) -> str:
       {filter_bar(product_filter_groups(include_due=False), "product", "Search products on platforms")}
       <div class="panel mt">
         <ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:1rem">
-          {''.join(f'<li><a href="{platform_slug(h)}.html"><strong>{counts.get(h,0)}</strong> <span class="muted">{esc(h)}</span></a></li>' for h in platform_nav_list(products))}
+          {''.join(f'<li><a href="{platform_slug(h)}.html"><strong>{counts.get(h,0)}</strong> <span class="muted">{esc(h)}</span></a></li>' if h in NAV_PLATFORMS else f'<li><strong>{counts.get(h,0)}</strong> <span class="muted">{esc(h)}</span></li>' for h in platform_matrix_list(products))}
         </ul>
       </div>
       <div class="table-wrap matrix-wrap"><table class="matrix">
@@ -2390,10 +2418,14 @@ def main() -> None:
     (SITE / "index.html").write_text(build_overview(products, updated), encoding="utf-8")
     (SITE / "products.html").write_text(build_products(products, updated), encoding="utf-8")
     (SITE / "platforms.html").write_text(build_platforms(products, updated), encoding="utf-8")
+    wanted_plat = set()
     for plat in platform_nav_list(products):
-        (SITE / f"{platform_slug(plat)}.html").write_text(
-            build_platform_page(plat, products, updated), encoding="utf-8"
-        )
+        dest = SITE / f"{platform_slug(plat)}.html"
+        dest.write_text(build_platform_page(plat, products, updated), encoding="utf-8")
+        wanted_plat.add(dest.name)
+    for stale in SITE.glob("platform-*.html"):
+        if stale.name not in wanted_plat:
+            stale.unlink()
     (SITE / "roadmap.html").write_text(build_roadmap(products, updated), encoding="utf-8")
     (SITE / "owners.html").write_text(build_owners_index(products, updated), encoding="utf-8")
     (SITE / "status.html").write_text(build_status_notes(products, tga_rows, updated), encoding="utf-8")
