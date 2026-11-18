@@ -285,6 +285,7 @@ body.view-table .view-cards-target { display: none !important; }
 .badge-development { background:#FBF3D5; color:#7A5C0A; --dot:#D9A916; border:1px solid #D9A91633; }
 .badge-wishlist { background:#FCEBDD; color:#8A4512; --dot:#E07B2E; border:1px solid #E07B2E33; }
 .badge-terminated { background:#FBE4E4; color:#962B2B; --dot:#D64545; border:1px solid #D6454533; }
+.badge-stage { background:#E6EEFB; color:#2F4F8F; --dot:#5B7FD1; border:1px solid #5B7FD133; }
 
 th.sortable-th { cursor: pointer; user-select: none; }
 th.sortable-th .sort-ind { margin-left: .3rem; font-size: .7em; opacity: .35; }
