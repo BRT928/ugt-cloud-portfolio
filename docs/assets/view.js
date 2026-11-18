@@ -58,7 +58,7 @@
     });
     document.querySelectorAll("a[href]").forEach(function (a) {
       var href = a.getAttribute("href") || "";
-      if (!/products\.html|roadmap\.html|owner-/.test(href)) return;
+      if (!/products\.html|internal-projects\.html|roadmap\.html|owner-/.test(href)) return;
       a.addEventListener("click", function () {
         var next = appendViewParam(a.getAttribute("href"));
         if (next) a.setAttribute("href", next);

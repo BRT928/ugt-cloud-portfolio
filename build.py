@@ -16,6 +16,8 @@ ROOT = Path(__file__).resolve().parent
 EXCEL = ROOT / "UGT_Product_Portfolio_2026.xlsx"
 STATE = ROOT / "state.json"
 OUT_JSON = ROOT / "products.json"
+OUT_PROJECTS_JSON = ROOT / "projects.json"
+CURRENT_PROJECTS: list[dict] = []
 SITE = ROOT / "docs"  # GitHub Pages /docs
 
 STAGE_FIX = {"Pre-Prodcution": "Pre-Production"}
@@ -160,6 +162,7 @@ GLOSSARY = [
     ("ALL / Cross-portfolio", "Cross-portfolio service applicable across platforms."),
     ("Type — Product", "A sellable offer in its own right."),
     ("Type — Sub-Prod", "A capability used only inside its parent platform, not sold as a standalone offer."),
+    ("Internal projects", "Internal tools, portal work and platform projects tracked in a second table on the ALL sheet. They are not commercial products and are listed under Internal projects."),
     ("Category", "Commercial grouping, for example Cloud Platform, VPS or Object Storages."),
     ("Class", "Technical class, for example Compute, Network, Storage or Backup."),
     ("Features", "Short tags for notable capabilities of the line."),
@@ -255,8 +258,64 @@ def find_header_row(ws, must_have=("n",), scan_rows: int = 15) -> int:
     return 3
 
 
+# Tokens that mark a repeated column-header row in the ALL sheet (second table, etc.).
+TABLE_HEADER_TOKENS = {
+    "n", "name", "description", "type", "platform", "category", "class",
+    "technology/vendor", "technology / vendor", "platform/technology/vendor",
+    "features", "pddf phase", "phase", "stage", "due date", "cpo", "tpo",
+    "where can it be used", "product name in portal", "status update",
+}
+
+
+def is_table_header_row(ws, r: int, ncols: int) -> bool:
+    """True when a row is a column-header bar (Name + several header labels), not a data row."""
+    vals = [clean_text(ws.cell(r, c).value).lower() for c in range(1, ncols + 1)]
+    vals = [v for v in vals if v]
+    if "name" not in vals:
+        return False
+    hits = sum(1 for v in vals if v in TABLE_HEADER_TOKENS)
+    return hits >= 4
+
+
+def find_table_header_rows(ws) -> list[int]:
+    """Every header bar on the ALL sheet, in row order. First = products, second = internal projects."""
+    ncols = ws.max_column
+    found = []
+    for r in range(1, ws.max_row + 1):
+        if is_table_header_row(ws, r, ncols):
+            found.append(r)
+    return found
+
+
+def project_slug(name: str, used: set[str] | None = None) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", (name or "").lower()).strip("-") or "project"
+    if used is not None:
+        base = slug
+        i = 2
+        while slug in used:
+            slug = f"{base}-{i}"
+            i += 1
+        used.add(slug)
+    return slug
+
+
+def item_href(p: dict, base: str = ".") -> str:
+    if p.get("href"):
+        href = p["href"]
+    elif p.get("kind") == "project":
+        href = f"project-{p['id']}.html"
+    else:
+        href = f"product-{p['n']}.html"
+    if base and base not in (".", ""):
+        return f"{base.rstrip('/')}/{href}"
+    return href
+
+
 def canonical_header(h: str) -> str:
-    low = h.lower()
+    low = (h or "").lower().strip()
+    # The internal-projects table labels this column " Phase" (no PDDF prefix).
+    if low in ("phase", "pddf phase", "pddf"):
+        return "PDDF"
     if re.match(r"^p+d+f", re.sub(r"[^a-z]", "", low)):
         return "PDDF"
     for canon, aliases in HEADER_ALIASES.items():
@@ -360,9 +419,12 @@ def type_badge_html(p: dict) -> str:
     t = p.get("type") or ""
     if not t:
         return ""
-    title = "Sub-product of this platform" if t == "Sub-Prod" else "Standalone or sellable product"
-    if t == "Sub-Prod" and p.get("headProducts"):
-        title = "Sub-product of " + ", ".join(p["headProducts"])
+    if t == "Sub-Prod":
+        title = "Sub-product of " + ", ".join(p["headProducts"]) if p.get("headProducts") else "Sub-product of this platform"
+    elif t in ("Product",):
+        title = "Standalone or sellable product"
+    else:
+        title = t
     return f'<span class="type-badge type-{badge_class(t).removeprefix("badge-")}" title="{esc(title)}">{esc(t)}</span>'
 
 
@@ -373,74 +435,119 @@ def feature_tags_html(p: dict) -> str:
     return '<div class="feat-tags">' + "".join(f'<span class="feat-tag">{esc(f)}</span>' for f in feats) + "</div>"
 
 
-def load_products(path: Path) -> list[dict]:
+def _parse_register_row(ws, r: int, headers: list[str], kind: str, seq: int, slug_used: set[str]) -> dict | None:
+    """Turn one ALL-sheet data row into a product or internal-project record. Skip blank and header rows."""
+    ncols = len(headers)
+    if is_table_header_row(ws, r, ws.max_column):
+        return None
+    row = {}
+    for c in range(1, ncols + 1):
+        row.setdefault(headers[c - 1], ws.cell(r, c).value)
+    name = clean_text(row.get("Product"))
+    if not name and row.get("N") is None:
+        return None
+    # Belt and braces: never ingest a repeated header as a data row (Name / Type / Stage ...).
+    typ = clean_text(row.get("Type")) or None
+    stage_raw = clean_text(row.get("Stage"))
+    if name.lower() == "name" and (typ or "").lower() == "type" and (stage_raw or "").lower() == "stage":
+        return None
+    stage = STAGE_FIX.get(stage_raw, stage_raw)
+    if stage and stage not in STAGE_COLORS and "Stage" in headers:
+        col = headers.index("Stage") + 1
+        hx = cell_fill_hex(ws.cell(r, col))
+        if hx:
+            STAGE_COLORS[stage] = hx
+    heads = split_heads(row.get("Head Product"))
+    if not heads:
+        heads = [] if kind == "project" else ["Unplaced"]
+    due = clean_text(row.get("Due Date")) or None
+    tech = clean_text(row.get("Platform/Technology/Vendor"))
+    sub = clean_text(row.get("Sub Products"))
+    raw_n = row.get("N")
+    try:
+        n = int(raw_n)
+    except (TypeError, ValueError):
+        n = seq
+    desc = clean_multiline(row.get("Description")) or None
+    if kind != "project" and not desc:
+        # Build-time fallback only when the Excel cell is empty; later Excel text wins.
+        desc = FALLBACK_DESCRIPTIONS.get(name) or FALLBACK_DESCRIPTIONS.get(display_spelling(name))
+    group = clean_text(row.get("Group")) or None
+    klass = clean_text(row.get("Category")) or None
+    where_raw = clean_multiline(row.get("where can it be used")) or None
+    where_platforms, where_everywhere = parse_where_platforms(where_raw or "")
+    status = clean_multiline(row.get("Status Update")) or None
+    rec = {
+        "n": n,
+        "product": display_spelling(name),
+        "headProducts": heads,
+        "type": typ,
+        "group": group,
+        "category": klass,  # technical Class (kept as category for older links)
+        "cls": klass,
+        "technology": display_spelling(tech_display(tech, sub)),
+        "stage": stage,
+        "due": due,
+        "cpo": owner_or_none(row.get("CPO")),
+        "tpo": owner_or_none(row.get("TPO")),
+        "description": desc,
+        "portalName": display_spelling(clean_text(row.get("PortalName"))) or None,
+        "features": split_features(row.get("Features")),
+        "pddf": clean_text(row.get("PDDF")) or None,
+        "pddfUrl": pddf_link(ws, r, headers),
+        "statusUpdate": status,
+        "whereUsed": where_raw,
+        "wherePlatforms": where_platforms,
+        "whereEverywhere": where_everywhere,
+        "kind": kind,
+    }
+    if kind == "project":
+        rec["id"] = project_slug(rec["product"], slug_used)
+        rec["href"] = f"project-{rec['id']}.html"
+    else:
+        rec["href"] = f"product-{rec['n']}.html"
+    return rec
+
+
+def load_register(path: Path) -> tuple[list[dict], list[dict]]:
+    """Read the ALL sheet as two tables: products (first header) and internal projects (second header).
+
+    The header row of each table is never ingested. Future rows added under the second header
+    are picked up automatically as internal projects.
+    """
     wb = openpyxl.load_workbook(path, data_only=True)
     ws = wb["UGT Product Portfolio ALL"]
     ncols = ws.max_column
-    hdr_row = find_header_row(ws)
-    headers = [canonical_header(clean_text(ws.cell(hdr_row, c).value)) or f"col{c}" for c in range(1, ncols + 1)]
+    header_rows = find_table_header_rows(ws)
+    if not header_rows:
+        header_rows = [find_header_row(ws)]
+    product_hdr = header_rows[0]
+    project_hdr = header_rows[1] if len(header_rows) > 1 else None
+    product_end = project_hdr if project_hdr else (ws.max_row + 1)
+
+    def headers_at(hdr_row: int) -> list[str]:
+        return [canonical_header(clean_text(ws.cell(hdr_row, c).value)) or f"col{c}" for c in range(1, ncols + 1)]
+
     products = []
-    for r in range(hdr_row + 1, ws.max_row + 1):
-        row = {}
-        for c in range(1, ncols + 1):
-            # first occurrence of a header wins
-            row.setdefault(headers[c - 1], ws.cell(r, c).value)
-        name = clean_text(row.get("Product"))
-        if not name and row.get("N") is None:
-            continue
-        stage_raw = clean_text(row.get("Stage"))
-        stage = STAGE_FIX.get(stage_raw, stage_raw)
-        if stage and stage not in STAGE_COLORS and "Stage" in headers:
-            col = headers.index("Stage") + 1
-            hx = cell_fill_hex(ws.cell(r, col))
-            if hx:
-                STAGE_COLORS[stage] = hx
-        heads = split_heads(row.get("Head Product"))
-        if not heads:
-            heads = ["Unplaced"]
-        due = clean_text(row.get("Due Date")) or None
-        tech = clean_text(row.get("Platform/Technology/Vendor"))
-        sub = clean_text(row.get("Sub Products"))
-        n = row.get("N")
-        try:
-            n = int(n)
-        except (TypeError, ValueError):
-            n = len(products) + 1
-        desc = clean_multiline(row.get("Description")) or None
-        # Build-time fallback only when the Excel cell is empty; later Excel text wins.
-        if not desc:
-            desc = FALLBACK_DESCRIPTIONS.get(name) or FALLBACK_DESCRIPTIONS.get(display_spelling(name))
-        typ = clean_text(row.get("Type")) or None
-        group = clean_text(row.get("Group")) or None
-        klass = clean_text(row.get("Category")) or None
-        where_raw = clean_multiline(row.get("where can it be used")) or None
-        where_platforms, where_everywhere = parse_where_platforms(where_raw or "")
-        status = clean_multiline(row.get("Status Update")) or None
-        products.append(
-            {
-                "n": n,
-                "product": display_spelling(name),
-                "headProducts": heads,
-                "type": typ,
-                "group": group,
-                "category": klass,  # technical Class (kept as category for older links)
-                "cls": klass,
-                "technology": display_spelling(tech_display(tech, sub)),
-                "stage": stage,
-                "due": due,
-                "cpo": owner_or_none(row.get("CPO")),
-                "tpo": owner_or_none(row.get("TPO")),
-                "description": desc,
-                "portalName": display_spelling(clean_text(row.get("PortalName"))) or None,
-                "features": split_features(row.get("Features")),
-                "pddf": clean_text(row.get("PDDF")) or None,
-                "pddfUrl": pddf_link(ws, r, headers),
-                "statusUpdate": status,
-                "whereUsed": where_raw,
-                "wherePlatforms": where_platforms,
-                "whereEverywhere": where_everywhere,
-            }
-        )
+    prod_headers = headers_at(product_hdr)
+    for r in range(product_hdr + 1, product_end):
+        rec = _parse_register_row(ws, r, prod_headers, "product", len(products) + 1, set())
+        if rec:
+            products.append(rec)
+
+    projects = []
+    if project_hdr:
+        proj_headers = headers_at(project_hdr)
+        slugs: set[str] = set()
+        for r in range(project_hdr + 1, ws.max_row + 1):
+            rec = _parse_register_row(ws, r, proj_headers, "project", len(projects) + 1, slugs)
+            if rec:
+                projects.append(rec)
+    return products, projects
+
+
+def load_products(path: Path) -> list[dict]:
+    products, _ = load_register(path)
     return products
 
 
@@ -605,14 +712,16 @@ def badge_class(stage: str) -> str:
 
 def fattrs(p: dict) -> str:
     """data-* attributes consumed by assets/filter.js"""
+    heads = p.get("headProducts") or []
     text = " ".join(str(x) for x in [p["product"], p.get("type") or "", p.get("group") or "", p.get("cls") or "",
                     p.get("category") or "", p["stage"], p.get("due") or "",
                     p.get("technology") or "", p.get("cpo") or "", p.get("tpo") or "", p.get("description") or "",
                     p.get("portalName") or "", p.get("pddf") or "", " ".join(p.get("features") or []),
-                    " ".join(p["headProducts"]), p.get("whereUsed") or "", p.get("statusUpdate") or ""]).lower()
+                    " ".join(heads), p.get("whereUsed") or "", p.get("statusUpdate") or ""]).lower()
     typ = p.get("type") or "Unspecified"
-    return (f' data-fitem data-n="{p["n"]}" data-f-stage="{esc(p["stage"])}" data-f-due="{esc(p.get("due") or "Unscheduled")}"'
-            f' data-f-head="{esc("|".join(p["headProducts"]))}" data-f-type="{esc(typ)}"'
+    nid = p.get("n") if p.get("n") is not None else p.get("id") or ""
+    return (f' data-fitem data-n="{esc(str(nid))}" data-f-stage="{esc(p["stage"])}" data-f-due="{esc(p.get("due") or "Unscheduled")}"'
+            f' data-f-head="{esc("|".join(heads))}" data-f-type="{esc(typ)}"'
             f' data-f-group="{esc(p.get("group") or "")}" data-f-cls="{esc(p.get("cls") or "")}"'
             f' data-f-category="{esc(p.get("group") or p.get("category") or "")}"'
             f' data-f-pddf="{esc(p.get("pddf") or "Not set")}"'
@@ -658,7 +767,7 @@ def product_card_html(p: dict, base: str = ".", platform: str | None = None) -> 
     meta_bits = " · ".join(b for b in (group, klass) if b) or "—"
     return f"""
     <article class="card"{fattrs(p)}>
-      <a class="card-stretch" href="{base}/product-{p['n']}.html" aria-label="{esc(p['product'])}"></a>
+      <a class="card-stretch" href="{item_href(p, base)}" aria-label="{esc(p['product'])}"></a>
       <div class="card-top">
         <div><div class="card-title">{esc(p['product'])}</div>{portal}{belong}</div>
         <span class="card-badges">{type_badge_html(p)}<span class="badge {badge_class(p['stage'])}">{esc(p['stage'])}</span></span>
@@ -687,7 +796,7 @@ def product_table_rows(products: list[dict], base: str = ".", include_notes: boo
         feats = ", ".join(p.get("features") or []) or "—"
         rows.append(
             f"<tr{fattrs(p)}>"
-            f'<td><a href="{base}/product-{p["n"]}.html"><strong>{esc(p["product"])}</strong></a></td>'
+            f'<td><a href="{item_href(p, base)}"><strong>{esc(p["product"])}</strong></a></td>'
             f"<td>{typ}</td>"
             f"<td>{esc(p.get('group') or '—')}</td>"
             f"<td>{esc(p.get('cls') or p.get('category') or '—')}</td>"
@@ -788,6 +897,8 @@ nav.side .nav-drop-list a { min-height: 2.25rem; font-size: .85rem; padding-left
   border-radius: 999px; padding: .2rem .55rem; background: #E7EEF6; color: #3A4A5C; border: 1px solid #C9D6E4;
 }
 .type-badge.type-sub-prod { background: #EDE8F6; color: #4A3A6B; border-color: #D4CAE6; }
+.type-badge.type-project { background: #EDE8F6; color: #4A3A6B; border-color: #D4CAE6; }
+.type-badge.type-tools, .type-badge.type-portal { background: #E7EEF6; color: #3A4A5C; border-color: #C9D6E4; }
 .feat-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .35rem; position: relative; z-index: 1; }
 .feat-tag {
   font-size: .72rem; background: #F3F6F9; color: #4A5A6A; border: 1px solid #D5DEE7;
@@ -801,6 +912,8 @@ nav.side .nav-drop-list a { min-height: 2.25rem; font-size: .85rem; padding-left
 .snap .label { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .snap .num { font-family: Fraunces, serif; font-size: 1.85rem; margin-top: .25rem; }
 .snap .hint { font-size: .875rem; color: var(--muted); margin-top: .25rem; }
+.snap a.hint { color: var(--muted); text-decoration: none; display: inline-block; }
+.snap a.hint:hover { color: var(--fg); }
 .updated { font-size: .7rem; color: var(--muted); margin-top: .6rem; line-height: 1.3; }
 .card-portal { font-size:.78rem; color: var(--accent); margin-top:.15rem; font-weight:500; }
 header.top {
@@ -1171,7 +1284,7 @@ VIEW_JS = r"""
     });
     document.querySelectorAll("a[href]").forEach(function (a) {
       var href = a.getAttribute("href") || "";
-      if (!/products\.html|roadmap\.html|owner-/.test(href)) return;
+      if (!/products\.html|internal-projects\.html|roadmap\.html|owner-/.test(href)) return;
       a.addEventListener("click", function () {
         var next = appendViewParam(a.getAttribute("href"));
         if (next) a.setAttribute("href", next);
@@ -1409,6 +1522,7 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
             f'<div class="nav-drop-list">{"".join(links)}</div></details>'
         )
         rest = [
+            ("internal-projects.html", "Internal projects", "internal-projects"),
             ("roadmap.html", "Roadmap", "roadmap"),
             ("owners.html", "Owners", "owners"),
             ("status.html", "Status", "status"),
@@ -1473,6 +1587,7 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
       <div class="label">Snapshot</div>
       <div class="num">{len(products)}</div>
       <div class="hint">products in the 2026 register</div>
+      {f'<a class="hint" href="internal-projects.html">{len(CURRENT_PROJECTS)} internal project{"s" if len(CURRENT_PROJECTS)!=1 else ""}</a>' if CURRENT_PROJECTS else ""}
       <div class="updated">Data last updated<br/>{esc(updated)}</div>
     </div>
   </aside>
@@ -1484,7 +1599,7 @@ def shell(page: str, title: str, body: str, products: list[dict], updated: str, 
     </header>
     <div class="content">
 {body}
-      <p class="footer">Built from UGT_Product_Portfolio_2026.xlsx · sheet “UGT Product Portfolio ALL”.</p>
+      <p class="footer">Built from UGT_Product_Portfolio_2026.xlsx · sheet “UGT Product Portfolio ALL” (products and internal projects).</p>
     </div>
   </div>
 </div>
@@ -1538,6 +1653,7 @@ def build_overview(products: list[dict], updated: str) -> str:
 
     kpis = [
         ("Total products", len(products), "products.html"),
+        ("Internal projects", len(CURRENT_PROJECTS), "internal-projects.html"),
         ("Production", by_stage.get("Production", 0), "products.html?stage=Production"),
         ("In delivery", delivery, "roadmap.html"),
         ("Scheduled", scheduled, "roadmap.html"),
@@ -1583,7 +1699,7 @@ def build_overview(products: list[dict], updated: str) -> str:
     body = f"""
       <p class="eyebrow">2026 register</p>
       <h1>Product portfolio at a glance</h1>
-      <p class="lede">Every UGT Cloud offer, the platform it sits on, and the people who own it commercially and technically.</p>
+      <p class="lede">Every UGT Cloud offer, the platform it sits on, and the people who own it commercially and technically.{(" Internal projects are listed separately.") if CURRENT_PROJECTS else ""}</p>
       <div class="kpi-grid">{kpi_html}</div>
       <div class="grid-2 mt" style="margin-top:1.5rem">
         <div class="panel">
@@ -2370,6 +2486,272 @@ bind();
 
 
 
+
+PROJECT_TABLE_HEAD = (
+    "<th>Project</th><th>Type</th><th>Description</th><th>Category</th>"
+    "<th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th>"
+    "<th>Features</th><th>Phase</th>"
+)
+
+PROJECTS_JS = r"""
+<script>
+const PRODUCTS = __PRODUCTS__;
+const STAGES = __STAGES__;
+const state = { stage: "", due: "", type: "", group: "", cpo: "", tpo: "", pddf: "", q: "" };
+const PDDF_LABELS = __PDDF_LABELS__;
+function pddfLabel(code) { return (code && PDDF_LABELS[code] && PDDF_LABELS[code] !== code) ? (code + " — " + PDDF_LABELS[code]) : (PDDF_LABELS[code] || code || "—"); }
+function typeBadge(p) {
+  if (!p.type) return "";
+  const cls = "type-badge type-" + String(p.type).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `<span class="${cls}" title="${esc(p.type)}">${esc(p.type)}</span>`;
+}
+function featTags(p) {
+  const feats = p.features || [];
+  if (!feats.length) return "";
+  return `<div class="feat-tags">${feats.map(f => `<span class="feat-tag">${esc(f)}</span>`).join("")}</div>`;
+}
+function badgeClass(stage) {
+  return "badge-" + String(stage || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function hrefOf(p) { return p.href || ("project-" + (p.id || p.n) + ".html"); }
+function ownerChip(code, role) {
+  if (!code) return `<span class="owner"><span class="avatar muted">—</span><span><div>Unassigned</div><div class="role">${role}</div></span></span>`;
+  return `<a class="owner" href="owner-${esc(code)}.html"><span class="avatar">${esc(code)}</span><span><div>${esc(code)}</div><div class="role">${role}</div></span></a>`;
+}
+function matches(p) {
+  if (state.stage && p.stage !== state.stage) return false;
+  if (state.due === "Unscheduled") { if (p.due) return false; }
+  else if (state.due && p.due !== state.due) return false;
+  if (state.type === "Unspecified") { if (p.type) return false; }
+  else if (state.type && p.type !== state.type) return false;
+  if (state.group && p.group !== state.group) return false;
+  if (state.cpo === "__unassigned__") { if (p.cpo) return false; }
+  else if (state.cpo && p.cpo !== state.cpo) return false;
+  if (state.tpo === "__unassigned__") { if (p.tpo) return false; }
+  else if (state.tpo && p.tpo !== state.tpo) return false;
+  if (state.pddf === "__notset__") { if (p.pddf) return false; }
+  else if (state.pddf && p.pddf !== state.pddf) return false;
+  if (state.q) {
+    const hay = [p.product, p.type || "", p.group || "", p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.description || "", p.pddf || "", ...(p.features || [])].join(" ").toLowerCase();
+    if (!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+function renderChips(id, values, key, allLabel, extra) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let html = "";
+  html += `<button type="button" class="chip ${state[key]===""?"active":""}" data-key="${key}" data-val="" aria-pressed="${state[key]===""}">${allLabel}</button>`;
+  for (const v of values) html += `<button type="button" class="chip ${state[key]===v?"active":""}" data-key="${key}" data-val="${esc(v)}" aria-pressed="${state[key]===v}">${esc(v)}</button>`;
+  if (extra) for (const [lab, val] of extra) html += `<button type="button" class="chip ${state[key]===val?"active":""}" data-key="${key}" data-val="${esc(val)}" aria-pressed="${state[key]===val}">${esc(lab)}</button>`;
+  el.querySelectorAll("button").forEach(b => b.remove());
+  el.insertAdjacentHTML("beforeend", html);
+}
+function applyUrl() {
+  const u = new URL(location.href);
+  for (const k of Object.keys(state)) {
+    if (k === "q") { const q = u.searchParams.get("q"); if (q) state.q = q.toLowerCase(); continue; }
+    const v = u.searchParams.get(k);
+    if (v) state[k] = v;
+  }
+}
+function syncUrl() {
+  const u = new URL(location.href);
+  for (const k of Object.keys(state)) {
+    if (!state[k]) u.searchParams.delete(k);
+    else u.searchParams.set(k, state[k]);
+  }
+  history.replaceState(null, "", u);
+}
+function render() {
+  const rows = PRODUCTS.filter(matches);
+  const count = document.getElementById("view-count");
+  if (count) count.textContent = `${rows.length} project${rows.length===1?"":"s"} in view.`;
+  const cards = document.getElementById("cards");
+  const tbody = document.getElementById("tbody");
+  const empty = document.getElementById("empty");
+  if (!rows.length) { cards.innerHTML=""; tbody.innerHTML=""; empty.hidden=false; return; }
+  empty.hidden = true;
+  cards.innerHTML = rows.map(p => {
+    const meta = p.group || "—";
+    return `
+    <article class="card">
+      <a class="card-stretch" href="${hrefOf(p)}" aria-label="${esc(p.product)}"></a>
+      <div class="card-top"><div><div class="card-title">${esc(p.product)}</div></div><span class="card-badges">${typeBadge(p)}<span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></span></div>
+      <div class="meta">${esc(meta)}</div>
+      <div class="meta">${esc(p.due || "Unscheduled")}${p.technology ? " · " + esc(p.technology) : ""}${p.pddf ? " · " + esc(pddfLabel(p.pddf)) : ""}</div>
+      ${featTags(p)}
+      ${p.description ? `<p class="card-desc ka" title="${esc(p.description)}">${esc(p.description)}</p>` : ""}
+      <div class="owners">${ownerChip(p.cpo,"CPO")}${ownerChip(p.tpo,"TPO")}</div>
+    </article>`;
+  }).join("");
+  tbody.innerHTML = rows.map(p => {
+    return `
+    <tr>
+      <td><a href="${hrefOf(p)}"><strong>${esc(p.product)}</strong></a></td>
+      <td>${typeBadge(p) || "—"}</td>
+      <td class="desc-cell">${p.description ? `<span class="ka desc-trunc" title="${esc(p.description)}">${esc(p.description)}</span>` : "—"}</td>
+      <td>${esc(p.group || "—")}</td>
+      <td><span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></td>
+      <td>${esc(p.due || "Unscheduled")}</td>
+      <td>${esc(p.cpo || "Unassigned")}</td>
+      <td>${esc(p.tpo || "Unassigned")}</td>
+      <td>${esc(p.technology || "—")}</td>
+      <td>${esc((p.features || []).join(", ") || "—")}</td>
+      <td>${esc(pddfLabel(p.pddf))}</td>
+    </tr>`;
+  }).join("");
+  syncUrl();
+}
+function bind() {
+  const dues = [...new Set(PRODUCTS.map(p => p.due).filter(Boolean))].sort();
+  const groups = [...new Set(PRODUCTS.map(p => p.group).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const types = [...new Set(PRODUCTS.map(p => p.type).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const unType = PRODUCTS.some(p => !p.type);
+  function countBy(key) { const m = {}; PRODUCTS.forEach(p => { if (p[key]) m[p[key]] = (m[p[key]] || 0) + 1; }); return m; }
+  const cpoCount = countBy("cpo");
+  const cpos = Object.keys(cpoCount).sort((a,b) => (cpoCount[b]-cpoCount[a]) || a.localeCompare(b));
+  const tpos = Object.keys(countBy("tpo")).sort((a,b)=>a.localeCompare(b));
+  const unCpo = PRODUCTS.some(p => !p.cpo) || state.cpo === "__unassigned__";
+  const unTpo = PRODUCTS.some(p => !p.tpo) || state.tpo === "__unassigned__";
+  const pddfCodes = [...new Set(PRODUCTS.map(p => p.pddf).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  function renderPddf() {
+    const el = document.getElementById("pddf-filters");
+    if (!el) return;
+    let html = `<button type="button" class="chip ${state.pddf===""?"active":""}" data-key="pddf" data-val="" aria-pressed="${state.pddf===""}">All</button>`;
+    for (const v of pddfCodes) html += `<button type="button" class="chip ${state.pddf===v?"active":""}" data-key="pddf" data-val="${esc(v)}" aria-pressed="${state.pddf===v}">${esc(pddfLabel(v))}</button>`;
+    if (PRODUCTS.some(p => !p.pddf)) html += `<button type="button" class="chip ${state.pddf==="__notset__"?"active":""}" data-key="pddf" data-val="__notset__" aria-pressed="${state.pddf==="__notset__"}">Not set</button>`;
+    el.querySelectorAll("button").forEach(b => b.remove());
+    el.insertAdjacentHTML("beforeend", html);
+  }
+  function paintAll() {
+    renderChips("stage-filters", stagePresent, "stage", "All");
+    renderChips("type-filters", types, "type", "All", unType ? [["Unspecified", "Unspecified"]] : []);
+    renderChips("due-filters", dues, "due", "All", [["Unscheduled", "Unscheduled"]]);
+    renderChips("group-filters", groups, "group", "All");
+    renderChips("cpo-filters", cpos, "cpo", "All", unCpo ? [["Unassigned", "__unassigned__"]] : []);
+    renderChips("tpo-filters", tpos, "tpo", "All", unTpo ? [["Unassigned", "__unassigned__"]] : []);
+    renderPddf();
+  }
+  applyUrl();
+  const qEl = document.getElementById("q");
+  if (qEl && state.q) qEl.value = state.q;
+  const stagePresent = STAGES.filter(s => PRODUCTS.some(p => p.stage === s));
+  paintAll();
+  document.getElementById("filters").addEventListener("click", e => {
+    const btn = e.target.closest("button[data-key]");
+    if (!btn) return;
+    const key = btn.getAttribute("data-key");
+    state[key] = btn.getAttribute("data-val") || "";
+    paintAll();
+    render();
+  });
+  document.getElementById("q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+  render();
+}
+bind();
+</script>
+"""
+
+
+def projects_catalog_js(rows: list[dict]) -> str:
+    return (
+        PROJECTS_JS
+        .replace("__PRODUCTS__", json.dumps(rows, ensure_ascii=False))
+        .replace("__STAGES__", json.dumps(STAGES))
+        .replace("__PDDF_LABELS__", json.dumps(PDDF_PHASE_LABELS, ensure_ascii=False))
+    )
+
+
+def build_internal_projects(projects: list[dict], products: list[dict], updated: str) -> str:
+    n = len(projects)
+    lede = (
+        "Internal tools, portal work and platform projects from the second table on the ALL sheet. "
+        "These are not commercial products."
+        if n else
+        "No internal projects in the register yet. New rows added under the second table on the ALL sheet will appear here."
+    )
+    body = f"""
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end;justify-content:space-between">
+        <div>
+          <p class="eyebrow">Internal</p>
+          <h1>Internal projects</h1>
+          <p class="lede">{esc(lede)}</p>
+        </div>
+        <label class="search-box"><span aria-hidden="true">⌕</span>
+          <input id="q" type="search" placeholder="Search projects, descriptions, owners" autocomplete="off"/>
+        </label>
+      </div>
+      <div class="filters" id="filters">
+        <div class="filter-row" id="stage-filters" role="group" aria-label="Stage"><span class="filter-label">Stage</span></div>
+        <div class="filter-row" id="type-filters" role="group" aria-label="Type"><span class="filter-label">Type</span></div>
+        <div class="filter-row" id="due-filters" role="group" aria-label="Due date"><span class="filter-label">Due date</span></div>
+        <div class="filter-row" id="group-filters" role="group" aria-label="Category"><span class="filter-label">Category</span></div>
+        <div class="filter-row" id="cpo-filters" role="group" aria-label="Commercial owner"><span class="filter-label">Commercial owner</span></div>
+        <div class="filter-row" id="tpo-filters" role="group" aria-label="Technical owner"><span class="filter-label">Technical owner</span></div>
+        <div class="filter-row" id="pddf-filters" role="group" aria-label="Phase"><span class="filter-label">Phase</span></div>
+      </div>
+""" + view_toggle_bar() + f"""
+      <div class="cards view-cards-target" id="cards"></div>
+      <div class="table-wrap view-table-target"><table>
+        <thead><tr>{PROJECT_TABLE_HEAD}</tr></thead>
+        <tbody id="tbody"></tbody>
+      </table></div>
+      <div class="empty" id="empty" hidden>No projects match these filters.</div>
+"""
+    return shell("internal-projects", "Internal projects", body, products, updated, extra_js=projects_catalog_js(projects))
+
+
+def build_project_page(p: dict, products: list[dict], updated: str) -> str:
+    if p.get("description"):
+        desc_panel = (
+            '<div class="panel desc-panel"><h2>Description</h2>'
+            f'<p class="ka">{esc(p["description"])}</p></div>'
+        )
+    else:
+        desc_panel = (
+            '<div class="panel desc-panel"><h2>Description</h2>'
+            '<p class="muted" style="margin:.5rem 0 0">No description in the register yet.</p></div>'
+        )
+    phase_dd = f'<dt>Phase</dt><dd>{pddf_html(p)}</dd>' if p.get("pddf") or p.get("pddfUrl") else ""
+    body = f"""
+      <p class="eyebrow"><a class="muted" href="internal-projects.html">Internal projects</a> / {esc(p['product'])}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;justify-content:space-between">
+        <div>
+          <h1>{esc(p['product'])}</h1>
+          <p class="lede">{esc(' · '.join(b for b in (p.get('type'), p.get('group')) if b) or 'Internal project')}</p>
+          {feature_tags_html(p)}
+        </div>
+        <span class="card-badges">{type_badge_html(p)}<span class="badge {badge_class(p['stage'])}" style="font-size:.85rem;padding:.4rem .75rem">{esc(p['stage'])}</span></span>
+      </div>
+      {desc_panel}
+      <div class="detail-grid">
+        <div class="panel">
+          <h2>Register details</h2>
+          <dl class="dl" style="margin-top:1rem">
+            <dt>Type</dt><dd>{esc(p.get('type') or '—')}</dd>
+            <dt>Category</dt><dd>{esc(p.get('group') or '—')}</dd>
+            <dt>Stage</dt><dd>{esc(p['stage'] or '—')}</dd>
+            <dt>Due</dt><dd>{esc(p['due'] or 'Unscheduled')}</dd>
+            <dt>Technology</dt><dd>{esc(p['technology'] or '—')}</dd>
+            {phase_dd}
+          </dl>
+        </div>
+        <div class="panel">
+          <h2>Ownership</h2>
+          <div class="owners" style="margin-top:1rem;flex-direction:column;align-items:flex-start;gap:.75rem">
+            {owner_chip_html(p['cpo'], 'CPO')}
+            {owner_chip_html(p['tpo'], 'TPO')}
+          </div>
+        </div>
+      </div>
+"""
+    return shell("internal-projects", p["product"], body, products, updated)
+
+
 def build_glossary(products: list[dict], updated: str) -> str:
     items = "".join(f"<dt>{esc(k)}</dt><dd>{esc(v)}</dd>" for k, v in GLOSSARY)
     body = f"""
@@ -2398,14 +2780,17 @@ def copy_brand_assets() -> None:
 
 
 def main() -> None:
-    products = load_products(EXCEL)
-    finalize_stages(products)
+    global CURRENT_PROJECTS
+    products, projects = load_register(EXCEL)
+    CURRENT_PROJECTS = projects
+    finalize_stages(products + projects)
     tga_rows: list[dict] = []
     if USE_NNI:
         tga_rows = load_tga_nni(EXCEL)
         attach_tga_notes(products, tga_rows)
     updated = data_updated_label()
     OUT_JSON.write_text(json.dumps(products, ensure_ascii=False, indent=2) + "\n")
+    OUT_PROJECTS_JSON.write_text(json.dumps(projects, ensure_ascii=False, indent=2) + "\n")
     OUT_TGA_JSON.write_text(json.dumps(tga_rows, ensure_ascii=False, indent=2) + "\n")
     SITE.mkdir(parents=True, exist_ok=True)
     (SITE / "assets").mkdir(exist_ok=True)
@@ -2426,6 +2811,7 @@ def main() -> None:
     for stale in SITE.glob("platform-*.html"):
         if stale.name not in wanted_plat:
             stale.unlink()
+    (SITE / "internal-projects.html").write_text(build_internal_projects(projects, products, updated), encoding="utf-8")
     (SITE / "roadmap.html").write_text(build_roadmap(products, updated), encoding="utf-8")
     (SITE / "owners.html").write_text(build_owners_index(products, updated), encoding="utf-8")
     (SITE / "status.html").write_text(build_status_notes(products, tga_rows, updated), encoding="utf-8")
@@ -2433,17 +2819,31 @@ def main() -> None:
     codes = sorted({p["cpo"] for p in products if p["cpo"]} | {p["tpo"] for p in products if p["tpo"]})
     for code in codes:
         (SITE / f"owner-{code}.html").write_text(build_owner_page(code, products, updated), encoding="utf-8")
-    for p in products:
-        (SITE / f"product-{p['n']}.html").write_text(build_product_page(p, products, updated), encoding="utf-8")
+    wanted_prod = set()
+    for rec in products:
+        dest = SITE / f"product-{rec['n']}.html"
+        dest.write_text(build_product_page(rec, products, updated), encoding="utf-8")
+        wanted_prod.add(dest.name)
+    for stale in SITE.glob("product-*.html"):
+        if stale.name not in wanted_prod:
+            stale.unlink()
+    wanted_proj = set()
+    for rec in projects:
+        dest = SITE / f"project-{rec['id']}.html"
+        dest.write_text(build_project_page(rec, products, updated), encoding="utf-8")
+        wanted_proj.add(dest.name)
+    for stale in SITE.glob("project-*.html"):
+        if stale.name not in wanted_proj:
+            stale.unlink()
     (SITE / "assets" / "data.js").write_text(
         "window.UGT_PRODUCTS = " + json.dumps(products, ensure_ascii=False) + ";\n"
+        + "window.UGT_PROJECTS = " + json.dumps(projects, ensure_ascii=False) + ";\n"
         + "window.UGT_TGA_NNI = " + json.dumps(tga_rows, ensure_ascii=False) + ";\n"
         + "window.UGT_UPDATED = " + json.dumps(updated) + ";\n",
         encoding="utf-8",
     )
     nni = f", {len(tga_rows)} NNI rows" if USE_NNI else ", NNI skipped"
-    print(f"Built {len(products)} products{nni} → {SITE} (updated: {updated})")
-
+    print(f"Built {len(products)} products, {len(projects)} internal projects{nni} → {SITE} (updated: {updated})")
 
 if __name__ == "__main__":
     main()

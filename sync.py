@@ -89,9 +89,19 @@ def run(cmd: list[str], cwd: Path | None = None) -> None:
 
 def apply_rebuild_push(summary: str) -> None:
     old = load_json(PRODUCTS)
+    old_proj = load_json(ROOT / "projects.json")
     run(["python3", str(BUILD)])
     new = load_json(PRODUCTS)
+    new_proj = load_json(ROOT / "projects.json") or []
     detail = summarise_diff(old, new)
+    proj_names = [p.get("product") for p in (new_proj or [])]
+    old_names = [p.get("product") for p in (old_proj or [])]
+    if proj_names != old_names:
+        detail = (detail + "\n" if detail else "") + (
+            f"Internal projects ({len(new_proj)}): " + ", ".join(proj_names or ["(none)"])
+        )
+    elif new_proj:
+        detail = (detail + "\n" if detail else "") + f"Internal projects unchanged ({len(new_proj)})"
     print(detail)
     # copy built docs + build.py + products.json + state.json + sync files into repo
     if not REPO.exists():
@@ -102,7 +112,7 @@ def apply_rebuild_push(summary: str) -> None:
     if docs_dst.exists():
         shutil.rmtree(docs_dst)
     shutil.copytree(ROOT / "docs", docs_dst)
-    for name in ("build.py", "sync.py", "make_brand.py", "SYNC_STEPS.md", "products.json", "tga_nni.json", "state.json", "README.md"):
+    for name in ("build.py", "sync.py", "make_brand.py", "SYNC_STEPS.md", "products.json", "projects.json", "tga_nni.json", "state.json", "README.md"):
         src = ROOT / name
         if src.exists():
             shutil.copy2(src, REPO / name)

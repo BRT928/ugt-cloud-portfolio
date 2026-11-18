@@ -1,4 +1,4 @@
-window.UGT_STAGE_ORDER = ["Wishlist", "Development", "Deployment", "Pre-Production", "Production", "Terminated", "Stage"];
+window.UGT_STAGE_ORDER = ["Wishlist", "Development", "Deployment", "Pre-Production", "Production", "Terminated"];
 
 (function () {
   var STAGES = window.UGT_STAGE_ORDER || [];

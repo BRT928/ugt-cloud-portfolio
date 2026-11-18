@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Internal projects · UGT Cloud Portfolio</title>
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48"/>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png"/>
+<meta name="theme-color" content="#153bb6"/>
+<meta name="description" content="UGT Cloud product portfolio — products, platforms, lifecycle stages, and CPO / TPO ownership."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/site.css"/>
+
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <a class="brand" href="index.html" aria-label="UGT Cloud Portfolio — overview">
+      <picture>
+        <source type="image/webp" srcset="assets/logo-344.webp 2x, assets/logo-516.webp 3x"/>
+        <img class="brand-logo" src="assets/logo-344.png" srcset="assets/logo-344.png 2x, assets/logo-516.png 3x" width="172" height="70" alt="UGT Cloud"/>
+      </picture>
+      <span class="sub">Portfolio</span>
+    </a>
+    <nav class="side"><a class="" href="index.html">Overview</a><a class="" href="products.html">Products</a><details class="nav-drop"><summary>Platforms</summary><div class="nav-drop-list"><a class="" href="platforms.html">All platforms</a><a class="" href="platform-universal-cloud.html">Universal Cloud</a><a class="" href="platform-public-cloud.html">Public Cloud</a><a class="" href="platform-private-cloud.html">Private Cloud</a><a class="" href="platform-colocation.html">Colocation</a><a class="" href="platform-smb.html">SMB</a><a class="" href="platform-bare-metal.html">Bare Metal</a></div></details><a class="active" href="internal-projects.html">Internal projects</a><a class="" href="roadmap.html">Roadmap</a><a class="" href="owners.html">Owners</a><a class="" href="status.html">Status</a><a class="" href="glossary.html">Legend</a></nav>
+    <div class="snap">
+      <div class="label">Snapshot</div>
+      <div class="num">76</div>
+      <div class="hint">products in the 2026 register</div>
+      <a class="hint" href="internal-projects.html">4 internal projects</a>
+      <div class="updated">Data last updated<br/>17 Nov 2026, 15:56 GET</div>
+    </div>
+  </aside>
+  <div>
+    <header class="top">
+      <button type="button" class="menu-btn" data-menu aria-expanded="false" aria-controls="mobile-nav">Menu</button>
+      <div class="stats">26 live · 34 in delivery · 15 wishlist</div>
+      <nav id="mobile-nav" class="side" hidden><a class="" href="index.html">Overview</a><a class="" href="products.html">Products</a><details class="nav-drop active" open><summary>Platforms</summary><div class="nav-drop-list"><a class="" href="platforms.html">All platforms</a><a class="" href="platform-universal-cloud.html">Universal Cloud</a><a class="" href="platform-public-cloud.html">Public Cloud</a><a class="" href="platform-private-cloud.html">Private Cloud</a><a class="" href="platform-colocation.html">Colocation</a><a class="" href="platform-smb.html">SMB</a><a class="" href="platform-bare-metal.html">Bare Metal</a></div></details><a class="active" href="internal-projects.html">Internal projects</a><a class="" href="roadmap.html">Roadmap</a><a class="" href="owners.html">Owners</a><a class="" href="status.html">Status</a><a class="" href="glossary.html">Legend</a></nav>
+    </header>
+    <div class="content">
+
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end;justify-content:space-between">
+        <div>
+          <p class="eyebrow">Internal</p>
+          <h1>Internal projects</h1>
+          <p class="lede">Internal tools, portal work and platform projects from the second table on the ALL sheet. These are not commercial products.</p>
+        </div>
+        <label class="search-box"><span aria-hidden="true">⌕</span>
+          <input id="q" type="search" placeholder="Search projects, descriptions, owners" autocomplete="off"/>
+        </label>
+      </div>
+      <div class="filters" id="filters">
+        <div class="filter-row" id="stage-filters" role="group" aria-label="Stage"><span class="filter-label">Stage</span></div>
+        <div class="filter-row" id="type-filters" role="group" aria-label="Type"><span class="filter-label">Type</span></div>
+        <div class="filter-row" id="due-filters" role="group" aria-label="Due date"><span class="filter-label">Due date</span></div>
+        <div class="filter-row" id="group-filters" role="group" aria-label="Category"><span class="filter-label">Category</span></div>
+        <div class="filter-row" id="cpo-filters" role="group" aria-label="Commercial owner"><span class="filter-label">Commercial owner</span></div>
+        <div class="filter-row" id="tpo-filters" role="group" aria-label="Technical owner"><span class="filter-label">Technical owner</span></div>
+        <div class="filter-row" id="pddf-filters" role="group" aria-label="Phase"><span class="filter-label">Phase</span></div>
+      </div>
+
+<div class="count-row">
+  <p class="count" id="view-count"></p>
+  <div class="view-toggle" data-view-toggle role="group" aria-label="Layout">
+    <button type="button" data-view="cards">Cards</button>
+    <button type="button" data-view="table">Table</button>
+    <button type="button" data-view="both">Both</button>
+  </div>
+</div>
+
+      <div class="cards view-cards-target" id="cards"></div>
+      <div class="table-wrap view-table-target"><table>
+        <thead><tr><th>Project</th><th>Type</th><th>Description</th><th>Category</th><th>Stage</th><th>Due</th><th>CPO</th><th>TPO</th><th>Technology</th><th>Features</th><th>Phase</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table></div>
+      <div class="empty" id="empty" hidden>No projects match these filters.</div>
+
+      <p class="footer">Built from UGT_Product_Portfolio_2026.xlsx · sheet “UGT Product Portfolio ALL” (products and internal projects).</p>
+    </div>
+  </div>
+</div>
+<script src="assets/view.js"></script>
+
+<script>
+const PRODUCTS = [{"n": 1, "product": "Inventory Manager", "headProducts": [], "type": "Tools", "group": "Management", "category": null, "cls": null, "technology": "Hostbill", "stage": "Development", "due": null, "cpo": "TGA", "tpo": "AJA", "description": "საწყობის აღრიცხვიანობის ხელსაწყო", "portalName": null, "features": [], "pddf": "Solution", "pddfUrl": null, "statusUpdate": null, "whereUsed": null, "wherePlatforms": [], "whereEverywhere": false, "kind": "project", "id": "inventory-manager", "href": "project-inventory-manager.html"}, {"n": 2, "product": "New UGT Cloud Portal", "headProducts": [], "type": "Portal", "group": null, "category": null, "cls": null, "technology": "Hostbill", "stage": "Development", "due": null, "cpo": "TGA", "tpo": "ZKU", "description": "იუჯითი ქლაუდის განახლებული პორტალი/ვებ საიტი", "portalName": null, "features": [], "pddf": "Solution", "pddfUrl": null, "statusUpdate": null, "whereUsed": null, "wherePlatforms": [], "whereEverywhere": false, "kind": "project", "id": "new-ugt-cloud-portal", "href": "project-new-ugt-cloud-portal.html"}, {"n": 3, "product": "Ceph Cluster EC Reconfiguration", "headProducts": [], "type": "Project", "group": "Platform", "category": null, "cls": null, "technology": "Ceph", "stage": "Development", "due": null, "cpo": "TGA", "tpo": "LSK", "description": "Durability-ს მომატების მიზნით გადაწყობა ერაჟურ კოდინგით", "portalName": null, "features": [], "pddf": "Solution", "pddfUrl": null, "statusUpdate": null, "whereUsed": null, "wherePlatforms": [], "whereEverywhere": false, "kind": "project", "id": "ceph-cluster-ec-reconfiguration", "href": "project-ceph-cluster-ec-reconfiguration.html"}, {"n": 4, "product": "Unified Backup Solution Integration", "headProducts": [], "type": "Project", "group": "Platform", "category": null, "cls": null, "technology": "TrueNas / AIC", "stage": "Deployment", "due": null, "cpo": "TGA", "tpo": "LSK", "description": null, "portalName": null, "features": [], "pddf": "Pilot", "pddfUrl": null, "statusUpdate": null, "whereUsed": null, "wherePlatforms": [], "whereEverywhere": false, "kind": "project", "id": "unified-backup-solution-integration", "href": "project-unified-backup-solution-integration.html"}];
+const STAGES = ["Production", "Pre-Production", "Deployment", "Development", "Wishlist", "Terminated"];
+const state = { stage: "", due: "", type: "", group: "", cpo: "", tpo: "", pddf: "", q: "" };
+const PDDF_LABELS = {"HD": "High Level Design", "Discovery": "Discovery", "Solution": "Solution", "Pilot": "Pilot"};
+function pddfLabel(code) { return (code && PDDF_LABELS[code] && PDDF_LABELS[code] !== code) ? (code + " — " + PDDF_LABELS[code]) : (PDDF_LABELS[code] || code || "—"); }
+function typeBadge(p) {
+  if (!p.type) return "";
+  const cls = "type-badge type-" + String(p.type).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `<span class="${cls}" title="${esc(p.type)}">${esc(p.type)}</span>`;
+}
+function featTags(p) {
+  const feats = p.features || [];
+  if (!feats.length) return "";
+  return `<div class="feat-tags">${feats.map(f => `<span class="feat-tag">${esc(f)}</span>`).join("")}</div>`;
+}
+function badgeClass(stage) {
+  return "badge-" + String(stage || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function hrefOf(p) { return p.href || ("project-" + (p.id || p.n) + ".html"); }
+function ownerChip(code, role) {
+  if (!code) return `<span class="owner"><span class="avatar muted">—</span><span><div>Unassigned</div><div class="role">${role}</div></span></span>`;
+  return `<a class="owner" href="owner-${esc(code)}.html"><span class="avatar">${esc(code)}</span><span><div>${esc(code)}</div><div class="role">${role}</div></span></a>`;
+}
+function matches(p) {
+  if (state.stage && p.stage !== state.stage) return false;
+  if (state.due === "Unscheduled") { if (p.due) return false; }
+  else if (state.due && p.due !== state.due) return false;
+  if (state.type === "Unspecified") { if (p.type) return false; }
+  else if (state.type && p.type !== state.type) return false;
+  if (state.group && p.group !== state.group) return false;
+  if (state.cpo === "__unassigned__") { if (p.cpo) return false; }
+  else if (state.cpo && p.cpo !== state.cpo) return false;
+  if (state.tpo === "__unassigned__") { if (p.tpo) return false; }
+  else if (state.tpo && p.tpo !== state.tpo) return false;
+  if (state.pddf === "__notset__") { if (p.pddf) return false; }
+  else if (state.pddf && p.pddf !== state.pddf) return false;
+  if (state.q) {
+    const hay = [p.product, p.type || "", p.group || "", p.stage, p.due || "", p.technology || "", p.cpo || "", p.tpo || "", p.description || "", p.pddf || "", ...(p.features || [])].join(" ").toLowerCase();
+    if (!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+function renderChips(id, values, key, allLabel, extra) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let html = "";
+  html += `<button type="button" class="chip ${state[key]===""?"active":""}" data-key="${key}" data-val="" aria-pressed="${state[key]===""}">${allLabel}</button>`;
+  for (const v of values) html += `<button type="button" class="chip ${state[key]===v?"active":""}" data-key="${key}" data-val="${esc(v)}" aria-pressed="${state[key]===v}">${esc(v)}</button>`;
+  if (extra) for (const [lab, val] of extra) html += `<button type="button" class="chip ${state[key]===val?"active":""}" data-key="${key}" data-val="${esc(val)}" aria-pressed="${state[key]===val}">${esc(lab)}</button>`;
+  el.querySelectorAll("button").forEach(b => b.remove());
+  el.insertAdjacentHTML("beforeend", html);
+}
+function applyUrl() {
+  const u = new URL(location.href);
+  for (const k of Object.keys(state)) {
+    if (k === "q") { const q = u.searchParams.get("q"); if (q) state.q = q.toLowerCase(); continue; }
+    const v = u.searchParams.get(k);
+    if (v) state[k] = v;
+  }
+}
+function syncUrl() {
+  const u = new URL(location.href);
+  for (const k of Object.keys(state)) {
+    if (!state[k]) u.searchParams.delete(k);
+    else u.searchParams.set(k, state[k]);
+  }
+  history.replaceState(null, "", u);
+}
+function render() {
+  const rows = PRODUCTS.filter(matches);
+  const count = document.getElementById("view-count");
+  if (count) count.textContent = `${rows.length} project${rows.length===1?"":"s"} in view.`;
+  const cards = document.getElementById("cards");
+  const tbody = document.getElementById("tbody");
+  const empty = document.getElementById("empty");
+  if (!rows.length) { cards.innerHTML=""; tbody.innerHTML=""; empty.hidden=false; return; }
+  empty.hidden = true;
+  cards.innerHTML = rows.map(p => {
+    const meta = p.group || "—";
+    return `
+    <article class="card">
+      <a class="card-stretch" href="${hrefOf(p)}" aria-label="${esc(p.product)}"></a>
+      <div class="card-top"><div><div class="card-title">${esc(p.product)}</div></div><span class="card-badges">${typeBadge(p)}<span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></span></div>
+      <div class="meta">${esc(meta)}</div>
+      <div class="meta">${esc(p.due || "Unscheduled")}${p.technology ? " · " + esc(p.technology) : ""}${p.pddf ? " · " + esc(pddfLabel(p.pddf)) : ""}</div>
+      ${featTags(p)}
+      ${p.description ? `<p class="card-desc ka" title="${esc(p.description)}">${esc(p.description)}</p>` : ""}
+      <div class="owners">${ownerChip(p.cpo,"CPO")}${ownerChip(p.tpo,"TPO")}</div>
+    </article>`;
+  }).join("");
+  tbody.innerHTML = rows.map(p => {
+    return `
+    <tr>
+      <td><a href="${hrefOf(p)}"><strong>${esc(p.product)}</strong></a></td>
+      <td>${typeBadge(p) || "—"}</td>
+      <td class="desc-cell">${p.description ? `<span class="ka desc-trunc" title="${esc(p.description)}">${esc(p.description)}</span>` : "—"}</td>
+      <td>${esc(p.group || "—")}</td>
+      <td><span class="badge ${badgeClass(p.stage)}">${esc(p.stage)}</span></td>
+      <td>${esc(p.due || "Unscheduled")}</td>
+      <td>${esc(p.cpo || "Unassigned")}</td>
+      <td>${esc(p.tpo || "Unassigned")}</td>
+      <td>${esc(p.technology || "—")}</td>
+      <td>${esc((p.features || []).join(", ") || "—")}</td>
+      <td>${esc(pddfLabel(p.pddf))}</td>
+    </tr>`;
+  }).join("");
+  syncUrl();
+}
+function bind() {
+  const dues = [...new Set(PRODUCTS.map(p => p.due).filter(Boolean))].sort();
+  const groups = [...new Set(PRODUCTS.map(p => p.group).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const types = [...new Set(PRODUCTS.map(p => p.type).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const unType = PRODUCTS.some(p => !p.type);
+  function countBy(key) { const m = {}; PRODUCTS.forEach(p => { if (p[key]) m[p[key]] = (m[p[key]] || 0) + 1; }); return m; }
+  const cpoCount = countBy("cpo");
+  const cpos = Object.keys(cpoCount).sort((a,b) => (cpoCount[b]-cpoCount[a]) || a.localeCompare(b));
+  const tpos = Object.keys(countBy("tpo")).sort((a,b)=>a.localeCompare(b));
+  const unCpo = PRODUCTS.some(p => !p.cpo) || state.cpo === "__unassigned__";
+  const unTpo = PRODUCTS.some(p => !p.tpo) || state.tpo === "__unassigned__";
+  const pddfCodes = [...new Set(PRODUCTS.map(p => p.pddf).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  function renderPddf() {
+    const el = document.getElementById("pddf-filters");
+    if (!el) return;
+    let html = `<button type="button" class="chip ${state.pddf===""?"active":""}" data-key="pddf" data-val="" aria-pressed="${state.pddf===""}">All</button>`;
+    for (const v of pddfCodes) html += `<button type="button" class="chip ${state.pddf===v?"active":""}" data-key="pddf" data-val="${esc(v)}" aria-pressed="${state.pddf===v}">${esc(pddfLabel(v))}</button>`;
+    if (PRODUCTS.some(p => !p.pddf)) html += `<button type="button" class="chip ${state.pddf==="__notset__"?"active":""}" data-key="pddf" data-val="__notset__" aria-pressed="${state.pddf==="__notset__"}">Not set</button>`;
+    el.querySelectorAll("button").forEach(b => b.remove());
+    el.insertAdjacentHTML("beforeend", html);
+  }
+  function paintAll() {
+    renderChips("stage-filters", stagePresent, "stage", "All");
+    renderChips("type-filters", types, "type", "All", unType ? [["Unspecified", "Unspecified"]] : []);
+    renderChips("due-filters", dues, "due", "All", [["Unscheduled", "Unscheduled"]]);
+    renderChips("group-filters", groups, "group", "All");
+    renderChips("cpo-filters", cpos, "cpo", "All", unCpo ? [["Unassigned", "__unassigned__"]] : []);
+    renderChips("tpo-filters", tpos, "tpo", "All", unTpo ? [["Unassigned", "__unassigned__"]] : []);
+    renderPddf();
+  }
+  applyUrl();
+  const qEl = document.getElementById("q");
+  if (qEl && state.q) qEl.value = state.q;
+  const stagePresent = STAGES.filter(s => PRODUCTS.some(p => p.stage === s));
+  paintAll();
+  document.getElementById("filters").addEventListener("click", e => {
+    const btn = e.target.closest("button[data-key]");
+    if (!btn) return;
+    const key = btn.getAttribute("data-key");
+    state[key] = btn.getAttribute("data-val") || "";
+    paintAll();
+    render();
+  });
+  document.getElementById("q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+  render();
+}
+bind();
+</script>
+
+<script src="assets/resize.js"></script>
+<script src="assets/filter.js"></script>
+<script src="assets/sort.js"></script>
+
+<script>
+(function () {
+  var btn = document.querySelector("[data-menu]");
+  var nav = document.getElementById("mobile-nav");
+  if (!btn || !nav) return;
+  function setOpen(open) {
+    nav.classList.toggle("open", open);
+    nav.hidden = !open;
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  setOpen(false);
+  btn.addEventListener("click", function () { setOpen(!nav.classList.contains("open")); });
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 960 && nav.classList.contains("open")) setOpen(false);
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -24,7 +24,9 @@
     "wherePlatforms": [
       "Public Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-1.html"
   },
   {
     "n": 2,
@@ -49,7 +51,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-2.html"
   },
   {
     "n": 3,
@@ -76,7 +80,9 @@
     "wherePlatforms": [
       "Public Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-3.html"
   },
   {
     "n": 4,
@@ -101,7 +107,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-4.html"
   },
   {
     "n": 5,
@@ -126,7 +134,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-5.html"
   },
   {
     "n": 6,
@@ -153,7 +163,9 @@
     "wherePlatforms": [
       "Public Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-6.html"
   },
   {
     "n": 7,
@@ -180,7 +192,9 @@
     "wherePlatforms": [
       "Public Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-7.html"
   },
   {
     "n": 8,
@@ -207,7 +221,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-8.html"
   },
   {
     "n": 9,
@@ -232,7 +248,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-9.html"
   },
   {
     "n": 10,
@@ -257,7 +275,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-10.html"
   },
   {
     "n": 11,
@@ -282,7 +302,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-11.html"
   },
   {
     "n": 12,
@@ -307,7 +329,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-12.html"
   },
   {
     "n": 13,
@@ -332,7 +356,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-13.html"
   },
   {
     "n": 14,
@@ -357,7 +383,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-14.html"
   },
   {
     "n": 15,
@@ -384,7 +412,9 @@
     "wherePlatforms": [
       "Public Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-15.html"
   },
   {
     "n": 16,
@@ -409,7 +439,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-16.html"
   },
   {
     "n": 17,
@@ -434,7 +466,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-17.html"
   },
   {
     "n": 18,
@@ -459,7 +493,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-18.html"
   },
   {
     "n": 19,
@@ -484,7 +520,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-19.html"
   },
   {
     "n": 20,
@@ -509,7 +547,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-20.html"
   },
   {
     "n": 21,
@@ -534,7 +574,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-21.html"
   },
   {
     "n": 22,
@@ -561,7 +603,9 @@
     "wherePlatforms": [
       "Private Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-22.html"
   },
   {
     "n": 23,
@@ -588,7 +632,9 @@
     "wherePlatforms": [
       "Private Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-23.html"
   },
   {
     "n": 24,
@@ -615,7 +661,9 @@
     "wherePlatforms": [
       "Private Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-24.html"
   },
   {
     "n": 25,
@@ -642,7 +690,9 @@
     "wherePlatforms": [
       "Private Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-25.html"
   },
   {
     "n": 26,
@@ -669,7 +719,9 @@
     "wherePlatforms": [
       "Private Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-26.html"
   },
   {
     "n": 27,
@@ -696,7 +748,9 @@
     "wherePlatforms": [
       "Private Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-27.html"
   },
   {
     "n": 28,
@@ -724,7 +778,9 @@
       "Private Cloud",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-28.html"
   },
   {
     "n": 29,
@@ -751,7 +807,9 @@
     "wherePlatforms": [
       "Private Cloud"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-29.html"
   },
   {
     "n": 30,
@@ -781,7 +839,9 @@
     "wherePlatforms": [
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-30.html"
   },
   {
     "n": 31,
@@ -811,7 +871,9 @@
     "wherePlatforms": [
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-31.html"
   },
   {
     "n": 32,
@@ -840,7 +902,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-32.html"
   },
   {
     "n": 33,
@@ -869,7 +933,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-33.html"
   },
   {
     "n": 34,
@@ -898,7 +964,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-34.html"
   },
   {
     "n": 35,
@@ -925,7 +993,9 @@
     "wherePlatforms": [
       "SMB"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-35.html"
   },
   {
     "n": 36,
@@ -952,7 +1022,9 @@
     "wherePlatforms": [
       "SMB"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-36.html"
   },
   {
     "n": 37,
@@ -979,7 +1051,9 @@
     "wherePlatforms": [
       "SMB"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-37.html"
   },
   {
     "n": 38,
@@ -1006,7 +1080,9 @@
     "wherePlatforms": [
       "SMB"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-38.html"
   },
   {
     "n": 39,
@@ -1033,7 +1109,9 @@
     "wherePlatforms": [
       "SMB"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-39.html"
   },
   {
     "n": 40,
@@ -1060,7 +1138,9 @@
     "wherePlatforms": [
       "SMB"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-40.html"
   },
   {
     "n": 41,
@@ -1088,7 +1168,9 @@
       "Private Cloud",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-41.html"
   },
   {
     "n": 42,
@@ -1116,7 +1198,9 @@
       "Private Cloud",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-42.html"
   },
   {
     "n": 43,
@@ -1144,7 +1228,9 @@
       "Private Cloud",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-43.html"
   },
   {
     "n": 44,
@@ -1174,7 +1260,9 @@
       "Private Cloud",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-44.html"
   },
   {
     "n": 45,
@@ -1204,7 +1292,9 @@
       "Private Cloud",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-45.html"
   },
   {
     "n": 46,
@@ -1234,7 +1324,9 @@
       "Private Cloud",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-46.html"
   },
   {
     "n": 47,
@@ -1259,7 +1351,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-47.html"
   },
   {
     "n": 48,
@@ -1286,7 +1380,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-48.html"
   },
   {
     "n": 49,
@@ -1311,7 +1407,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-49.html"
   },
   {
     "n": 50,
@@ -1336,7 +1434,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-50.html"
   },
   {
     "n": 51,
@@ -1361,7 +1461,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-51.html"
   },
   {
     "n": 52,
@@ -1386,7 +1488,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-52.html"
   },
   {
     "n": 53,
@@ -1411,7 +1515,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-53.html"
   },
   {
     "n": 54,
@@ -1436,7 +1542,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-54.html"
   },
   {
     "n": 55,
@@ -1461,7 +1569,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-55.html"
   },
   {
     "n": 56,
@@ -1486,7 +1596,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-56.html"
   },
   {
     "n": 57,
@@ -1511,7 +1623,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-57.html"
   },
   {
     "n": 58,
@@ -1541,7 +1655,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-58.html"
   },
   {
     "n": 59,
@@ -1571,7 +1687,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-59.html"
   },
   {
     "n": 60,
@@ -1601,7 +1719,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-60.html"
   },
   {
     "n": 61,
@@ -1631,7 +1751,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-61.html"
   },
   {
     "n": 62,
@@ -1661,7 +1783,9 @@
       "SMB",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-62.html"
   },
   {
     "n": 63,
@@ -1691,7 +1815,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-63.html"
   },
   {
     "n": 64,
@@ -1721,7 +1847,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-64.html"
   },
   {
     "n": 65,
@@ -1751,7 +1879,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-65.html"
   },
   {
     "n": 66,
@@ -1781,7 +1911,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-66.html"
   },
   {
     "n": 67,
@@ -1809,7 +1941,9 @@
       "Universal Cloud",
       "SMB"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-67.html"
   },
   {
     "n": 68,
@@ -1838,7 +1972,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-68.html"
   },
   {
     "n": 69,
@@ -1867,7 +2003,9 @@
       "Colocation",
       "Bare Metal"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-69.html"
   },
   {
     "n": 70,
@@ -1892,7 +2030,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-70.html"
   },
   {
     "n": 71,
@@ -1917,7 +2057,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-71.html"
   },
   {
     "n": 72,
@@ -1944,7 +2086,9 @@
     "wherePlatforms": [
       "SMB"
     ],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-72.html"
   },
   {
     "n": 73,
@@ -1969,7 +2113,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-73.html"
   },
   {
     "n": 74,
@@ -1994,7 +2140,9 @@
     "statusUpdate": null,
     "whereUsed": "Everywhere, in every platform",
     "wherePlatforms": [],
-    "whereEverywhere": true
+    "whereEverywhere": true,
+    "kind": "product",
+    "href": "product-74.html"
   },
   {
     "n": 75,
@@ -2019,7 +2167,9 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-75.html"
   },
   {
     "n": 76,
@@ -2044,133 +2194,8 @@
     "statusUpdate": null,
     "whereUsed": null,
     "wherePlatforms": [],
-    "whereEverywhere": false
-  },
-  {
-    "n": 77,
-    "product": "Name",
-    "headProducts": [
-      "Unplaced"
-    ],
-    "type": "Type",
-    "group": "Category",
-    "category": null,
-    "cls": null,
-    "technology": "Technology/Vendor",
-    "stage": "Stage",
-    "due": "Due Date",
-    "cpo": "CPO",
-    "tpo": "TPO",
-    "description": "Description",
-    "portalName": null,
-    "features": [
-      "Features"
-    ],
-    "pddf": "Phase",
-    "pddfUrl": null,
-    "statusUpdate": null,
-    "whereUsed": null,
-    "wherePlatforms": [],
-    "whereEverywhere": false
-  },
-  {
-    "n": 78,
-    "product": "Inventory Manager",
-    "headProducts": [
-      "Unplaced"
-    ],
-    "type": "Tools",
-    "group": "Management",
-    "category": null,
-    "cls": null,
-    "technology": "Hostbill",
-    "stage": "Development",
-    "due": null,
-    "cpo": "TGA",
-    "tpo": "AJA",
-    "description": "საწყობის აღრიცხვიანობის ხელსაწყო",
-    "portalName": null,
-    "features": [],
-    "pddf": "Solution",
-    "pddfUrl": null,
-    "statusUpdate": null,
-    "whereUsed": null,
-    "wherePlatforms": [],
-    "whereEverywhere": false
-  },
-  {
-    "n": 79,
-    "product": "New UGT Cloud Portal",
-    "headProducts": [
-      "Unplaced"
-    ],
-    "type": "Portal",
-    "group": null,
-    "category": null,
-    "cls": null,
-    "technology": "Hostbill",
-    "stage": "Development",
-    "due": null,
-    "cpo": "TGA",
-    "tpo": "ZKU",
-    "description": "იუჯითი ქლაუდის განახლებული პორტალი/ვებ საიტი",
-    "portalName": null,
-    "features": [],
-    "pddf": "Solution",
-    "pddfUrl": null,
-    "statusUpdate": null,
-    "whereUsed": null,
-    "wherePlatforms": [],
-    "whereEverywhere": false
-  },
-  {
-    "n": 80,
-    "product": "Ceph Cluster EC Reconfiguration",
-    "headProducts": [
-      "Unplaced"
-    ],
-    "type": "Project",
-    "group": "Platform",
-    "category": null,
-    "cls": null,
-    "technology": "Ceph",
-    "stage": "Development",
-    "due": null,
-    "cpo": "TGA",
-    "tpo": "LSK",
-    "description": "Durability-ს მომატების მიზნით გადაწყობა ერაჟურ კოდინგით",
-    "portalName": null,
-    "features": [],
-    "pddf": "Solution",
-    "pddfUrl": null,
-    "statusUpdate": null,
-    "whereUsed": null,
-    "wherePlatforms": [],
-    "whereEverywhere": false
-  },
-  {
-    "n": 81,
-    "product": "Unified Backup Solution Integration",
-    "headProducts": [
-      "Unplaced"
-    ],
-    "type": "Project",
-    "group": "Platform",
-    "category": null,
-    "cls": null,
-    "technology": "TrueNas / AIC",
-    "stage": "Deployment",
-    "due": null,
-    "cpo": "TGA",
-    "tpo": "LSK",
-    "description": null,
-    "portalName": null,
-    "features": [],
-    "pddf": "Pilot",
-    "pddfUrl": null,
-    "statusUpdate": null,
-    "whereUsed": null,
-    "wherePlatforms": [],
-    "whereEverywhere": false
+    "whereEverywhere": false,
+    "kind": "product",
+    "href": "product-76.html"
   }
 ]
