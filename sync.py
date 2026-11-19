@@ -94,14 +94,13 @@ def apply_rebuild_push(summary: str) -> None:
     new = load_json(PRODUCTS)
     new_proj = load_json(ROOT / "projects.json") or []
     detail = summarise_diff(old, new)
-    proj_names = [p.get("product") for p in (new_proj or [])]
-    old_names = [p.get("product") for p in (old_proj or [])]
-    if proj_names != old_names:
-        detail = (detail + "\n" if detail else "") + (
-            f"Internal projects ({len(new_proj)}): " + ", ".join(proj_names or ["(none)"])
-        )
-    elif new_proj:
+    proj_detail = summarise_diff(old_proj, new_proj or [])
+    if old_proj is None and new_proj:
+        detail = (detail + "\n" if detail else "") + f"Internal projects ({len(new_proj)}): " + ", ".join(p.get("product","") for p in new_proj)
+    elif proj_detail.startswith("Content unchanged"):
         detail = (detail + "\n" if detail else "") + f"Internal projects unchanged ({len(new_proj)})"
+    elif proj_detail:
+        detail = (detail + "\n" if detail else "") + "Internal projects:\n" + proj_detail
     print(detail)
     # copy built docs + build.py + products.json + state.json + sync files into repo
     if not REPO.exists():

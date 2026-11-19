@@ -435,6 +435,34 @@ def feature_tags_html(p: dict) -> str:
     return '<div class="feat-tags">' + "".join(f'<span class="feat-tag">{esc(f)}</span>' for f in feats) + "</div>"
 
 
+
+# Fields that distinguish a real product/project line from a section title.
+_SECTION_TITLE_EMPTY = (
+    "Type", "Stage", "Due Date", "CPO", "TPO", "Description", "Group", "Category",
+    "Head Product", "Platform/Technology/Vendor", "Features", "PortalName", "PDDF",
+    "where can it be used", "Status Update",
+)
+
+
+def is_section_title_row(row: dict) -> bool:
+    """True for a title bar like "Internal projects" or "Product portfolio": a name only, no N, no data."""
+    if not clean_text(row.get("Product")):
+        return False
+    try:
+        int(row.get("N"))
+        return False  # numbered line
+    except (TypeError, ValueError):
+        pass
+    for key in _SECTION_TITLE_EMPTY:
+        val = row.get(key)
+        if key in ("Description", "where can it be used", "Status Update"):
+            if clean_multiline(val):
+                return False
+        elif clean_text(val):
+            return False
+    return True
+
+
 def _parse_register_row(ws, r: int, headers: list[str], kind: str, seq: int, slug_used: set[str]) -> dict | None:
     """Turn one ALL-sheet data row into a product or internal-project record. Skip blank and header rows."""
     ncols = len(headers)
@@ -445,6 +473,10 @@ def _parse_register_row(ws, r: int, headers: list[str], kind: str, seq: int, slu
         row.setdefault(headers[c - 1], ws.cell(r, c).value)
     name = clean_text(row.get("Product"))
     if not name and row.get("N") is None:
+        return None
+    # Section titles such as "Product portfolio" or "Internal projects" sit above a table
+    # and have a name but no other register fields (and no numeric N).
+    if is_section_title_row(row):
         return None
     # Belt and braces: never ingest a repeated header as a data row (Name / Type / Stage ...).
     typ = clean_text(row.get("Type")) or None
