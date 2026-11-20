@@ -1334,7 +1334,7 @@
     "headProducts": [
       "Universal Cloud"
     ],
-    "type": "Product",
+    "type": "Sub-Prod",
     "group": "Object Storages",
     "category": "Storage",
     "cls": "Storage",
